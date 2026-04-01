@@ -5,6 +5,23 @@ target_dir="./public/icons"
 
 yarn icons build -i $icons_dir -o $target_dir --optimize
 
+# Windows path fix: Replace backslashes and escaped chars in IDs, creating completely flat alphanumeric strings (e.g. "navigationtransactions")
+cat << 'EOF' > "$target_dir/fix_sprite_ids.js"
+const fs = require('fs');
+let s = fs.readFileSync(process.argv[2], 'utf8');
+s = s.replace(/id="([^"]+)"/g, (match, id) => {
+    // 1. Remove literal slashes and backslashes
+    // 2. Replace escaped TAB (\t) with "t"
+    // 3. Replace escaped NEWLINE (\n) with "n"
+    const cleaned = id.replace(/[/\\]/g, '').replace(/\t/g, 't').replace(/\n/g, 'n');
+    return `id="${cleaned}"`;
+});
+fs.writeFileSync(process.argv[2], s);
+EOF
+node "$target_dir/fix_sprite_ids.js" "$target_dir/sprite.svg"
+rm -f "$target_dir/fix_sprite_ids.js"
+
+
 create_registry_file() {
     # Create a temporary file to store the registry
     local registry_file="$target_dir/registry.json"

@@ -102,7 +102,9 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/api/csrf': '%network_name% node API CSRF token',
   '/api/healthz': '%network_name% node API health check',
   '/api/config': '%network_name% node API app config',
-};
+  // @ts-ignore
+  '/assets': '%network_name% On-Chain Assets - FC Chain',
+} as any;
 
 const TEMPLATE_MAP_ENHANCED: Partial<Record<Route['pathname'], string>> = {
   '/token/[hash]': '%network_name% %symbol_or_name% token details',

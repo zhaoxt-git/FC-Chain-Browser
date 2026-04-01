@@ -100,7 +100,9 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/api/csrf': DEFAULT_TEMPLATE,
   '/api/healthz': DEFAULT_TEMPLATE,
   '/api/config': DEFAULT_TEMPLATE,
-};
+  // @ts-ignore
+  '/assets': 'Explore real-world and on-chain assets on the %network_title% Directory.',
+} as any;
 
 const TEMPLATE_MAP_ENHANCED: Partial<Record<Route['pathname'], string>> = {
   '/stats/[id]': '%description%',

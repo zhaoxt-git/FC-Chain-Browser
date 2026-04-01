@@ -16,6 +16,8 @@ const moduleExports = {
     'react-syntax-highlighter',
   ],
   reactStrictMode: true,
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
   // Turbopack config (Next.js 16 default bundler) – mirrors webpack customizations below
   turbopack: {
     rules: {

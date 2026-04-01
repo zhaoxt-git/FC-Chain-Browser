@@ -340,33 +340,25 @@ export default function useNavItems(): ReturnType {
       ...config.UI.navigation.otherLinks,
     ].filter(Boolean);
 
+    const rootStatsNavItem = config.features.stats.isEnabled ? {
+      text: 'NETWORK STATS',
+      nextRoute: { pathname: '/stats' as const },
+      icon: 'navigation/chain_stats',
+      isActive: pathname.startsWith('/stats'),
+    } : null;
+
+    const assetsNavItem = {
+      text: 'ON-CHAIN ASSETS',
+      nextRoute: { pathname: '/assets' as any },
+      icon: 'navigation/verified_contracts' as const,
+      isActive: pathname.startsWith('/assets'),
+    };
+
     const mainNavItems: ReturnType['mainNavItems'] = [
-      {
-        text: 'Blockchain',
-        icon: 'navigation/blockchain',
-        isActive: blockchainNavItems.flat().some(item => isInternalItem(item) && item.isActive),
-        subItems: blockchainNavItems,
-      },
-      {
-        text: 'Tokens',
-        icon: 'navigation/tokens',
-        isActive: tokensNavItems.flat().some(item => isInternalItem(item) && item.isActive),
-        subItems: tokensNavItems,
-      },
-      marketplaceFeature.isEnabled ? {
-        text: marketplaceFeature.titles.menu_item,
-        nextRoute: { pathname: '/apps' as const },
-        icon: 'navigation/apps',
-        isActive: pathname.startsWith('/app') || pathname.startsWith('/essential-dapps'),
-      } : null,
-      statsNavItem,
-      apiNavItem,
-      {
-        text: 'Other',
-        icon: 'navigation/other',
-        isActive: otherNavItems.flat().some(item => isInternalItem(item) && item.isActive),
-        subItems: otherNavItems,
-      },
+      ...blockchainNavItems.flat(),
+      ...tokensNavItems.flat(),
+      assetsNavItem,
+      rootStatsNavItem,
     ].filter(Boolean);
 
     const accountNavItems: ReturnType['accountNavItems'] = [

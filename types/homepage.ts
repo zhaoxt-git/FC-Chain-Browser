@@ -2,6 +2,7 @@ export const CHAIN_INDICATOR_IDS = [ 'daily_txs', 'daily_operational_txs', 'coin
 export type ChainIndicatorId = typeof CHAIN_INDICATOR_IDS[number];
 
 export const HOME_STATS_WIDGET_IDS = [
+  'fc_price',
   'latest_batch',
   'total_blocks',
   'average_block_time',
