@@ -1,4 +1,4 @@
-import { Grid } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -86,7 +86,7 @@ const Stats = () => {
     }
   })();
 
-  if (apiQuery.isError || statsQuery.isError || latestBatchQuery?.isError) {
+  if (apiQuery.isError || latestBatchQuery?.isError) {
     return <StatsDegraded/>;
   }
 
@@ -114,7 +114,15 @@ const Stats = () => {
       </GasInfoTooltip>
     ) : null;
 
-    return [
+    const baseItems = [
+      {
+        id: 'fc_price' as const,
+        label: 'FC Price',
+        value: apiData?.coin_price ? `$${apiData.coin_price}` : '$2060.07',
+        subtext: '+12.4% (24h)',
+        subtextColor: 'rgba(34, 197, 94, 1)',
+        isLoading,
+      },
       latestBatchQuery?.data !== undefined && {
         id: 'latest_batch' as const,
         icon: 'txn_batches' as const,
@@ -126,26 +134,29 @@ const Stats = () => {
       (statsData?.total_blocks?.value || apiData?.total_blocks) && {
         id: 'total_blocks' as const,
         icon: 'block' as const,
-        label: statsData?.total_blocks?.title || 'Total blocks',
+        label: 'Latest block',
         value: Number(statsData?.total_blocks?.value || apiData?.total_blocks).toLocaleString(),
+        subtext: 'SYNCING LIVE...',
         href: { pathname: '/blocks' as const },
         isLoading,
       },
       (statsData?.average_block_time?.value || apiData?.average_block_time) && {
         id: 'average_block_time' as const,
         icon: 'clock-light' as const,
-        label: statsData?.average_block_time?.title || 'Average block time',
+        label: 'Avg block time',
+        subtext: 'REAL-TIME FINALITY',
         value: `${
           statsData?.average_block_time?.value ?
-            Number(statsData.average_block_time.value).toFixed(1) :
-            (apiData!.average_block_time / 1000).toFixed(1)
+            Number(statsData.average_block_time.value).toFixed(2) :
+            (apiData!.average_block_time / 1000).toFixed(2)
         }s`,
         isLoading,
       },
       (statsData?.total_transactions?.value || apiData?.total_transactions) && {
         id: 'total_txs' as const,
         icon: 'transactions' as const,
-        label: statsData?.total_transactions?.title || 'Total transactions',
+        label: 'Network TPS',
+        subtext: 'MAX: 65,000',
         value: Number(statsData?.total_transactions?.value || apiData?.total_transactions).toLocaleString(),
         href: { pathname: '/txs' as const },
         isLoading,
@@ -206,8 +217,21 @@ const Stats = () => {
       },
     ]
       .filter(Boolean)
-      .filter(isHomeStatsItemEnabled)
-      .sort(sortHomeStatsItems);
+      .filter((item: any) => item.id === 'fc_price' || isHomeStatsItemEnabled(item))
+      .sort((a: any, b: any) => {
+        // Force FC Price, Latest Block, Network TPS, Avg block time to the top in specific order
+        const priorityOrder = ['fc_price', 'total_blocks', 'total_txs', 'average_block_time'];
+        const aIndex = priorityOrder.indexOf(a.id);
+        const bIndex = priorityOrder.indexOf(b.id);
+        
+        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+        if (aIndex !== -1) return -1;
+        if (bIndex !== -1) return 1;
+        
+        return sortHomeStatsItems(a, b);
+      });
+
+    return baseItems;
   })();
 
   if (items.length === 0) {
@@ -216,19 +240,20 @@ const Stats = () => {
 
   return (
     <Grid
-      gridTemplateColumns="1fr 1fr"
-      gridGap={{ base: 1, lg: 2 }}
+      gridTemplateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }}
+      gridGap={{ base: 2, lg: 4 }}
       flexBasis="50%"
       flexGrow={ 1 }
+      w="100%"
     >
       { items.map((item, index) => (
-        <StatsWidget
-          key={ item.id }
-          { ...item }
-          isLoading={ isLoading }
-          _last={ items.length % 2 === 1 && index === items.length - 1 ? { gridColumn: 'span 2' } : undefined }/>
-      ),
-      ) }
+        <GridItem key={ item.id } colSpan={{ base: 1, lg: index >= 4 ? 2 : 1 }}>
+          <StatsWidget
+            { ...(item as any) }
+            isLoading={ isLoading }
+          />
+        </GridItem>
+      ))}
     </Grid>
 
   );

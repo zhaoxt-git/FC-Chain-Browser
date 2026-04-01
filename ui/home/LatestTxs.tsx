@@ -59,7 +59,15 @@ const LatestTxs = () => {
           </Box>
         </AddressHighlightProvider>
         <Flex justifyContent="center">
-          <Link textStyle="sm" loading={ isPlaceholderData } href={ txsUrl }>View all transactions</Link>
+          <Link textStyle="sm" loading={ isPlaceholderData } href={ txsUrl }
+            fontFamily="'Space Mono', monospace, 'Inter', sans-serif"
+            fontSize="12px"
+            fontWeight="bold"
+            textTransform="uppercase"
+            letterSpacing="0.1em"
+            color="#63B3ED"
+            _hover={{ color: '#90CDF4', textDecoration: 'none' }}
+          >View all transactions</Link>
         </Flex>
       </>
     );

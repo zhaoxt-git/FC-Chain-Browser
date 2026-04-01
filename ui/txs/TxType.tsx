@@ -30,39 +30,39 @@ const TxType = ({ types, isLoading, ...rest }: Props) => {
   switch (typeToShow) {
     case 'contract_call':
       label = 'Contract call';
-      colorPalette = 'blue';
+      colorPalette = 'gray';
       break;
     case 'blob_transaction':
       label = 'Blob txn';
-      colorPalette = 'yellow';
+      colorPalette = 'gray';
       break;
     case 'contract_creation':
       label = 'Contract creation';
-      colorPalette = 'blue';
+      colorPalette = 'gray';
       break;
     case 'token_transfer':
       label = 'Token transfer';
-      colorPalette = 'orange';
+      colorPalette = 'gray';
       break;
     case 'token_creation':
       label = 'Token creation';
-      colorPalette = 'orange';
+      colorPalette = 'gray';
       break;
     case 'coin_transfer':
       label = 'Coin transfer';
-      colorPalette = 'orange';
+      colorPalette = 'gray';
       break;
     case 'rootstock_remasc':
       label = 'REMASC';
-      colorPalette = 'blue';
+      colorPalette = 'gray';
       break;
     case 'rootstock_bridge':
       label = 'Bridge';
-      colorPalette = 'blue';
+      colorPalette = 'gray';
       break;
     default:
       label = 'Transaction';
-      colorPalette = 'purple';
+      colorPalette = 'gray';
   }
 
   if (!label) {

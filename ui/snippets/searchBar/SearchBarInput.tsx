@@ -1,5 +1,5 @@
 import type { HTMLChakraProps } from '@chakra-ui/react';
-import { chakra, Center } from '@chakra-ui/react';
+import { chakra, Center, Box } from '@chakra-ui/react';
 import React from 'react';
 import type { ChangeEvent, FormEvent, FocusEvent } from 'react';
 
@@ -80,15 +80,15 @@ const SearchBarInput = (
   }, [ handleKeyPress ]);
 
   const getPlaceholder = () => {
-    const clusterText = nameServicesFeature.isEnabled && nameServicesFeature.clusters.isEnabled ? ' / cluster ' : '';
-    return `Search by address / txn hash / block / token${ clusterText }/... `;
+    return `Search by txn hash / block / address...`;
   };
 
   const startElement = (
     <IconSvg
       name="search"
       boxSize={ 5 }
-      mx={ 2 }
+      ml={ isHeroBanner ? { base: 4, lg: 6 } : 4 }
+      mr={ 2 }
     />
   );
 
@@ -96,15 +96,23 @@ const SearchBarInput = (
     <>
       <ClearButton onClick={ onClear } visible={ Boolean(value?.length) } mx={ 2 }/>
       { !isMobile && (
-        <Center
-          boxSize="20px"
-          mr={ 2 }
-          borderRadius="sm"
-          borderWidth="1px"
-          borderColor="input.element"
-        >
-          /
-        </Center>
+        isHeroBanner ? (
+          <Box className="search-scan-text" cursor="pointer" onClick={(e) => {
+            if (innerRef.current) {
+              innerRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            }
+          }}>SCAN</Box>
+        ) : (
+          <Center
+            boxSize="20px"
+            mr={ 2 }
+            borderRadius="sm"
+            borderWidth="1px"
+            borderColor="input.element"
+          >
+            /
+          </Center>
+        )
       ) }
     </>
   );
@@ -117,8 +125,8 @@ const SearchBarInput = (
       onBlur={ onBlur }
       onClick={ onFormClick }
       w="100%"
-      backgroundColor="bg.primary"
-      borderRadius="base"
+      backgroundColor={ isHeroBanner ? 'transparent' : 'bg.primary' }
+      borderRadius="0"
       position="relative"
       zIndex={ isSuggestOpen ? 'modal' : 'auto' }
       { ...rest }
@@ -134,13 +142,20 @@ const SearchBarInput = (
           onChange={ handleChange }
           onFocus={ onFocus }
           tabIndex={ readOnly ? -1 : 0 }
-          borderWidth={ isHeroBanner ? borderWidthHeroBanner : '2px' }
+          borderWidth={ isHeroBanner ? '1px' : '1px' }
           borderStyle="solid"
-          borderColor={{ _light: 'blackAlpha.100', _dark: 'whiteAlpha.200' }}
-          color={{ _light: 'black', _dark: 'white' }}
-          backgroundColor={{ base: isHeroBanner ? 'input.bg' : 'dialog.bg', lg: 'input.bg' }}
-          _hover={{ borderColor: 'input.border.hover' }}
-          _focusWithin={{ _placeholder: { color: 'gray.300' }, borderColor: 'input.border.focus', _hover: { borderColor: 'input.border.focus' } }}
+          borderRadius="0"
+          borderColor={{ _light: 'blackAlpha.300', _dark: isHeroBanner ? 'rgba(255, 255, 255, 0.05)' : 'whiteAlpha.200' }}
+          color={{ _light: 'black', _dark: '#ee4949' }}
+          backgroundColor={{ _light: 'dialog.bg', _dark: 'rgba(10, 10, 12, 0.8)' }}
+          paddingInlineStart={{ base: '3rem !important', lg: isHeroBanner ? '3.5rem !important' : '3rem !important' }}
+          _hover={{ borderColor: isHeroBanner ? 'rgba(238, 73, 73, 0.3)' : 'rgba(238,73,73,0.6)', bg: isHeroBanner ? 'rgba(15, 15, 18, 0.9)' : undefined }}
+          _focusWithin={{ 
+            _placeholder: { color: 'rgba(238,73,73,0.5)' }, 
+            borderColor: isHeroBanner ? 'rgba(238, 73, 73, 0.5)' : '#ee4949', 
+            boxShadow: 'none',
+            backgroundColor: isHeroBanner ? 'rgba(15, 15, 18, 0.9)' : 'rgba(10, 10, 12, 0.8)'
+          }}
           enterKeyHint="search"
         />
       </InputGroup>

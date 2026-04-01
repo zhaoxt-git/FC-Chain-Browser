@@ -29,7 +29,8 @@ const Stats = () => {
   return (
     <>
       <PageTitle
-        title={ config.meta.seo.enhancedDataEnabled ? `${ config.chain.name } statistic & data` : `${ config.chain.name } stats` }
+        className="text-telemetry"
+        title={ "NETWORK STATISTICS & DATASTREAM" }
       />
 
       <Box mb={{ base: 6, sm: 8 }}>

@@ -66,7 +66,7 @@ const InternalTxsTableItem = ({
       <TableCell>
         <Flex rowGap={ 2 } flexDir="column">
           { typeTitle && (
-            <Badge colorPalette="cyan" loading={ isLoading }>{ typeTitle }</Badge>
+            <Badge colorPalette="gray" loading={ isLoading }>{ typeTitle }</Badge>
           ) }
           { !success && <TxStatus status="error" errorText={ error } isLoading={ isLoading }/> }
         </Flex>

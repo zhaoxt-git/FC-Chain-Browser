@@ -121,7 +121,7 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
                       </RewardsProvider>
                     </SocketProvider>
                   </GrowthBookProvider>
-                  <ReactQueryDevtools buttonPosition="bottom-left" position="left"/>
+                  {/* <ReactQueryDevtools buttonPosition="bottom-left" position="left"/> */}
                   <GoogleAnalytics/>
                 </AppContextProvider>
               </Web3Provider>

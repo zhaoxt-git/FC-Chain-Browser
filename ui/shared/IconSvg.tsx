@@ -6,7 +6,7 @@ import React from 'react';
 import config from 'configs/app';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 
-export const href = config.app.spriteHash ? `/icons/sprite.${ config.app.spriteHash }.svg` : '/icons/sprite.svg';
+export const href = config.app.spriteHash ? `/icons/sprite.${ config.app.spriteHash }.svg` : `/icons/sprite.fixed.svg`;
 
 export { IconName };
 
@@ -18,9 +18,10 @@ export interface Props extends HTMLChakraProps<'div'> {
 const IconSvg = React.forwardRef(
   function IconSvg({ name, isLoading = false, ...props }: Props, ref: React.ForwardedRef<HTMLDivElement>) {
     return (
-      <Skeleton loading={ isLoading } display="inline-block" flexShrink={ 0 } asChild { ...props } ref={ ref }>
+      <Skeleton loading={ isLoading } display="inline-block" flexShrink={ 0 } { ...props } ref={ ref }>
         <chakra.svg w="100%" h="100%">
-          <use href={ `${ href }#${ name }` }/>
+          <use href={ `${ href }#${ typeof name === 'string' ? name.replace(/[/\\]/g, '') : name }` }/>
+          <use href={ `${ href }#${ typeof name === 'string' ? name.replace(/\\/g, '/') : name }` }/>
         </chakra.svg>
       </Skeleton>
     );

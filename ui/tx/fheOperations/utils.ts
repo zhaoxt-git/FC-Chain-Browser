@@ -2,7 +2,7 @@ import type { FheOperationType } from 'types/api/fheOperations';
 
 import type { BadgeProps } from 'toolkit/chakra/badge';
 
-// Maps FHE operation types to Blockscout color palette
+// Maps FHE operation types to FC Chain color palette
 export function getTypeColor(type: FheOperationType): BadgeProps['colorPalette'] {
   const colors: Record<FheOperationType, BadgeProps['colorPalette']> = {
     comparison: 'purple',

@@ -102,7 +102,15 @@ const LatestBlocks = () => {
             ))) }
           </VStack>
           <Flex justifyContent="center">
-            <Link textStyle="sm" href={ route({ pathname: '/blocks' }) } loading={ isPlaceholderData }>View all blocks</Link>
+            <Link textStyle="sm" href={ route({ pathname: '/blocks' }) } loading={ isPlaceholderData }
+              fontFamily="'Space Mono', monospace, 'Inter', sans-serif"
+              fontSize="12px"
+              fontWeight="bold"
+              textTransform="uppercase"
+              letterSpacing="0.1em"
+              color="#63B3ED"
+              _hover={{ color: '#90CDF4', textDecoration: 'none' }}
+            >View all blocks</Link>
           </Flex>
         </>
       );
@@ -113,31 +121,87 @@ const LatestBlocks = () => {
   const networkUtilization = getNetworkUtilizationParams(statsQueryResult.data?.network_utilization_percentage ?? 0);
 
   return (
-    <Box width={{ base: '100%', lg: '280px' }} flexShrink={ 0 }>
-      <HStack alignItems="center">
-        <Heading level="3">Latest blocks</Heading>
-        { isRpcData && <FallbackRpcIcon/> }
-      </HStack>
+    <Box 
+      w="100%"
+      flexShrink={ 0 }
+      bg="rgba(10, 10, 12, 0.8)" /* bg-black/80 */
+      border="1px solid rgba(255, 255, 255, 0.05)" /* border-white/5 */
+      overflow="hidden"
+      display="flex"
+      flexDir="column"
+    >
+      <Box 
+        px={5} 
+        py={4}
+        borderBottom="1px solid rgba(255, 255, 255, 0.05)" /* matching layout */
+        display="flex" 
+        justifyContent="space-between" 
+        alignItems="center" 
+        bg="transparent"
+      >
+        <Heading 
+          as="h2" 
+          fontSize="15px" 
+          m={0}
+          fontFamily="'Inter', ui-sans-serif, system-ui, sans-serif"
+          className="text-telemetry" 
+          color="white" 
+          display="flex" 
+          alignItems="center" 
+          textTransform="uppercase" 
+          letterSpacing="0.02em" 
+          fontWeight="900"
+        >
+          <Box w="5px" h="5px" bg="rgba(238, 73, 73, 1)" mr={3} shadow="none" />
+          LATEST BLOCKS
+          { isRpcData && <Box ml={2}><FallbackRpcIcon/></Box> }
+        </Heading>
+        
+        <Link 
+          href={ route({ pathname: '/blocks' }) } 
+          fontSize="9px" 
+          className="text-telemetry" 
+          fontWeight={700}
+          color="#ee4949" 
+          _hover={{ color: 'white', borderColor: 'rgba(238, 73, 73, 0.3)' }}
+          transition="colors 0.2s"
+          px={3} py={1.5}
+          bg="transparent"
+          border="1px solid rgba(255, 255, 255, 0.1)"
+          textTransform="uppercase"
+          letterSpacing="0.1em"
+          textDecoration="none !important"
+        >
+          VIEW ALL
+        </Link>
+      </Box>
+
       { statsQueryResult.data?.network_utilization_percentage !== undefined && (
-        <Skeleton loading={ statsQueryResult.isPlaceholderData } mt={ 2 } display="inline-block" textStyle="sm">
-          <Text as="span">
+        <Skeleton loading={ statsQueryResult.isPlaceholderData } mt={0} p={3} borderBottom="1px solid rgba(255,255,255,0.05)" bg="transparent" fontSize="xs" color="gray.400">
+          <Text as="span" fontFamily="'Space Mono', monospace, 'Inter', sans-serif" fontSize="10px" fontWeight="bold" textTransform="uppercase" letterSpacing="0.1em">
             Network utilization:{ nbsp }
           </Text>
           <Tooltip content={ `${ upperFirst(networkUtilization.load) } load` }>
-            <Text as="span" color={ networkUtilization.color } fontWeight={ 700 }>
+            <Text as="span" color={ networkUtilization.color } fontWeight={ 700 } fontFamily="'Space Mono', monospace, 'Inter', sans-serif" fontSize="11px" letterSpacing="0.1em">
               { statsQueryResult.data?.network_utilization_percentage.toFixed(2) }%
             </Text>
           </Tooltip>
         </Skeleton>
       ) }
+      
       { statsQueryResult.data?.celo && (
-        <Box whiteSpace="pre-wrap" textStyle="sm" mt={ 2 }>
+        <Box whiteSpace="pre-wrap" fontSize="xs" mt={0} p={3} borderBottom="1px solid rgba(255,255,255,0.05)" color="gray.400">
           <span>Current epoch: </span>
           <chakra.span fontWeight={ 700 }>#{ statsQueryResult.data.celo.epoch_number }</chakra.span>
         </Box>
       ) }
-      <Box mt={ 3 }>
-        { content }
+
+      <Box position="relative" flex={1} overflow="hidden">
+        {/* Shadow overlay matching Explorer.tsx bottom gradient */}
+        <Box position="absolute" bottom={0} left={0} right={0} h={16} bg="linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.8), transparent)" zIndex={10} pointerEvents="none" />
+        <Box maxH="600px" overflowY="auto" className="scrollbar-hide" py={2} px={2} display="flex" flexDir="column" gap={2} position="relative">
+          { content }
+        </Box>
       </Box>
     </Box>
   );

@@ -8,7 +8,7 @@ import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Hint } from 'toolkit/components/Hint/Hint';
 import { TruncatedText } from 'toolkit/components/truncation/TruncatedText';
-import IconSvg, { type IconName } from 'ui/shared/IconSvg';
+import type { IconName } from 'ui/shared/IconSvg';
 
 export type Props = {
   className?: string;
@@ -25,12 +25,14 @@ export type Props = {
   href?: Route;
   icon?: IconName;
   isFallback?: boolean;
+  subtext?: React.ReactNode;
+  subtextColor?: string;
 };
 
 const Container = ({ href, children, className }: { href?: Route; children: React.JSX.Element; className?: string }) => {
   if (href) {
     return (
-      <Link href={ route(href) } variant="plain" className={ className }>
+      <Link href={ route(href) } variant="plain" className={ className } display="block" w="100%" h="100%">
         { children }
       </Link>
     );
@@ -41,7 +43,6 @@ const Container = ({ href, children, className }: { href?: Route; children: Reac
 
 const StatsWidget = ({
   className,
-  icon,
   label,
   value,
   valuePrefix,
@@ -54,54 +55,63 @@ const StatsWidget = ({
   period,
   href,
   isFallback,
-}: Props) => {
+  subtext,
+  subtextColor = '#64748b',
+  ...rest
+}: Props & { [key: string]: any }) => {
   return (
-    <Container href={ !isLoading ? href : undefined } className={ href ? className : undefined }>
-      <Flex
-        className={ href ? undefined : className }
-        alignItems="center"
-        bgColor={ isLoading ? { _light: 'blackAlpha.50', _dark: 'whiteAlpha.50' } : { _light: 'theme.stats.bg._light', _dark: 'theme.stats.bg._dark' } }
-        p={ 3 }
-        borderRadius="base"
-        justifyContent="space-between"
-        columnGap={ 2 }
-        w="100%"
-        h="100%"
-      >
-        { icon && (
-          <IconSvg
-            name={ icon }
-            p={ 2 }
-            boxSize="40px"
-            isLoading={ isLoading }
-            borderRadius="base"
-            display={{ base: 'none', lg: 'block' }}
-            flexShrink={ 0 }
-            opacity={ isFallback && !isLoading ? 'control.disabled' : 1 }
-          />
-        ) }
-        <Box
-          w={{
-            base: `calc(100% - ${ hint ? '24px' : '0px' })`,
-            lg: `calc(100% - ${ icon ? '48px' : '0px' } - ${ hint ? '24px' : '0px' })`,
-          }}
+    <Box { ...rest } w="100%" h="100%">
+      <Container href={ !isLoading ? href : undefined } className={ href ? className : undefined }>
+        <Flex
+          className={ href ? undefined : className }
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          bg="rgba(10, 10, 12, 0.8)" /* Extremely deep black/carbon per reference */
+          border="1px solid rgba(255, 255, 255, 0.05)"
+          py={ 6 }
+          px={ 4 }
+          position="relative"
+          overflow="hidden"
+          role="group"
+          transition="colors 0.2s"
+          _hover={{ borderColor: 'rgba(238, 73, 73, 0.3)', bg: 'rgba(15, 15, 18, 0.9)' }}
+          w="100%"
+          h="100%"
         >
-          <Skeleton
-            loading={ isLoading }
-            color="text.secondary"
-            textStyle="xs"
-            w="fit-content"
-          >
-            <h2>{ label }</h2>
+        {/* Label */}
+        <Box
+          className="text-telemetry"
+          fontSize="10px"
+          color="#64748b" /* slate-500 */
+          mb={ 2 }
+          fontWeight="bold"
+          textTransform="uppercase"
+          letterSpacing="0.1em"
+          transition="colors 0.2s"
+          _groupHover={{ color: 'rgba(238, 73, 73, 0.7)' }} /* red-500/70 */
+          display="flex"
+          alignItems="center"
+          gap={1}
+        >
+          <Skeleton loading={ isLoading } color="inherit">
+            { label }
           </Skeleton>
-          <Skeleton
-            loading={ isLoading }
-            display="flex"
-            alignItems="baseline"
-            fontWeight={ 500 }
-            textStyle="heading.md"
-            opacity={ isFallback && !isLoading ? 'control.disabled' : 1 }
-          >
+          { typeof hint === 'string' ? (
+            <Hint label={ hint } boxSize={ 4 } color="inherit" _hover={{ color: '#22d3ee' }} />
+          ) : hint }
+        </Box>
+
+        {/* Value */}
+        <Box
+          className="text-vanguard"
+          fontSize="24px" /* text-2xl */
+          color="white"
+          fontWeight="bold"
+          opacity={ isFallback && !isLoading ? 0.3 : 1 }
+        >
+          <Skeleton loading={ isLoading } display="flex" alignItems="center" justifyContent="center">
             { valuePrefix && <chakra.span whiteSpace="pre">{ valuePrefix }</chakra.span> }
             { typeof value === 'string' ? (
               <TruncatedText text={ value } loading={ isLoading }/>
@@ -109,24 +119,38 @@ const StatsWidget = ({
               value
             ) }
             { valuePostfix && <chakra.span whiteSpace="pre">{ valuePostfix }</chakra.span> }
-            { diff && Number(diff) > 0 && (
-              <>
-                <Text ml={ 2 } mr={ 1 } color="green.500">
-                  +{ diffFormatted || Number(diff).toLocaleString() }
-                </Text>
-                <Text color="text.secondary" textStyle="sm">({ diffPeriod })</Text>
-              </>
-            ) }
-            { period && <Text color="text.secondary" textStyle="xs" fontWeight={ 400 } ml={ 1 }>({ period })</Text> }
           </Skeleton>
         </Box>
-        { typeof hint === 'string' ? (
-          <Skeleton loading={ isLoading } alignSelf="center" borderRadius="base" flexShrink={ 0 }>
-            <Hint label={ hint } boxSize={ 5 } color="icon.secondary"/>
-          </Skeleton>
-        ) : hint }
+
+        {/* Diff / Period / Subtext */}
+        { (diff || period || subtext) && (
+          <Box
+            fontSize="10px" /* very small subtext */
+            color={ subtext ? (subtextColor || '#64748b') : 'rgba(238, 73, 73, 1)' }
+            mt={ 2 }
+            fontFamily="'Space Mono', monospace"
+            letterSpacing="0.05em"
+            textTransform="uppercase"
+          >
+            <Skeleton loading={ isLoading } display="flex" alignItems="center" justifyContent="center" gap={1}>
+              { subtext && (
+                <Text as="span">{ subtext }</Text>
+              ) }
+              { !subtext && diff && Number(diff) > 0 && (
+                <>
+                  <Text as="span">
+                    +{ diffFormatted || Number(diff).toLocaleString() }
+                  </Text>
+                  <Text as="span" color="#64748b">({ diffPeriod })</Text>
+                </>
+              ) }
+              { !subtext && period && <Text as="span" color="#64748b">({ period })</Text> }
+            </Skeleton>
+          </Box>
+        ) }
       </Flex>
     </Container>
+    </Box>
   );
 };
 

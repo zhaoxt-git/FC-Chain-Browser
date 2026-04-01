@@ -5,7 +5,7 @@ import { Checkbox } from 'toolkit/chakra/checkbox';
 import { Link } from 'toolkit/chakra/link';
 import { PopoverContent, PopoverRoot, PopoverTrigger, PopoverBody } from 'toolkit/chakra/popover';
 import { Tooltip } from 'toolkit/chakra/tooltip';
-import { BACKGROUND_DEFAULT } from 'ui/home/HeroBanner';
+
 import IconSvg from 'ui/shared/IconSvg';
 
 import { Section, Container, SectionHeader, SamplesStack, Sample, SectionSubHeader } from './parts';
@@ -175,7 +175,7 @@ const ButtonShowcase = () => {
             </PopoverRoot>
           </Sample>
 
-          <Sample label="variant: hero" p={ 6 } background={ BACKGROUND_DEFAULT }>
+          <Sample label="variant: hero" p={ 6 } background="rgba(238, 73, 73, 0.05)">
             <Button variant="hero">Default</Button>
             <Button variant="hero" data-hover>Hovered</Button>
             <Button variant="hero" loading loadingText="Loading">Loading</Button>

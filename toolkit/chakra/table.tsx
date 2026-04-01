@@ -103,9 +103,12 @@ export const TableHeaderSticky = (props: TableHeaderProps) => {
       ref={ ref }
       position="sticky"
       top={ top ? `${ top }px` : 0 }
-      backgroundColor={{ _light: 'white', _dark: 'black' }}
-      boxShadow={ isStuck ? 'action_bar' : 'none' }
+      backgroundColor={ isStuck ? { _light: 'rgba(255, 255, 255, 0.95)', _dark: 'rgba(10, 10, 10, 0.95)' } : { _light: 'white', _dark: 'black' } }
+      backdropFilter={ isStuck ? "blur(10px)" : "none" }
+      boxShadow={ isStuck ? { _light: 'action_bar', _dark: '0 4px 20px rgba(0, 0, 0, 0.6)' } : 'none' }
+      borderBottom={ isStuck ? { _light: '1px solid rgba(0,0,0,0.1)', _dark: '1px solid rgba(255,255,255,0.08)' } : '1px solid transparent' }
       zIndex="1"
+      transition="all 0.2s"
       { ...rest }
     >
       { children }

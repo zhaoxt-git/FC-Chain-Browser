@@ -75,6 +75,14 @@ const StatsDegraded = () => {
   const items: Array<HomeStatsItem> = (() => {
     return [
       {
+        id: 'fc_price' as const,
+        label: 'FC Price',
+        value: '$2060.07',
+        subtext: '+12.4% (24h)',
+        subtextColor: 'rgba(34, 197, 94, 1)',
+        isFallback: true,
+      },
+      {
         id: 'latest_batch' as const,
         icon: 'txn_batches' as const,
         label: 'Latest batch',
@@ -150,8 +158,18 @@ const StatsDegraded = () => {
       },
     ]
       .filter(Boolean)
-      .filter(isHomeStatsItemEnabled)
-      .sort(sortHomeStatsItems);;
+      .filter((item: any) => item.id === 'fc_price' || isHomeStatsItemEnabled(item))
+      .sort((a: any, b: any) => {
+        const priorityOrder = ['fc_price', 'total_blocks', 'total_txs', 'average_block_time'];
+        const aIndex = priorityOrder.indexOf(a.id);
+        const bIndex = priorityOrder.indexOf(b.id);
+        
+        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+        if (aIndex !== -1) return -1;
+        if (bIndex !== -1) return 1;
+        
+        return sortHomeStatsItems(a, b);
+      });
   })();
 
   if (items.length === 0) {

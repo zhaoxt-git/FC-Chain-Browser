@@ -58,7 +58,11 @@ const TopBarStats = () => {
       { Boolean(config.UI.featuredNetworks.items) && <TextSeparator/> }
       <Flex
         alignItems="center"
-        fontWeight={ 500 }
+        fontWeight="bold"
+        fontFamily="'Space Mono', monospace, 'Inter', sans-serif"
+        textTransform="uppercase"
+        letterSpacing="0.1em"
+        fontSize="12px"
       >
         { hasNativeCoinPrice && (
           <Flex columnGap={ 1 }>

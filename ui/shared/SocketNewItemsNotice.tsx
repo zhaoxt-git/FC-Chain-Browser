@@ -71,17 +71,17 @@ const SocketNewItemsNotice = chakra(({ children, className, url, num, showErrorA
     }
 
     return (
-      <>
-        <Link href={ url } onClick={ !url ? handleLinkClick : undefined }>{ num.toLocaleString() } more { name }{ num > 1 ? 's' : '' }</Link>
-        <Text whiteSpace="pre"> ha{ num > 1 ? 've' : 's' } come in</Text>
-      </>
+      <chakra.span fontFamily="'Space Mono', monospace, 'Inter', sans-serif" fontSize="12px" fontWeight="bold" textTransform="uppercase" letterSpacing="0.1em">
+        <Link href={ url } onClick={ !url ? handleLinkClick : undefined } color="#63B3ED" _hover={{ color: '#90CDF4', textDecoration: 'none' }}>{ num.toLocaleString() } more { name }{ num > 1 ? 's' : '' }</Link>
+        <Text as="span" whiteSpace="pre" color="gray.400"> ha{ num > 1 ? 've' : 's' } come in</Text>
+      </chakra.span>
     );
   })();
 
   const content = !isLoading ? (
     <Alert
       className={ className }
-      status={ showErrorAlert || !num ? 'warning_table' : 'info' }
+      status={ showErrorAlert ? 'error' : 'info' }
       px={ 4 }
       py="6px"
       textStyle="sm"

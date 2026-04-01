@@ -4,12 +4,12 @@ import type { ExcludeUndefined } from 'types/utils';
 
 import config from 'configs/app';
 
-export const BODY_TYPEFACE = config.UI.fonts.body?.name ?? 'Inter, InterFallback';
-export const HEADING_TYPEFACE = config.UI.fonts.heading?.name ?? 'Poppins';
+export const BODY_TYPEFACE = '"Space Mono", "Montserrat", "Inter", ui-sans-serif, system-ui, sans-serif';
+export const HEADING_TYPEFACE = '"Orbitron", "Space Mono", "Roboto Mono", ui-monospace, monospace';
 
 export const fonts: ExcludeUndefined<ThemingConfig['tokens']>['fonts'] = {
-  heading: { value: `${ HEADING_TYPEFACE }, sans-serif` },
-  body: { value: `${ BODY_TYPEFACE }, sans-serif` },
+  heading: { value: HEADING_TYPEFACE },
+  body: { value: BODY_TYPEFACE },
 };
 
 export const textStyles: ThemingConfig['textStyles'] = {

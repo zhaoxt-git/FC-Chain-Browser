@@ -20,7 +20,7 @@ export default function useNavLinkStyleProps({ isExpanded, isCollapsed, isActive
       variant: 'inherit',
       fontSize: 'sm',
       lineHeight: '20px',
-      opacity: { base: '1', lg: isExpanded ? '1' : '0', xl: isCollapsed ? '0' : '1' },
+      opacity: '1',
       transitionProperty: 'opacity',
       transitionDuration: 'normal',
       transitionTimingFunction: 'ease',

@@ -113,10 +113,13 @@ const AdaptiveTabsList = (props: Props) => {
         '-ms-overflow-style': 'none', /* IE and Edge */
         scrollbarWidth: 'none', /* Firefox */
       }}
-      {
-        ...(props.stickyEnabled ? {
+      backgroundColor={ isSticky ? { _light: 'rgba(255, 255, 255, 0.95)', _dark: 'rgba(10, 10, 10, 0.95)' } : 'bg.primary' }
+      backdropFilter={ isSticky ? 'blur(10px)' : 'none' }
+      transition="all 0.2s"
+      { ...(props.stickyEnabled ? {
           position: 'sticky',
-          boxShadow: { base: isSticky ? 'md' : 'none', lg: 'none' },
+          boxShadow: isSticky ? { _light: 'action_bar', _dark: '0 4px 20px rgba(0, 0, 0, 0.6)' } : 'none',
+          borderBottom: isSticky ? { _light: '1px solid rgba(0,0,0,0.1)', _dark: '1px solid rgba(255,255,255,0.08)' } : '1px solid transparent',
           top: 0,
           zIndex: { base: 'sticky2', lg: 'docked' },
         } : { })

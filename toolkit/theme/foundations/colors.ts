@@ -5,74 +5,71 @@ import config from 'configs/app';
 const DEFAULT_THEME_COLORS = {
   bg: {
     primary: {
-      // for some reason links to colors.white and colors.black variables are not working here
-      // so we use hex values instead
-      // but it is not the case for other colors
-      _light: { value: '#FFFFFF' }, // colors.white
-      _dark: { value: '#101112' }, // colors.black
+      _light: { value: '{colors.black}' }, 
+      _dark: { value: '{colors.black}' },
     },
   },
   text: {
     primary: {
-      _light: { value: '{colors.blackAlpha.800}' },
+      _light: { value: '{colors.whiteAlpha.800}' },
       _dark: { value: '{colors.whiteAlpha.800}' },
     },
     secondary: {
-      _light: { value: '{colors.gray.500}' },
-      _dark: { value: '{colors.gray.400}' },
+      _light: { value: '{colors.whiteAlpha.700}' }, // EID style lighter gray text
+      _dark: { value: '{colors.whiteAlpha.700}' }, // EID style lighter gray text
     },
   },
   hover: {
-    _light: { value: '{colors.blue.400}' },
-    _dark: { value: '{colors.blue.400}' },
+    _light: { value: '#ee4949' }, // Red 500 hover glow
+    _dark: { value: '#ee4949' },
   },
   selected: {
     control: {
       text: {
-        _light: { value: '{colors.blue.700}' },
-        _dark: { value: '{colors.gray.50}' },
+        _light: { value: '#000000' },
+        _dark: { value: '#FFFFFF' },
       },
       bg: {
-        _light: { value: '{colors.blue.50}' },
-        _dark: { value: '{colors.whiteAlpha.50}' },
+        _light: { value: 'rgba(238, 73, 73, 0.1)' }, // Red 500 at 10%
+        _dark: { value: 'rgba(238, 73, 73, 0.1)' },
       },
     },
     option: {
       bg: {
-        _light: { value: '{colors.blue.500}' },
-        _dark: { value: '{colors.blue.500}' },
+        _light: { value: 'rgba(0, 0, 0, 0.08)' },
+        _dark: { value: 'rgba(255, 255, 255, 0.08)' },
       },
     },
   },
   icon: {
     primary: {
-      _light: { value: '{colors.gray.500}' },
+      _light: { value: '{colors.gray.400}' },
       _dark: { value: '{colors.gray.400}' },
     },
     secondary: {
-      _light: { value: '{colors.gray.400}' },
+      _light: { value: '{colors.gray.500}' },
       _dark: { value: '{colors.gray.500}' },
     },
   },
   button: {
     primary: {
-      _light: { value: '{colors.blue.600}' },
-      _dark: { value: '{colors.blue.600}' },
+      _light: { value: '#ee4949' }, // Red 500 primary button
+      _dark: { value: '#ee4949' }, 
       text: {
-        _light: { value: '{colors.white}' },
-        _dark: { value: '{colors.white}' },
+        _light: { value: '#020617' }, // Dark text on red
+        _dark: { value: '#020617' },
       },
     },
   },
   link: {
     primary: {
-      _light: { value: '{colors.blue.600}' },
-      _dark: { value: '{colors.blue.300}' },
+      _light: { value: '#666666' },
+      _dark: { value: '#A1A1A5' },
     },
   },
   graph: {
     line: {
-      _light: { value: '{colors.blue.500}' },
+      _light: { value: '{colors.blue.200}' },
       _dark: { value: '{colors.blue.200}' },
     },
     gradient: {
@@ -89,34 +86,34 @@ const DEFAULT_THEME_COLORS = {
   navigation: {
     bg: {
       selected: {
-        _light: { value: '{colors.blue.50}' },
-        _dark: { value: '{colors.gray.800}' },
+        _light: { value: 'rgba(238, 73, 73, 0.1)' },
+        _dark: { value: 'rgba(238, 73, 73, 0.1)' },
       },
     },
     text: {
       selected: {
-        _light: { value: '{colors.blue.700}' },
-        _dark: { value: '{colors.gray.50}' },
+        _light: { value: '#000000' },
+        _dark: { value: '#FFFFFF' },
       },
     },
   },
   stats: {
     bg: {
-      _light: { value: '{colors.gray.50}' },
-      _dark: { value: '{colors.whiteAlpha.100}' },
+      _light: { value: 'rgba(255, 255, 255, 0.04)' },
+      _dark: { value: 'rgba(255, 255, 255, 0.04)' },
     },
   },
   topbar: {
     bg: {
-      _light: { value: '{colors.gray.50}' },
-      _dark: { value: '{colors.whiteAlpha.100}' },
+      _light: { value: '#0f172a' }, // Slate 900
+      _dark: { value: '#0f172a' }, 
     },
   },
   tabs: {
     text: {
       primary: {
-        _light: { value: '{colors.blue.700}' },
-        _dark: { value: '{colors.blue.100}' },
+        _light: { value: '{colors.white}' }, // Clean white tab text
+        _dark: { value: '{colors.white}' },
       },
     },
   },

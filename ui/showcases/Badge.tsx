@@ -38,7 +38,7 @@ const BadgeShowcase = () => {
             <Badge colorPalette="teal">Multicall</Badge>
           </Sample>
           <Sample label="colorPalette: cyan">
-            <Badge colorPalette="cyan">Internal txn</Badge>
+            <Badge colorPalette="gray">Internal txn</Badge>
           </Sample>
           <Sample label="colorPalette: pink">
             <Badge colorPalette="pink">Content</Badge>

@@ -3,6 +3,7 @@ import React from 'react';
 
 import config from 'configs/app';
 import useIsMobile from 'lib/hooks/useIsMobile';
+import { CosmicBackground } from 'ui/home/CosmicBackground';
 import { HomeRpcDataContextProvider } from 'ui/home/fallbacks/rpcDataContext';
 import HeroBanner from 'ui/home/HeroBanner';
 import Highlights from 'ui/home/Highlights';
@@ -34,20 +35,63 @@ const Home = () => {
 
   return (
     <HomeRpcDataContextProvider>
-      <Box as="main">
-        <HeroBanner/>
-        <Flex flexDir={{ base: 'column', lg: 'row' }} columnGap={ 2 } rowGap={ 1 } mt={ 3 } _empty={{ mt: 0 }}>
-          <Stats/>
-          <ChainIndicators/>
-        </Flex>
-        { !isMobile && config.UI.homepage.highlights && <Highlights mt={ 3 }/> }
-        { isMobile && <AdBanner mt={ 6 } mx="auto" justifyContent="center" format="mobile"/> }
-        <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 6 }>
-          { leftWidget }
-          <Box flexGrow={ 1 }>
-            <Transactions/>
-          </Box>
-        </Flex>
+      <Box as="main" position="relative" zIndex={10} w="100%" pb={20}>
+        <CosmicBackground />
+        
+        <Box pt={8} pb={12} maxW="7xl" mx="auto" px={{ base: 4, sm: 6, lg: 8 }}>
+          <HeroBanner/>
+        </Box>
+
+        <Box maxW="7xl" mx="auto" px={{ base: 4, sm: 6, lg: 8 }}>
+          <Flex flexDir={{ base: 'column', lg: 'row' }} columnGap={ 2 } rowGap={ 1 } mt={ 3 } _empty={{ mt: 0 }} mb={8}>
+            <Stats/>
+            <ChainIndicators/>
+          </Flex>
+
+          { !isMobile && config.UI.homepage.highlights && <Highlights mt={ 3 }/> }
+          { isMobile && <AdBanner mt={ 6 } mx="auto" justifyContent="center" format="mobile"/> }
+
+          <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 8 } rowGap={ 6 }>
+            <Box flex={{ lg: 3 }} maxW={{ lg: '30%' }} w="100%">
+              { leftWidget }
+            </Box>
+            <Box flex={{ lg: 7 }} maxW={{ lg: '70%' }} w="100%">
+              <Transactions/>
+            </Box>
+          </Flex>
+        </Box>
+
+        {/* Footer Terminal Bar */}
+        <Box 
+          position="fixed" 
+          bottom={0} left={0} right={0} 
+          bg="rgba(5, 7, 10, 0.95)" 
+          borderTop="1px solid rgba(255, 255, 255, 0.05)"
+          display={{ base: 'none', md: 'flex' }}
+          justifyContent="space-between"
+          px={6} py={2}
+          fontSize="10px"
+          color="rgba(34, 197, 94, 0.8)" /* green */
+          fontFamily="'Space Mono', monospace"
+          zIndex={100}
+        >
+          <Flex gap={4} alignItems="center">
+            <Box display="flex" alignItems="center">
+              <Box w="6px" h="6px" bg="rgba(34, 197, 94, 1)" mr={2} />
+              SYS_ONLINE
+            </Box>
+            <Box color="gray.600">/</Box>
+            <Box color="cyan.500">LATEST_BLOCK: 0x5320d216...</Box>
+            <Box color="gray.600">/</Box>
+            <Box color="rgba(238, 73, 73, 1)">LATENCY: 7ms</Box>
+          </Flex>
+          <Flex gap={4} alignItems="center">
+            <Box color="rgba(238, 73, 73, 1)">TX_POOL: 33,165</Box>
+            <Box color="gray.600">/</Box>
+            <Box color="cyan.500">ALGO_DIFF: 85.92TH/s</Box>
+          </Flex>
+        </Box>
+
       </Box>
     </HomeRpcDataContextProvider>
   );

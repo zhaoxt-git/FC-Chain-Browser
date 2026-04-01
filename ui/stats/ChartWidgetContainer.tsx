@@ -65,7 +65,7 @@ const ChartWidgetContainer = ({
       description={ description }
       isLoading={ lineQuery.isPlaceholderData }
       minH="230px"
-      className={ className }
+      className={ className ? `${className} glass-panel` : 'glass-panel' }
       href={ href ? route(href) : undefined }
       chartUrl={ href ? `${ config.app.baseUrl }${ route(href) }` : undefined }
     />

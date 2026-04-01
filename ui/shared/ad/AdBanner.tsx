@@ -18,22 +18,7 @@ interface Props {
 }
 
 const AdBanner = ({ className, isLoading, format }: Props) => {
-  const provider = useAppContext().adBannerProvider;
-
-  const hasAdblockCookie = cookies.get(cookies.NAMES.ADBLOCK_DETECTED, useAppContext().cookies);
-
-  if (!feature.isEnabled || hasAdblockCookie === 'true' || !provider) {
-    return null;
-  }
-
-  return (
-    <AdBannerContent
-      className={ className }
-      isLoading={ isLoading }
-      provider={ provider }
-      format={ format }
-    />
-  );
+  return null; // Disabled globally for FC Chain to maintain enterprise branding
 };
 
 export default chakra(AdBanner);

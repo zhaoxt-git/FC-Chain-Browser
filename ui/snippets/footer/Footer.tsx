@@ -1,5 +1,5 @@
 import type { GridProps, HTMLChakraProps } from '@chakra-ui/react';
-import { Box, Grid, Flex, Text, VStack } from '@chakra-ui/react';
+import { Box, Grid, Flex, Text, VStack, chakra } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
@@ -36,48 +36,68 @@ const Footer = () => {
   });
   const apiVersionUrl = getApiVersionUrl(backendVersionData?.backend_version);
 
+  // const BLOCKSCOUT_LINKS = [
+  //   {
+  //     icon: 'social/git' as const,
+  //     iconSize: '20px',
+  //     text: 'Contribute',
+  //     url: 'https://github.com/blockscout/blockscout',
+  //   },
+  //   {
+  //     icon: 'brands/pro_api' as const,
+  //     iconSize: '20px',
+  //     text: 'PRO API',
+  //     url: 'https://dev.blockscout.com',
+  //   },
+  //   {
+  //     icon: 'brands/autoscout' as const,
+  //     iconSize: '20px',
+  //     text: 'Autoscout',
+  //     url: 'https://autoscout.blockscout.com',
+  //   },
+  //   {
+  //     icon: 'docs' as const,
+  //     iconSize: '20px',
+  //     text: 'Docs',
+  //     url: 'https://docs.blockscout.com',
+  //   },
+  //   {
+  //     icon: 'social/twitter' as const,
+  //     iconSize: '24px',
+  //     text: 'X',
+  //     url: 'https://x.com/blockscout',
+  //   },
+  //   {
+  //     icon: 'social/discord' as const,
+  //     iconSize: '24px',
+  //     text: 'Discord',
+  //     url: 'https://discord.gg/blockscout',
+  //   },
+  //   {
+  //     icon: 'brands/blockscout' as const,
+  //     iconSize: '20px',
+  //     text: 'All chains',
+  //     url: 'https://chains.blockscout.com',
+  //   },
+  // ].filter(Boolean);
   const BLOCKSCOUT_LINKS = [
-    {
-      icon: 'social/git' as const,
-      iconSize: '20px',
-      text: 'Contribute',
-      url: 'https://github.com/blockscout/blockscout',
-    },
-    {
-      icon: 'brands/pro_api' as const,
-      iconSize: '20px',
-      text: 'PRO API',
-      url: 'https://dev.blockscout.com',
-    },
     {
       icon: 'brands/autoscout' as const,
       iconSize: '20px',
-      text: 'Autoscout',
-      url: 'https://autoscout.blockscout.com',
-    },
-    {
-      icon: 'docs' as const,
-      iconSize: '20px',
-      text: 'Docs',
-      url: 'https://docs.blockscout.com',
+      text: 'Official Website',
+      url: 'https://www.futurecitizen.io/',
     },
     {
       icon: 'social/twitter' as const,
       iconSize: '24px',
       text: 'X',
-      url: 'https://x.com/blockscout',
+      url: 'https://x.com/fc_chain',
     },
     {
-      icon: 'social/discord' as const,
-      iconSize: '24px',
-      text: 'Discord',
-      url: 'https://discord.gg/blockscout',
-    },
-    {
-      icon: 'brands/blockscout' as const,
+      icon: 'docs' as const,
       iconSize: '20px',
-      text: 'All chains',
-      url: 'https://chains.blockscout.com',
+      text: 'Docs',
+      url: 'https://docs.futurecitizen.io/',
     },
   ].filter(Boolean);
 
@@ -117,43 +137,55 @@ const Footer = () => {
         mb={{ base: 5, lg: 10 }}
         _empty={{ display: 'none' }}
       >
-        { !config.UI.indexingAlert.intTxs.isHidden && <IntTxsIndexingStatus/> }
+        <Flex alignItems="center" bg="rgba(255,255,255,0.03)" border="1px solid rgba(255,255,255,0.1)" px={3} py={1.5} borderRadius="0">
+          <Box w="6px" h="6px" bg="green.400" mr={2} boxShadow="0 0 5px rgba(72,187,120,0.8)" animation="pulseStatus 2s infinite" />
+          <Text fontSize="xs" color="gray.400" fontFamily="'Space Mono', monospace" letterSpacing="0.1em">SYS_ONLINE</Text>
+        </Flex>
+        <style>{`
+          @keyframes pulseStatus {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+          }
+        `}</style>
         { !config.features.multichain.isEnabled && <NetworkAddToWallet source="Footer"/> }
       </Flex>
     );
   }, []);
 
   const renderProjectInfo = React.useCallback((gridArea?: GridProps['gridArea']) => {
-    const logoColor = { base: 'blue.600', _dark: 'white' };
-
     return (
       <Box gridArea={ gridArea }>
-        <Flex columnGap={ 2 } textStyle="xs" alignItems="center">
-          <span>Made with</span>
-          <Link href="https://www.blockscout.com" external noIcon display="inline-flex" color={ logoColor } _hover={{ color: logoColor }}>
-            <IconSvg
-              name="networks/logo-placeholder"
-              width="80px"
-              height={ 4 }
+        <Flex columnGap={ 3 } textStyle="xs" alignItems="center">
+          <Link href="https://www.futurecitizen.io/" external noIcon display="inline-flex" alignItems="center" _hover={{ textDecoration: 'none' }}>
+            <chakra.img
+              src="/logo.jpg"
+              alt="FC CHAIN Logo"
+              w="12"
+              h="12"
+              mr="3"
+              borderRadius="full"
+              objectFit="cover"
             />
+            <Text 
+              fontSize="2xl" 
+              fontWeight="900" 
+              letterSpacing="0.2em" 
+              color="white" 
+              fontFamily="'Orbitron', 'Space Mono', 'Montserrat', monospace"
+            >
+              FC CHAIN
+            </Text>
           </Link>
         </Flex>
-        <Text mt={ 3 } fontSize="xs">
-          Blockscout is a tool for inspecting and analyzing EVM based blockchains. Blockchain explorer for Ethereum Networks.
+        
+        <Text mt={ 5 } fontSize="xs" color="gray.400" maxW="400px" lineHeight="1.8" letterSpacing="0.05em" fontFamily="'Space Mono', monospace">
+          <Text as="span" color="gray.500">{'>'}</Text> SYS.INIT: CORE NODE ONLINE...<br/>
+          <Text as="span" color="gray.500">{'>'}</Text> The Next Generation Explorer for FC Chain. Empowering future citizens with transparent, high-performance tracking infrastructure.
         </Text>
-        <Box mt={ 6 } alignItems="start" textStyle="xs">
-          { apiVersionUrl && (
-            <Text>
-              Backend: <Link href={ apiVersionUrl } external noIcon>{ backendVersionData?.backend_version }</Link>
-            </Text>
-          ) }
-          { frontendLink && (
-            <Text>
-              Frontend: { frontendLink }
-            </Text>
-          ) }
+        <Box mt={ 6 } textStyle="xs" color="gray.500" borderTop="1px dashed rgba(255,255,255,0.1)" pt={4} fontFamily="'Space Mono', monospace">
           <Text>
-            Copyright { copy } Blockscout Limited 2023-{ (new Date()).getFullYear() }
+            [LOG] Copyright { copy } FC Ecosystem 2023-{ (new Date()).getFullYear() }. All rights reserved.
           </Text>
         </Box>
       </Box>
@@ -162,13 +194,17 @@ const Footer = () => {
 
   const containerProps: HTMLChakraProps<'div'> = {
     as: 'footer',
-    borderTopWidth: '1px',
-    borderTopColor: 'border.divider',
+    borderTop: '1px solid rgba(255,255,255,0.05)',
+    position: 'relative',
+    bg: { base: 'white', _dark: 'black' },
+    overflow: 'hidden',
   };
 
   const contentProps: GridProps = {
+    position: 'relative',
+    zIndex: 1,
     px: { base: 4, lg: config.UI.navigation.layout === 'horizontal' ? 6 : 12, '2xl': 6 },
-    py: { base: 4, lg: 8 },
+    py: { base: 4, lg: 10 },
     gridTemplateColumns: { base: '1fr', lg: 'minmax(auto, 470px) 1fr' },
     columnGap: { lg: '32px', xl: '100px' },
     maxW: `${ CONTENT_MAX_WIDTH }px`,
@@ -181,19 +217,77 @@ const Footer = () => {
     }
 
     return (
-      <Box gridArea={ gridArea } textStyle="xs" mt={ 6 }>
-        <span>This site is protected by reCAPTCHA and the Google </span>
-        <Link href="https://policies.google.com/privacy" external noIcon>Privacy Policy</Link>
-        <span> and </span>
-        <Link href="https://policies.google.com/terms" external noIcon>Terms of Service</Link>
-        <span> apply.</span>
+      <Box gridArea={ gridArea } textStyle="xs" mt={ 6 } fontFamily="'Space Mono', monospace" color="gray.600">
+        <span>Protected by reCAPTCHA & Google </span>
+        <Link href="https://policies.google.com/privacy" external noIcon color="gray.500" _hover={{ color: 'white' }}>Privacy Policy</Link>
+        <span> & </span>
+        <Link href="https://policies.google.com/terms" external noIcon color="gray.500" _hover={{ color: 'white' }}>Terms</Link>
+        <span>.</span>
       </Box>
     );
   };
 
+  const LinksBlock = () => (
+    <Box>
+      <Flex alignItems="center" mb={ 6 }>
+        <Box w="6px" h="6px" bg="gray.400" mr={3} />
+        <Text fontWeight="700" color="gray.400" fontSize="sm" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" textTransform="uppercase">
+          UPLINK CONNECTIONS
+        </Text>
+      </Flex>
+      <VStack gap={ 3 } alignItems="start">
+        <Link href="https://www.futurecitizen.io/" external noIcon _hover={{ color: 'white', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)' }} px={2} py={2} w="100%" transition="all 0.2s" display="flex" alignItems="center" color="gray.400" border="1px solid transparent">
+          <Flex w="6" h="6" mr={3} alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter"><circle cx="12" cy="12" r="10"/><path d="M12 2v20 M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </Flex>
+          <Text fontWeight="400" fontSize="xs" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" transition="all 0.2s">NODE_HOME</Text>
+        </Link>
+        <Link href="https://x.com/fc_chain" external noIcon _hover={{ color: 'white', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)' }} px={2} py={2} w="100%" transition="all 0.2s" display="flex" alignItems="center" color="gray.400" border="1px solid transparent">
+          <Flex w="6" h="6" mr={3} alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </Flex>
+          <Text fontWeight="400" fontSize="xs" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" transition="all 0.2s">X_NETWORK</Text>
+        </Link>
+        <Link href="https://docs.futurecitizen.io/" external noIcon _hover={{ color: 'white', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)' }} px={2} py={2} w="100%" transition="all 0.2s" display="flex" alignItems="center" color="gray.400" border="1px solid transparent">
+          <Flex w="6" h="6" mr={3} alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M10 6h6 M10 10h6 M10 14h2" /></svg>
+          </Flex>
+          <Text fontWeight="400" fontSize="xs" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" transition="all 0.2s">ARCHIVES_DOCS</Text>
+        </Link>
+      </VStack>
+    </Box>
+  );
+
+  const DecorativeLines = () => (
+    <>
+      <Box position="absolute" top="0" left="0" width="100%" height="1px" bg="rgba(255,255,255,0.05)" zIndex={0}>
+        <Box
+          position="absolute"
+          top="0"
+          left="-20vw"
+          width="20vw"
+          height="1px"
+          background="linear-gradient(90deg, transparent, rgba(255,255,255,0.5) 80%, #ffffff 100%)"
+          boxShadow="0 0 8px 1px rgba(255,255,255,0.3)"
+          animation="flowLightScan 3s linear infinite"
+        />
+      </Box>
+      <Box position="absolute" bottom="0" right="0" width="300px" height="1px" bg="rgba(255,255,255,0.1)" zIndex={0} />
+      <style>{`
+        @keyframes flowLightScan {
+          0% { transform: translateX(0); opacity: 0; }
+          10% { opacity: 1; }
+          90% { transform: translateX(120vw); opacity: 1; }
+          100% { transform: translateX(120vw); opacity: 0; }
+        }
+      `}</style>
+    </>
+  );
+
   if (config.UI.footer.links) {
     return (
       <Box { ...containerProps }>
+        <DecorativeLines />
         <Grid { ...contentProps }>
           <div>
             { renderNetworkInfo() }
@@ -211,20 +305,17 @@ const Footer = () => {
             justifyContent={{ lg: 'flex-end' }}
             mt={{ base: 8, lg: 0 }}
           >
+            <LinksBlock />
+
             {
-              ([
-                { title: 'Blockscout', links: BLOCKSCOUT_LINKS },
-                ...(linksData || []),
-              ])
-                .slice(0, colNum)
-                .map(linkGroup => (
-                  <Box key={ linkGroup.title }>
-                    <Skeleton fontWeight={ 500 } mb={ 3 } display="inline-block" loading={ isPlaceholderData }>{ linkGroup.title }</Skeleton>
-                    <VStack gap={ 1 } alignItems="start">
-                      { linkGroup.links.map(link => <FooterLinkItem { ...link } key={ link.text } isLoading={ isPlaceholderData }/>) }
-                    </VStack>
-                  </Box>
-                ))
+              (linksData || []).slice(0, colNum - 1).map(linkGroup => (
+                <Box key={ linkGroup.title }>
+                  <Skeleton fontWeight={ 700 } fontSize="sm" color="gray.400" mb={ 4 } display="inline-block" fontFamily="'Space Mono', monospace" textTransform="uppercase" letterSpacing="0.1em" loading={ isPlaceholderData }>{ linkGroup.title }</Skeleton>
+                  <VStack gap={ 1 } alignItems="start">
+                    { linkGroup.links.map(link => <FooterLinkItem { ...link } key={ link.text } isLoading={ isPlaceholderData }/>) }
+                  </VStack>
+                </Box>
+              ))
             }
           </Grid>
         </Grid>
@@ -234,6 +325,7 @@ const Footer = () => {
 
   return (
     <Box { ...containerProps }>
+      <DecorativeLines />
       <Grid
         { ...contentProps }
         gridTemplateAreas={{
@@ -244,31 +336,20 @@ const Footer = () => {
         `,
         }}
       >
-
         { renderNetworkInfo({ lg: 'network' }) }
         { renderProjectInfo({ lg: 'info' }) }
         { renderRecaptcha({ lg: 'recaptcha' }) }
 
-        <Grid
+        <Flex
           gridArea={{ lg: 'links-bottom' }}
-          gap={ 1 }
-          gridTemplateColumns={{
-            base: 'repeat(auto-fill, 160px)',
-            lg: 'repeat(2, 160px)',
-            xl: 'repeat(3, 160px)',
-          }}
-          gridTemplateRows={{
-            base: 'auto',
-            lg: 'repeat(3, auto)',
-            xl: 'repeat(2, auto)',
-          }}
-          gridAutoFlow={{ base: 'row', lg: 'column' }}
-          alignContent="start"
-          justifyContent={{ lg: 'flex-end' }}
+          direction="column"
+          gap={ 5 }
+          alignItems="flex-start"
+          justifySelf={{ lg: 'flex-end' }}
           mt={{ base: 8, lg: 0 }}
         >
-          { BLOCKSCOUT_LINKS.map(link => <FooterLinkItem { ...link } key={ link.text }/>) }
-        </Grid>
+          <LinksBlock />
+        </Flex>
       </Grid>
     </Box>
   );

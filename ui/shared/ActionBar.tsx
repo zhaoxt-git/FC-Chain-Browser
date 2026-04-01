@@ -23,7 +23,8 @@ const ActionBar = ({ children, className, showShadow }: Props) => {
   return (
     <Flex
       className={ className }
-      backgroundColor="bg.primary"
+      backgroundColor={ isSticky ? { _light: 'rgba(255, 255, 255, 0.95)', _dark: 'rgba(10, 10, 10, 0.95)' } : 'bg.primary' }
+      backdropFilter={ isSticky ? 'blur(10px)' : 'none' }
       pt={ 6 }
       mt={ -6 }
       pb={{ base: 6, lg: 3 }}
@@ -33,13 +34,14 @@ const ActionBar = ({ children, className, showShadow }: Props) => {
       width={{ base: '100vw', lg: 'unset' }}
       position="sticky"
       top={ 0 }
-      transitionProperty="top,box-shadow,background-color,color"
+      transitionProperty="top,box-shadow,background-color,color,backdrop-filter,border-bottom"
       transitionDuration="normal"
       zIndex={{ base: 'sticky2', lg: 'docked' }}
       boxShadow={{
-        base: isSticky ? 'md' : 'none',
-        lg: isSticky && showShadow ? 'action_bar' : 'none',
+        base: isSticky ? { _light: 'action_bar', _dark: '0 4px 20px rgba(0, 0, 0, 0.6)' } : 'none',
+        lg: isSticky && showShadow ? { _light: 'action_bar', _dark: '0 4px 20px rgba(0, 0, 0, 0.6)' } : 'none',
       }}
+      borderBottom={ isSticky && showShadow ? { _light: '1px solid rgba(0,0,0,0.1)', _dark: '1px solid rgba(255,255,255,0.08)' } : '1px solid transparent' }
       ref={ ref }
     >
       { children }

@@ -1,109 +1,133 @@
-import { Text, HStack, Box, VStack } from '@chakra-ui/react';
+import { Text, HStack, Box, VStack, chakra } from '@chakra-ui/react';
 import React from 'react';
-
 import type { NavGroupItem } from 'types/client/navigation';
-
 import { Tooltip } from 'toolkit/chakra/tooltip';
 import IconSvg from 'ui/shared/IconSvg';
-
 import LightningLabel from '../LightningLabel';
 import NavLinkIcon from '../NavLinkIcon';
-import useNavLinkStyleProps from '../useNavLinkStyleProps';
 import { checkRouteHighlight } from '../utils';
 import NavLink from './NavLink';
 
 type Props = {
   item: NavGroupItem;
   isCollapsed?: boolean;
+  index?: number;
 };
 
-const NavLinkGroup = ({ item, isCollapsed }: Props) => {
-  const isExpanded = isCollapsed === false;
-
-  const styleProps = useNavLinkStyleProps({ isCollapsed, isExpanded, isActive: item.isActive });
-
+const NavLinkGroup = ({ item, isCollapsed, index }: Props) => {
   const isHighlighted = checkRouteHighlight(item.subItems);
+  const isActive = item.isActive;
+
+  // FutureCitizen Authority Sidebar Style Match
+  const activeBg = 'rgba(30, 41, 59, 0.5)'; // slate-800/50
+  const hoverBg = 'rgba(15, 23, 42, 0.5)'; // slate-900/50
+  const activeBorderColor = '#ee4949'; // red-500
+  const borderColor = isActive ? activeBorderColor : 'transparent';
+  
+  const textColor = isActive ? '#22d3ee' : '#94a3b8'; // cyan-400 : slate-400
+  const hoverTextColor = '#e2e8f0'; // slate-200
+  const iconColor = textColor;
 
   const content = (
-    <Box width="228px" top={{ lg: isExpanded ? '-16px' : 0, xl: isCollapsed ? 0 : '-16px' }}>
-      <Text color="text.secondary" fontSize="sm" mb={ 1 } display={{ lg: isExpanded ? 'none' : 'block', xl: isCollapsed ? 'block' : 'none' }}>
+    <Box width="228px" top={ isCollapsed ? 0 : '-16px' } bg="rgba(2, 6, 23, 0.95)" p={3} border="1px solid rgba(255,255,255,0.1)" borderRadius="md" backdropFilter="blur(10px)">
+      <Text color="#FFFFFF" fontFamily="Inter, sans-serif" letterSpacing="0.3em" textTransform="uppercase" fontSize="0.75rem" mb={ 3 } display={ isCollapsed ? 'block' : 'none' }>
         { item.text }
       </Text>
-      <VStack gap={ 1 } alignItems="start" as="ul">
-        { item.subItems.map((subItem, index) => Array.isArray(subItem) ? (
+      <VStack gap={ 1 } alignItems="start" as="ul" w="100%">
+        { item.subItems.map((subItem, idx) => Array.isArray(subItem) ? (
           <Box
-            key={ index }
+            key={ idx }
             w="100%"
             as="ul"
             _notLast={{
               mb: 2,
               pb: 2,
               borderBottomWidth: '1px',
-              borderColor: 'border.divider',
+              borderColor: 'rgba(255,255,255,0.05)',
             }}
           >
-            { subItem.map(subSubItem => <NavLink key={ subSubItem.text } item={ subSubItem } isCollapsed={ false }/>) }
+            { subItem.map(subSubItem => <NavLink key={ subSubItem.text } item={ subSubItem } isCollapsed={ false } isSubItem={true} />) }
           </Box>
         ) :
-          <NavLink key={ subItem.text } item={ subItem } isCollapsed={ false }/>,
+          <NavLink key={ subItem.text } item={ subItem } isCollapsed={ false } isSubItem={true} />,
         ) }
       </VStack>
     </Box>
   );
 
   return (
-    <Box as="li" listStyleType="none" w="100%">
+    <Box as="li" listStyleType="none" w="100%" mb={ 1 }>
       <Tooltip
         content={ content }
         positioning={{ placement: 'right-start', offset: { crossAxis: 0, mainAxis: 8 } }}
-        // should not be lazy to help google indexing pages
         lazyMount={ false }
         variant="popover"
         interactive
+        contentProps={{
+          p: 0,
+          bg: 'transparent',
+          boxShadow: '0 0 20px rgba(0,0,0,0.5)',
+        }}
       >
         <Box
-          { ...styleProps.itemProps }
-          w={{ lg: isExpanded ? '180px' : '60px', xl: isCollapsed ? '60px' : '180px' }}
-          pl={{ lg: isExpanded ? 2 : '15px', xl: isCollapsed ? '15px' : 2 }}
-          pr={{ lg: isExpanded ? 0 : '15px', xl: isCollapsed ? '15px' : 0 }}
+          w={ isCollapsed ? '60px' : '100%' }
+          px="16px" // px-4
+          py="10px" // py-2.5
+          bg={ isActive ? activeBg : 'transparent' }
+          borderLeft={ `2px solid ${borderColor}` }
+          display="flex"
+          alignItems="center"
           aria-label={ `${ item.text } link group` }
           position="relative"
-          color={ item.isActive ? 'link.navigation.fg.selected' : 'link.navigation.fg' }
-          bgColor={ item.isActive ? 'link.navigation.bg.selected' : 'link.navigation.bg' }
-          _hover={{
-            color: 'link.navigation.fg.hover',
-          }}
-          _open={{
-            color: 'link.navigation.fg.hover',
-          }}
           cursor="pointer"
+          transition="all 0.2s ease"
+          _hover={{
+            bg: isActive ? activeBg : hoverBg,
+            '& .nav-text-span, & .nav-icon-wrapper, & .nav-arrow': { color: hoverTextColor },
+          }}
         >
-          <HStack gap={ 0 } overflow="hidden">
-            <NavLinkIcon item={ item }/>
-            <Text
-              { ...styleProps.textProps }
-              ml={ 3 }
+          <HStack gap={ 0 } overflow="hidden" alignItems="center" w="100%">
+            <Box className="nav-icon-wrapper" color={iconColor} display="flex" alignItems="center" justifyContent="center" transition="color 0.2s ease" flexShrink={0}>
+              <NavLinkIcon item={ item }/>
+            </Box>
+
+            <chakra.span
+              className="nav-text-span"
+              color={ textColor }
+              fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
+              letterSpacing="0.3em"
+              textTransform="uppercase"
+              fontSize="0.75rem"
+              fontWeight={ isActive ? 700 : 700 }
+              transition="color 0.2s ease"
+              display={ isCollapsed ? 'none' : 'inline-block' }
               whiteSpace="nowrap"
+              ml={ 3 }
             >
               { item.text }
-            </Text>
+            </chakra.span>
+
             { isHighlighted && (
               <LightningLabel
-                iconColor={ item.isActive ? 'link.navigation.bg.selected' : 'link.navigation.bg.group' }
+                iconColor={ isActive ? activeBorderColor : '#94a3b8' }
                 isCollapsed={ isCollapsed }
               />
             ) }
-            <IconSvg
-              name="arrows/east-mini"
-              position="absolute"
-              right="7px"
-              transform="rotate(180deg)"
-              boxSize={ 6 }
-              opacity={{ lg: isExpanded ? '1' : '0', xl: isCollapsed ? '0' : '1' }}
-              transitionProperty="opacity"
-              transitionDuration="normal"
-              transitionTimingFunction="ease"
-            />
+
+            { !isCollapsed && (
+              <IconSvg
+                name="arrows/east-mini"
+                className="nav-arrow"
+                position="absolute"
+                right="7px"
+                boxSize={ 5 }
+                color={iconColor}
+                opacity={ isCollapsed ? '0' : '1' }
+                transitionProperty="opacity, transform, color"
+                transitionDuration="normal"
+                transitionTimingFunction="ease"
+              />
+            ) }
           </HStack>
         </Box>
       </Tooltip>

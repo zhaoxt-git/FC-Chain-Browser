@@ -14,24 +14,24 @@ interface Props {
 const LightningLabel = ({ className, iconColor, isCollapsed }: Props) => {
   const isLgScreen = useBreakpointValue({ base: false, lg: true, xl: false });
 
-  const isExpanded = isCollapsed === false;
+  const isExpanded = !isCollapsed;
 
   const color = React.useMemo(() => {
-    if (isCollapsed || (!isExpanded && isLgScreen)) {
+    if (isCollapsed) {
       return (iconColor && iconColor !== 'transparent') ? iconColor : 'bg.primary';
     }
     return 'transparent';
-  }, [ iconColor, isCollapsed, isExpanded, isLgScreen ]);
+  }, [ iconColor, isCollapsed ]);
 
   return (
     <IconSvg
       className={ LIGHTNING_LABEL_CLASS_NAME + (className ? ` ${ className }` : '') }
       name="lightning_navbar"
       boxSize={ 4 }
-      ml={{ base: 1, lg: isExpanded ? 1 : 0, xl: isCollapsed ? 0 : 1 }}
-      position={{ lg: isExpanded ? 'relative' : 'absolute', xl: isCollapsed ? 'absolute' : 'relative' }}
-      top={{ lg: isExpanded ? '0' : '10px', xl: isCollapsed ? '10px' : '0' }}
-      right={{ lg: isExpanded ? '0' : '15px', xl: isCollapsed ? '15px' : '0' }}
+      ml={ isCollapsed ? 0 : 1 }
+      position={ isCollapsed ? 'absolute' : 'relative' }
+      top={ isCollapsed ? '10px' : '0' }
+      right={ isCollapsed ? '15px' : '0' }
       color={ color }
       transitionProperty="color, margin-left"
       transitionDuration="normal"

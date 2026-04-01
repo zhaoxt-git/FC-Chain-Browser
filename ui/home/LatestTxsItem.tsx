@@ -14,6 +14,7 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import AddressFromTo from 'ui/shared/address/AddressFromTo';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import EntityTag from 'ui/shared/EntityTags/EntityTag';
+import IconSvg from 'ui/shared/IconSvg';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
 import TxFee from 'ui/shared/tx/TxFee';
@@ -43,6 +44,7 @@ const LatestTxsItem = ({ tx, isLoading }: Props) => {
 
   return (
     <Grid
+      fontFamily="'Space Mono', monospace, 'Inter', sans-serif"
       gridTemplateColumns={{
         lg: columnNum === 2 ? '3fr minmax(auto, 200px)' : '3fr minmax(auto, 200px) 170px',
         xl: columnNum === 2 ? '3fr minmax(auto, 270px)' : '3fr minmax(auto, 300px) 170px',
@@ -69,10 +71,14 @@ const LatestTxsItem = ({ tx, isLoading }: Props) => {
             mt="7px"
             mb="3px"
           >
+            <Box flexShrink={0} w="16px" h="16px" mr={2} mt="1px">
+              <IconSvg name="transactions" boxSize="100%" color="icon.secondary"/>
+            </Box>
             <TxEntity
               isLoading={ isLoading }
               hash={ tx.hash }
               fontWeight="700"
+              noIcon
             />
             <TimeWithTooltip
               timestamp={ tx.timestamp }

@@ -27,6 +27,7 @@ const LatestBlocksItem = ({ block, isLoading, animation }: Props) => {
   const totalReward = getBlockTotalReward(block);
   return (
     <Box
+      fontFamily="'Space Mono', monospace, 'Inter', sans-serif"
       animation={ animation }
       borderRadius="md"
       border="1px solid"
