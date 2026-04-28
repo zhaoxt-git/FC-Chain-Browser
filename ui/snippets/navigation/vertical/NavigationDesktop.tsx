@@ -34,7 +34,7 @@ const NavigationDesktop = () => {
 
   const isAuth = useIsAuth();
 
-  const [ isCollapsedState, setCollapsedState ] = React.useState<boolean | undefined>(isNavBarCollapsed);
+  const [ isCollapsedState, setCollapsedState ] = React.useState<boolean | undefined>(isNavBarCollapsed ?? true);
   const isCollapsed = isCollapsedState === true;
 
   const handleTogglerClick = React.useCallback(() => {

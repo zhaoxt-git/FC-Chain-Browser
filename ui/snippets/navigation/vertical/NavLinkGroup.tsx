@@ -21,16 +21,16 @@ const NavLinkGroup = ({ item, isCollapsed, index }: Props) => {
   // FutureCitizen Authority Sidebar Style Match
   const activeBg = 'rgba(30, 41, 59, 0.5)'; // slate-800/50
   const hoverBg = 'rgba(15, 23, 42, 0.5)'; // slate-900/50
-  const activeBorderColor = '#ee4949'; // red-500
+  const activeBorderColor = '#e5c158'; // red-500
   const borderColor = isActive ? activeBorderColor : 'transparent';
   
-  const textColor = isActive ? '#22d3ee' : '#94a3b8'; // cyan-400 : slate-400
+  const textColor = isActive ? '#e5c158' : '#94a3b8'; // yellow : slate-400
   const hoverTextColor = '#e2e8f0'; // slate-200
   const iconColor = textColor;
 
   const content = (
-    <Box width="228px" top={ isCollapsed ? 0 : '-16px' } bg="rgba(2, 6, 23, 0.95)" p={3} border="1px solid rgba(255,255,255,0.1)" borderRadius="md" backdropFilter="blur(10px)">
-      <Text color="#FFFFFF" fontFamily="Inter, sans-serif" letterSpacing="0.3em" textTransform="uppercase" fontSize="0.75rem" mb={ 3 } display={ isCollapsed ? 'block' : 'none' }>
+    <Box width="228px" top={ isCollapsed ? 0 : '-16px' } bg="rgba(16, 17, 18, 0.95)" p={3} border="1px solid rgba(255,255,255,0.08)" borderRadius="md" backdropFilter="blur(10px)">
+      <Text color="#FFFFFF" fontFamily="Inter, sans-serif" letterSpacing="0.1em" textTransform="uppercase" fontSize="0.75rem" mb={ 3 } display={ isCollapsed ? 'block' : 'none' }>
         { item.text }
       </Text>
       <VStack gap={ 1 } alignItems="start" as="ul" w="100%">
@@ -62,6 +62,7 @@ const NavLinkGroup = ({ item, isCollapsed, index }: Props) => {
         positioning={{ placement: 'right-start', offset: { crossAxis: 0, mainAxis: 8 } }}
         lazyMount={ false }
         variant="popover"
+        openDelay={ 0 }
         interactive
         contentProps={{
           p: 0,
@@ -95,7 +96,7 @@ const NavLinkGroup = ({ item, isCollapsed, index }: Props) => {
               className="nav-text-span"
               color={ textColor }
               fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
-              letterSpacing="0.3em"
+              letterSpacing="0.1em"
               textTransform="uppercase"
               fontSize="0.75rem"
               fontWeight={ isActive ? 700 : 700 }
@@ -123,6 +124,7 @@ const NavLinkGroup = ({ item, isCollapsed, index }: Props) => {
                 boxSize={ 5 }
                 color={iconColor}
                 opacity={ isCollapsed ? '0' : '1' }
+                transform="rotate(180deg)"
                 transitionProperty="opacity, transform, color"
                 transitionDuration="normal"
                 transitionTimingFunction="ease"

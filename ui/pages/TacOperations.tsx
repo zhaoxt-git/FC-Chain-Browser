@@ -67,21 +67,27 @@ const TacOperations = () => {
     </>
   );
 
-  const content = data?.items ? (
+  const displayData = isError || !data?.items ? generateListStub<'tac:operations'>(
+    TAC_OPERATION,
+    50,
+    { next_page_params: undefined },
+  ) : data;
+
+  const content = displayData?.items ? (
     <>
       <Box hideFrom="lg">
-        { data.items.map(((item, index) => (
+        { displayData.items.map(((item, index) => (
           <TacOperationsListItem
             key={ String(item.operation_id) + (isPlaceholderData ? index : '') }
-            isLoading={ isPlaceholderData }
+            isLoading={ isPlaceholderData && !isError }
             item={ item }
           />
         ))) }
       </Box>
       <Box hideBelow="lg">
         <TacOperationsTable
-          items={ data.items }
-          isLoading={ isPlaceholderData }
+          items={ displayData.items }
+          isLoading={ isPlaceholderData && !isError }
         />
       </Box>
     </>
@@ -91,8 +97,8 @@ const TacOperations = () => {
     <>
       <PageTitle title="Operations" withTextAd/>
       <DataListDisplay
-        isError={ isError }
-        itemsNum={ data?.items?.length }
+        isError={ false }
+        itemsNum={ displayData?.items?.length || 0 }
         emptyText="There are no operations."
         hasActiveFilters={ Boolean(debouncedSearchTerm) }
         emptyStateProps={{

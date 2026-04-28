@@ -1,0 +1,14 @@
+yarn run v1.22.22
+$ tsc -p ./tsconfig.json
+ui/snippets/footer/Footer.tsx(163,15): error TS2322: Type '{ as: any; src: string; alt: string; w: "12"; h: "12"; mr: "3"; borderRadius: "full"; objectFit: "cover"; }' is not assignable to type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+  Property 'src' does not exist on type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+ui/snippets/footer/Footer.tsx(240,262): error TS17001: JSX elements cannot have multiple attributes with the same name.
+ui/snippets/footer/Footer.tsx(246,255): error TS17001: JSX elements cannot have multiple attributes with the same name.
+ui/snippets/footer/Footer.tsx(252,263): error TS17001: JSX elements cannot have multiple attributes with the same name.
+ui/snippets/navigation/horizontal/NavigationDesktop.tsx(80,31): error TS2322: Type '{ children: Element; ml: "auto"; sx: { '& a, & span': { letterSpacing: string; textTransform: string; fontFamily: string; }; }; }' is not assignable to type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+  Property 'sx' does not exist on type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+ui/snippets/navigation/vertical/NavigationDesktop.tsx(43,52): error TS2345: Argument of type 'boolean' is not assignable to parameter of type 'string'.
+ui/snippets/navigation/vertical/NavigationDesktop.tsx(112,66): error TS2322: Type '{ children: (false | Element)[]; flex: "1"; overflowY: "auto"; overflowX: "hidden"; w: "100%"; sx: { '&::-webkit-scrollbar': { display: string; }; }; }' is not assignable to type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+  Property 'sx' does not exist on type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

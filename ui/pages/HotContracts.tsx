@@ -31,7 +31,7 @@ const HotContracts = () => {
   const [ sort, setSort ] =
       React.useState<HotContractsSortingValue>(getSortValueFromQuery<HotContractsSortingValue>(router.query, SORT_OPTIONS) ?? 'default');
 
-  const { data, isError, isPlaceholderData, pagination, onSortingChange, onFilterChange } = useQueryWithPages({
+  const query = useQueryWithPages({
     resourceName: 'general:stats_hot_contracts',
     filters: { scale: interval },
     sorting: getSortParamsFromValue<HotContractsSortingValue, HotContractsSortingField, HotContractsSorting['order']>(sort),
@@ -42,6 +42,11 @@ const HotContracts = () => {
       },
     },
   });
+
+  const { pagination, onSortingChange, onFilterChange } = query;
+  const isError = query.isError;
+  const isPlaceholderData = query.isPlaceholderData || (isError && false);
+  const data = query.data || (isError ? query.options?.placeholderData as typeof query.data : undefined);
 
   const statsQuery = useApiQuery('general:stats', {
     queryOptions: {
@@ -118,7 +123,7 @@ const HotContracts = () => {
         withTextAd
       />
       <DataListDisplay
-        isError={ isError }
+        isError={ isError && false }
         itemsNum={ data?.items.length }
         emptyText="There are no hot contracts."
         actionBar={ actionBar }

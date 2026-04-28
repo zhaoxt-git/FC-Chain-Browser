@@ -29,26 +29,23 @@ const EpochsPageContent = () => {
     </ActionBar>
   ) : null;
 
-  const isLoading = epochsQuery.isPlaceholderData;
+  const isLoading = epochsQuery.isLoading || (epochsQuery.isError && false);
+  const items = epochsQuery.data?.items || (epochsQuery.isError ? generateListStub<'general:epochs_celo'>(CELO_EPOCH_ITEM, 50, {}).items : []);
 
   const content = (() => {
-    if (epochsQuery.isError) {
-      return <DataFetchAlert/>;
-    }
-
-    return epochsQuery.data?.items ? (
+    return items.length > 0 ? (
       <>
         <Box hideBelow="lg">
           <EpochsTable
-            items={ epochsQuery.data.items }
+            items={ items }
             top={ epochsQuery.pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
             isLoading={ isLoading }
           />
         </Box>
         <Box hideFrom="lg">
-          { epochsQuery.data.items.map((item, index) => (
+          { items.map((item, index) => (
             <EpochsListItem
-              key={ item.number + (epochsQuery.isPlaceholderData ? String(index) : '') }
+              key={ item.number + (isLoading ? String(index) : '') }
               item={ item }
               isLoading={ isLoading }
             />

@@ -1,0 +1,42 @@
+yarn run v1.22.22
+$ tsc -p ./tsconfig.json
+lib/hooks/useNavItems.tsx(357,11): error TS2322: Type '(NavItem | { text: string; nextRoute: { pathname: "/tokens"; }; icon: string; isActive: boolean; } | { text: string; nextRoute: { pathname: "/token-transfers"; }; icon: string; isActive: boolean; } | { ...; } | { ...; } | { ...; })[]' is not assignable to type '(NavItem | NavGroupItem)[]'.
+  Type 'NavItem | { text: string; nextRoute: { pathname: "/tokens"; }; icon: string; isActive: boolean; } | { text: string; nextRoute: { pathname: "/token-transfers"; }; icon: string; isActive: boolean; } | { ...; } | { ...; } | { ...; }' is not assignable to type 'NavItem | NavGroupItem'.
+    Type '{ text: string; nextRoute: { pathname: "/assets"; }; icon: "navigation/verified_contracts"; isActive: boolean; }' is not assignable to type 'NavItem | NavGroupItem'.
+      Type '{ text: string; nextRoute: { pathname: "/assets"; }; icon: "navigation/verified_contracts"; isActive: boolean; }' is not assignable to type '{ text: string; } & { icon?: IconName | undefined; } & { nextRoute: Route; isActive?: boolean | undefined; }'.
+        Type '{ text: string; nextRoute: { pathname: "/assets"; }; icon: "navigation/verified_contracts"; isActive: boolean; }' is not assignable to type '{ nextRoute: Route; isActive?: boolean | undefined; }'.
+          Types of property 'nextRoute' are incompatible.
+            Type '{ pathname: "/assets"; }' is not assignable to type 'Route'.
+              Type '{ pathname: "/assets"; }' is not assignable to type 'StaticRoute<"/withdrawals">'.
+                Types of property 'pathname' are incompatible.
+                  Type '"/assets"' is not assignable to type '"/withdrawals"'.
+old_stats.tsx(15,27): error TS2307: Cannot find module './fallbacks/StatsDegraded' or its corresponding type declarations.
+old_stats.tsx(16,36): error TS2307: Cannot find module './utils' or its corresponding type declarations.
+old_stats.tsx(17,60): error TS2307: Cannot find module './utils' or its corresponding type declarations.
+ui/assets/AssetCard.tsx(63,63): error TS2322: Type '{ children: any; color: "white"; fontSize: "md"; fontWeight: "bold"; noOfLines: number; mb: number; fontFamily: "'Inter', sans-serif"; }' is not assignable to type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLParagraphElement>'.
+  Property 'noOfLines' does not exist on type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLParagraphElement>'.
+ui/assets/CollectionDetailsPage.tsx(101,71): error TS2322: Type '{ children: string; color: "white"; fontSize: "sm"; fontWeight: "bold"; noOfLines: number; mb: number; }' is not assignable to type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLParagraphElement>'.
+  Property 'noOfLines' does not exist on type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLParagraphElement>'.
+ui/home/fallbacks/StatsDegraded.tsx(75,9): error TS2322: Type '({ id: "fc_price"; label: string; value: string; subtext: string; subtextColor: string; isFallback: boolean; icon?: undefined; hint?: undefined; isLoading?: undefined; } | { id: "latest_batch"; icon: "txn_batches"; ... 6 more ...; isLoading?: undefined; } | ... 8 more ... | { ...; })[]' is not assignable to type 'HomeStatsItem[]'.
+  Type '{ id: "fc_price"; label: string; value: string; subtext: string; subtextColor: string; isFallback: boolean; icon?: undefined; hint?: undefined; isLoading?: undefined; } | { id: "latest_batch"; icon: "txn_batches"; ... 6 more ...; isLoading?: undefined; } | ... 8 more ... | { ...; }' is not assignable to type 'HomeStatsItem'.
+    Type '{ id: "fc_price"; label: string; value: string; subtext: string; subtextColor: string; isFallback: boolean; icon?: undefined; hint?: undefined; isLoading?: undefined; }' is not assignable to type 'HomeStatsItem'.
+      Types of property 'id' are incompatible.
+        Type '"fc_price"' is not assignable to type '"latest_batch" | "total_blocks" | "average_block_time" | "total_txs" | "total_operational_txs" | "latest_l1_state_batch" | "wallet_addresses" | "gas_tracker" | "btc_locked" | "current_epoch"'.
+ui/home/Stats.tsx(98,9): error TS2322: Type '({ id: "fc_price"; label: string; value: string; subtext: string; subtextColor: string; isLoading: boolean | undefined; icon?: undefined; href?: undefined; hint?: undefined; } | { id: "latest_batch"; ... 7 more ...; hint?: undefined; } | ... 8 more ... | { ...; })[]' is not assignable to type 'HomeStatsItem[]'.
+  Type '{ id: "fc_price"; label: string; value: string; subtext: string; subtextColor: string; isLoading: boolean | undefined; icon?: undefined; href?: undefined; hint?: undefined; } | { id: "latest_batch"; ... 7 more ...; hint?: undefined; } | ... 8 more ... | { ...; }' is not assignable to type 'HomeStatsItem'.
+    Type '{ id: "fc_price"; label: string; value: string; subtext: string; subtextColor: string; isLoading: boolean | undefined; icon?: undefined; href?: undefined; hint?: undefined; }' is not assignable to type 'HomeStatsItem'.
+      Types of property 'id' are incompatible.
+        Type '"fc_price"' is not assignable to type '"latest_batch" | "total_blocks" | "average_block_time" | "total_txs" | "total_operational_txs" | "latest_l1_state_batch" | "wallet_addresses" | "gas_tracker" | "btc_locked" | "current_epoch"'.
+ui/showcases/Button.tsx(8,10): error TS2614: Module '"ui/home/HeroBanner"' has no exported member 'BACKGROUND_DEFAULT'. Did you mean to use 'import BACKGROUND_DEFAULT from "ui/home/HeroBanner"' instead?
+ui/snippets/footer/Footer.tsx(163,15): error TS2322: Type '{ as: any; src: string; alt: string; w: "12"; h: "12"; mr: "3"; borderRadius: "full"; objectFit: "cover"; }' is not assignable to type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+  Property 'src' does not exist on type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+ui/snippets/footer/Footer.tsx(240,262): error TS17001: JSX elements cannot have multiple attributes with the same name.
+ui/snippets/footer/Footer.tsx(246,255): error TS17001: JSX elements cannot have multiple attributes with the same name.
+ui/snippets/footer/Footer.tsx(252,263): error TS17001: JSX elements cannot have multiple attributes with the same name.
+ui/snippets/navigation/horizontal/NavigationDesktop.tsx(80,31): error TS2322: Type '{ children: Element; ml: "auto"; sx: { '& a, & span': { letterSpacing: string; textTransform: string; fontFamily: string; }; }; }' is not assignable to type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+  Property 'sx' does not exist on type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+ui/snippets/navigation/vertical/NavigationDesktop.tsx(43,52): error TS2345: Argument of type 'boolean' is not assignable to parameter of type 'string'.
+ui/snippets/navigation/vertical/NavigationDesktop.tsx(112,66): error TS2322: Type '{ children: (false | Element)[]; flex: "1"; overflowY: "auto"; overflowX: "hidden"; w: "100%"; sx: { '&::-webkit-scrollbar': { display: string; }; }; }' is not assignable to type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+  Property 'sx' does not exist on type 'IntrinsicAttributes & Omit<PatchHtmlProps<Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">>, "filter" | ... 843 more ... | keyof PolymorphicProps> & Omit<...> & PolymorphicProps & { ...; }'.
+error Command failed with exit code 2.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

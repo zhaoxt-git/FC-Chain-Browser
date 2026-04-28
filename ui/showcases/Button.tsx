@@ -175,7 +175,7 @@ const ButtonShowcase = () => {
             </PopoverRoot>
           </Sample>
 
-          <Sample label="variant: hero" p={ 6 } background="rgba(238, 73, 73, 0.05)">
+          <Sample label="variant: hero" p={ 6 } background="rgba(229, 193, 88, 0.05)">
             <Button variant="hero">Default</Button>
             <Button variant="hero" data-hover>Hovered</Button>
             <Button variant="hero" loading loadingText="Loading">Loading</Button>

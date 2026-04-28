@@ -15,7 +15,7 @@ const HeroBanner = () => {
       <Box 
         position="absolute"
         top="0" bottom="0" left="0" right="0"
-        bg="rgba(238, 73, 73, 0.05)" /* red-500/5 */
+        bg="rgba(229, 193, 88, 0.05)" /* red-500/5 */
         filter="blur(40px)"
         transform="scale(1.1)"
         opacity={0.5}
@@ -39,7 +39,7 @@ const HeroBanner = () => {
             mx="auto"
             textAlign="center"
           >
-            NETWORK <Box as="span" color="rgba(238, 73, 73, 1)" letterSpacing="0.05em">TELEMETRY</Box>
+            NETWORK <Box as="span" color="rgba(229, 193, 88, 1)" letterSpacing="0.05em">TELEMETRY</Box>
           </Heading>
         </Flex>
 
@@ -71,7 +71,7 @@ const HeroBanner = () => {
                text-transform: uppercase;
             }
             .hero-search-wrapper .search-scan-text {
-               color: rgba(238, 73, 73, 1);
+               color: rgba(229, 193, 88, 1);
                font-family: 'Space Mono', monospace;
                font-weight: bold;
                letter-spacing: 0.1em;

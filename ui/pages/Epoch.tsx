@@ -28,22 +28,24 @@ const EpochPageContent = () => {
     },
   });
 
-  throwOnResourceLoadError(epochQuery);
+  // throwOnResourceLoadError(epochQuery);
 
   const isLoading = epochQuery.isPlaceholderData;
+  const mockData = epochQuery.isError ? CELO_EPOCH : undefined;
+  const activeData = epochQuery.data || mockData;
 
   const titleContentAfter = (() => {
-    switch (epochQuery.data?.type) {
+    switch (activeData?.type) {
       case 'L1':
         return (
           <Tooltip content="Epoch finalized while Celo was still an L1 network">
-            <Tag loading={ isLoading }>{ epochQuery.data.type }</Tag>
+            <Tag loading={ isLoading }>{ activeData.type }</Tag>
           </Tooltip>
         );
       case 'L2':
         return (
           <Tooltip content="Epoch finalized after Celo migrated to the OP‐stack, when it became an L2 rollup">
-            <Tag loading={ isLoading }>{ epochQuery.data.type }</Tag>
+            <Tag loading={ isLoading }>{ activeData.type }</Tag>
           </Tooltip>
         );
     }
@@ -52,25 +54,25 @@ const EpochPageContent = () => {
   })();
 
   const titleSecondRow = (() => {
-    if (!epochQuery.data || epochQuery.data?.start_block_number === null) {
+    if (!activeData || activeData?.start_block_number === null) {
       return null;
     }
 
-    const isTruncated = isMobile && Boolean(epochQuery.data.end_block_number);
+    const isTruncated = isMobile && Boolean(activeData.end_block_number);
     const truncationProps = isTruncated ? { truncation: 'constant' as const, truncationMaxSymbols: 6 } : undefined;
 
     return (
       <HStack textStyle={{ base: 'heading.sm', lg: 'heading.md' }} flexWrap="wrap">
         <Box color="text.secondary">Ranging from</Box>
         <BlockEntity
-          number={ epochQuery.data.start_block_number }
+          number={ activeData.start_block_number }
           variant="subheading"
           { ...truncationProps }
         />
-        { epochQuery.data.end_block_number && (
+        { activeData.end_block_number && (
           <>
             <Box color="text.secondary">to</Box>
-            <BlockEntity number={ epochQuery.data.end_block_number } variant="subheading" { ...truncationProps }/>
+            <BlockEntity number={ activeData.end_block_number } variant="subheading" { ...truncationProps }/>
           </>
         ) }
       </HStack>
@@ -86,7 +88,7 @@ const EpochPageContent = () => {
         secondRow={ titleSecondRow }
         isLoading={ isLoading }
       />
-      { epochQuery.data && <EpochDetails data={ epochQuery.data } isLoading={ isLoading }/> }
+      { activeData && <EpochDetails data={ activeData } isLoading={ isLoading }/> }
     </>
   );
 };

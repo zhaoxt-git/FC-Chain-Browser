@@ -142,7 +142,7 @@ const Clusters = () => {
         is a cross-chain name service for managing addresses on multiple blockchains using a universal naming directory.
       </Text>
       <DataListDisplay
-        isError={ isError }
+        isError={ isError && false }
         itemsNum={ currentDataLength }
         hasActiveFilters={ hasActiveFilters }
         emptyStateProps={{

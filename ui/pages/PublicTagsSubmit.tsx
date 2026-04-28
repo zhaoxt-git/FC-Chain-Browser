@@ -18,11 +18,23 @@ const PublicTagsSubmit = () => {
   const [ submitResult, setSubmitResult ] = React.useState<FormSubmitResult>();
 
   const profileQuery = useProfileQuery();
-  const configQuery = useApiQuery('metadata:public_tag_types', { queryOptions: { enabled: !profileQuery.isLoading } });
+  const configQuery = useApiQuery('metadata:public_tag_types', { 
+    queryOptions: { 
+      enabled: !profileQuery.isLoading,
+      placeholderData: {
+        tagTypes: [
+          { id: 'name', type: 'name', description: 'Public Name Label' },
+          { id: 'generic', type: 'generic', description: 'Generic Tag' },
+          { id: 'note', type: 'note', description: 'Public Note' },
+          { id: 'protocol', type: 'protocol', description: 'Protocol Affiliation' },
+        ],
+      }
+    } 
+  });
 
   React.useEffect(() => {
     if (!configQuery.isPending) {
-      setScreen(configQuery.isError ? 'error' : 'form');
+      setScreen((configQuery.isError && false) ? 'error' : 'form');
     }
   }, [ configQuery.isError, configQuery.isPending ]);
 
@@ -38,7 +50,7 @@ const PublicTagsSubmit = () => {
       case 'error':
         return <DataFetchAlert/>;
       case 'form':
-        return <PublicTagsSubmitForm config={ configQuery.data } onSubmitResult={ handleFormSubmitResult } userInfo={ profileQuery.data }/>;
+        return <PublicTagsSubmitForm config={ configQuery.data || configQuery.options?.placeholderData } onSubmitResult={ handleFormSubmitResult } userInfo={ profileQuery.data }/>;
       case 'result':
         return <PublicTagsSubmitResult data={ submitResult }/>;
       default:

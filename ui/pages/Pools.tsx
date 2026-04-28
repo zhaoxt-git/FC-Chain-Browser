@@ -36,22 +36,25 @@ const Pools = () => {
     setSearchTerm(value);
   }, [ poolsQuery ]);
 
+  const isLoading = poolsQuery.isPlaceholderData || (poolsQuery.isError && false);
+  const dataItems = poolsQuery.data?.items || (poolsQuery.isError ? Array(50).fill(POOL) : []);
+
   const content = (
     <>
       <Box hideFrom="lg">
-        { poolsQuery.data?.items.map((item, index) => (
+        { dataItems.map((item, index) => (
           <PoolsListItem
-            key={ item.pool_id + (poolsQuery.isPlaceholderData ? index : '') }
-            isLoading={ poolsQuery.isPlaceholderData }
+            key={ item.pool_id + (isLoading ? index : '') }
+            isLoading={ isLoading }
             item={ item }
           />
         )) }
       </Box>
       <Box hideBelow="lg">
         <PoolsTable
-          items={ poolsQuery.data?.items ?? [] }
+          items={ dataItems }
           top={ poolsQuery.pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
-          isLoading={ poolsQuery.isPlaceholderData }
+          isLoading={ isLoading }
           page={ poolsQuery.pagination.page }
         />
       </Box>
@@ -92,8 +95,8 @@ const Pools = () => {
         withTextAd
       />
       <DataListDisplay
-        isError={ poolsQuery.isError }
-        itemsNum={ poolsQuery.data?.items.length }
+        isError={ poolsQuery.isError && false }
+        itemsNum={ dataItems?.length }
         emptyText="There are no pools."
         actionBar={ actionBar }
         hasActiveFilters={ Boolean(debouncedSearchTerm) }

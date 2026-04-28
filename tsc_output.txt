@@ -1,0 +1,23 @@
+yarn run v1.22.22
+$ tsc -p ./tsconfig.json
+
+<--- Last few GCs --->
+
+[316:0000013C2B718000]    45566 ms: Mark-Compact 2037.7 (2085.2) -> 2036.2 (2083.2) MB, pooled: 6 MB, 627.72 / 0.00 ms  (average mu = 0.116, current mu = 0.008) allocation failure; scavenge might not succeed
+
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 00007FF7404F70F7 node::SetCppgcReference+18039
+ 2: 00007FF74045AA18 v8::base::CPU::num_virtual_address_bits+102920
+ 3: 00007FF74105F151 v8::Isolate::ReportExternalAllocationLimitReached+65
+ 4: 00007FF74104BCD6 v8::Function::Experimental_IsNopFunction+3302
+ 5: 00007FF740EA8420 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+33904
+ 6: 00007FF740EA186A v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+6330
+ 7: 00007FF740E9D0A5 v8::CpuProfileNode::GetScriptResourceNameStr+190613
+ 8: 00007FF740826C2D BIO_ssl_shutdown+189
+error Command failed with exit code 134.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

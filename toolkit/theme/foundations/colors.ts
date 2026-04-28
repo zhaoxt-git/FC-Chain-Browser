@@ -20,8 +20,8 @@ const DEFAULT_THEME_COLORS = {
     },
   },
   hover: {
-    _light: { value: '#ee4949' }, // Red 500 hover glow
-    _dark: { value: '#ee4949' },
+    _light: { value: '#e5c158' }, // Red 500 hover glow
+    _dark: { value: '#e5c158' },
   },
   selected: {
     control: {
@@ -30,8 +30,8 @@ const DEFAULT_THEME_COLORS = {
         _dark: { value: '#FFFFFF' },
       },
       bg: {
-        _light: { value: 'rgba(238, 73, 73, 0.1)' }, // Red 500 at 10%
-        _dark: { value: 'rgba(238, 73, 73, 0.1)' },
+        _light: { value: 'rgba(229, 193, 88, 0.1)' }, // Red 500 at 10%
+        _dark: { value: 'rgba(229, 193, 88, 0.1)' },
       },
     },
     option: {
@@ -53,8 +53,8 @@ const DEFAULT_THEME_COLORS = {
   },
   button: {
     primary: {
-      _light: { value: '#ee4949' }, // Red 500 primary button
-      _dark: { value: '#ee4949' }, 
+      _light: { value: '#e5c158' }, // Red 500 primary button
+      _dark: { value: '#e5c158' }, 
       text: {
         _light: { value: '#020617' }, // Dark text on red
         _dark: { value: '#020617' },
@@ -86,8 +86,8 @@ const DEFAULT_THEME_COLORS = {
   navigation: {
     bg: {
       selected: {
-        _light: { value: 'rgba(238, 73, 73, 0.1)' },
-        _dark: { value: 'rgba(238, 73, 73, 0.1)' },
+        _light: { value: 'rgba(229, 193, 88, 0.1)' },
+        _dark: { value: 'rgba(229, 193, 88, 0.1)' },
       },
     },
     text: {
@@ -154,7 +154,7 @@ const colors = {
     '500': { value: '#E53E3E' },
     '600': { value: '#C53030' },
     '700': { value: '#9B2C2C' },
-    '800': { value: '#822727' },
+    '800': { value: '#742A2A' },
     '900': { value: '#63171B' },
   },
   orange: {

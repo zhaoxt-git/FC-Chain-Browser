@@ -1,4 +1,4 @@
-import { Grid } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 import React from 'react';
@@ -178,19 +178,20 @@ const StatsDegraded = () => {
 
   return (
     <Grid
-      gridTemplateColumns="1fr 1fr"
-      gridGap={{ base: 1, lg: 2 }}
+      gridTemplateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }}
+      gridGap={{ base: 2, lg: 4 }}
       flexBasis="50%"
       flexGrow={ 1 }
+      w="100%"
     >
       { items.map((item, index) => (
-        <StatsWidget
-          key={ item.id }
-          { ...item }
-          isLoading={ isLoading || item.isLoading }
-          _last={ items.length % 2 === 1 && index === items.length - 1 ? { gridColumn: 'span 2' } : undefined }/>
-      ),
-      ) }
+        <GridItem key={ item.id } colSpan={{ base: 1, lg: index >= 4 ? 2 : 1 }}>
+          <StatsWidget
+            { ...item }
+            isLoading={ isLoading || item.isLoading }
+          />
+        </GridItem>
+      )) }
     </Grid>
 
   );

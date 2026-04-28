@@ -29,12 +29,12 @@ const NavLink = ({ item, onClick, isCollapsed, isDisabled, isSubItem, index }: P
   const isHighlighted = checkRouteHighlight(item);
 
   // FutureCitizen Authority Sidebar Style Match
-  const activeBg = 'rgba(30, 41, 59, 0.5)'; // slate-800/50
-  const hoverBg = 'rgba(15, 23, 42, 0.5)'; // slate-900/50
-  const activeBorderColor = '#ee4949'; // red-500
-  const borderColor = isActive ? activeBorderColor : 'transparent';
+  const activeBg = isSubItem ? 'transparent' : 'rgba(30, 41, 59, 0.5)'; // transparent for sub-items, slate-800/50 for top-level
+  const hoverBg = isSubItem ? 'rgba(255, 255, 255, 0.05)' : 'rgba(15, 23, 42, 0.5)'; // slight highlight for sub, slate-900/50 for top
+  const activeBorderColor = '#e5c158'; // yellow
+  const borderColor = isActive ? (isSubItem ? 'transparent' : activeBorderColor) : 'transparent';
   
-  const textColor = isActive ? '#ee4949' : '#94a3b8'; // Match left line color for text
+  const textColor = isActive ? '#e5c158' : '#94a3b8'; // yellow for both
   const hoverTextColor = '#e2e8f0'; // slate-200
   
   const iconColor = textColor; // Icon matches text color
@@ -66,6 +66,7 @@ const NavLink = ({ item, onClick, isCollapsed, isDisabled, isSubItem, index }: P
         <Tooltip
           content={ item.text }
           showArrow={ false }
+          openDelay={ 0 }
           disabled={ isMobile || isCollapsed === false || (isCollapsed === undefined && isXLScreen) || isSubItem }
           positioning={{ placement: 'right', offset: { crossAxis: 0, mainAxis: 20 } }}
           variant="popover"

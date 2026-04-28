@@ -14,7 +14,9 @@ const ValidatorsCounters = () => {
     },
   });
 
-  if (!countersQuery.data) {
+  const activeData = countersQuery.data || VALIDATORS_STABILITY_COUNTERS;
+
+  if (!activeData) {
     return null;
   }
 
@@ -22,14 +24,14 @@ const ValidatorsCounters = () => {
     <Box columnGap={ 3 } rowGap={ 3 } mb={ 6 } display="grid" gridTemplateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }}>
       <StatsWidget
         label="Total validators"
-        value={ Number(countersQuery.data.validators_count).toLocaleString() }
-        diff={ Number(countersQuery.data.new_validators_count_24h).toLocaleString() }
-        isLoading={ countersQuery.isPlaceholderData }
+        value={ Number(activeData.validators_count).toLocaleString() }
+        diff={ Number(activeData.new_validators_count_24h).toLocaleString() }
+        isLoading={ countersQuery.isPlaceholderData || (countersQuery.isError && false) }
       />
       <StatsWidget
         label="Active validators"
-        value={ `${ Number(countersQuery.data.active_validators_percentage).toLocaleString() }%` }
-        isLoading={ countersQuery.isPlaceholderData }
+        value={ `${ Number(activeData.active_validators_percentage).toLocaleString() }%` }
+        isLoading={ countersQuery.isPlaceholderData || (countersQuery.isError && false) }
       />
     </Box>
   );

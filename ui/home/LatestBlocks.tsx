@@ -152,7 +152,7 @@ const LatestBlocks = () => {
           letterSpacing="0.02em" 
           fontWeight="900"
         >
-          <Box w="5px" h="5px" bg="rgba(238, 73, 73, 1)" mr={3} shadow="none" />
+          <Box w="5px" h="5px" bg="rgba(229, 193, 88, 1)" mr={3} shadow="none" />
           LATEST BLOCKS
           { isRpcData && <Box ml={2}><FallbackRpcIcon/></Box> }
         </Heading>
@@ -162,8 +162,8 @@ const LatestBlocks = () => {
           fontSize="9px" 
           className="text-telemetry" 
           fontWeight={700}
-          color="#ee4949" 
-          _hover={{ color: 'white', borderColor: 'rgba(238, 73, 73, 0.3)' }}
+          color="#e5c158" 
+          _hover={{ color: 'white', borderColor: 'rgba(229, 193, 88, 0.3)' }}
           transition="colors 0.2s"
           px={3} py={1.5}
           bg="transparent"

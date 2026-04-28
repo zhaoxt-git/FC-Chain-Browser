@@ -25,7 +25,8 @@ const UserProfileDesktop = ({ buttonSize, buttonVariant = 'header' }: Props) => 
     }
   }
   if (config.features.blockchainInteraction.isEnabled) {
-    return <UserWalletDesktop buttonSize={ buttonSize } buttonVariant={ buttonVariant }/>;
+    // return <UserWalletDesktop buttonSize={ buttonSize } buttonVariant={ buttonVariant }/>;
+    return null;
   }
   return null;
 };

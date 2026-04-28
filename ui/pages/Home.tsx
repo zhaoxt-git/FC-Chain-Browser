@@ -83,10 +83,10 @@ const Home = () => {
             <Box color="gray.600">/</Box>
             <Box color="cyan.500">LATEST_BLOCK: 0x5320d216...</Box>
             <Box color="gray.600">/</Box>
-            <Box color="rgba(238, 73, 73, 1)">LATENCY: 7ms</Box>
+            <Box color="red.500">LATENCY: 7ms</Box>
           </Flex>
           <Flex gap={4} alignItems="center">
-            <Box color="rgba(238, 73, 73, 1)">TX_POOL: 33,165</Box>
+            <Box color="red.500">TX_POOL: 33,165</Box>
             <Box color="gray.600">/</Box>
             <Box color="cyan.500">ALGO_DIFF: 85.92TH/s</Box>
           </Flex>

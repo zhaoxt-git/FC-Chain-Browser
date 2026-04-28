@@ -148,7 +148,7 @@ const Footer = () => {
             100% { opacity: 1; }
           }
         `}</style>
-        { !config.features.multichain.isEnabled && <NetworkAddToWallet source="Footer"/> }
+        { /* !config.features.multichain.isEnabled && <NetworkAddToWallet source="Footer"/> */ }
       </Flex>
     );
   }, []);
@@ -267,12 +267,13 @@ const Footer = () => {
           left="-20vw"
           width="20vw"
           height="1px"
-          background="linear-gradient(90deg, transparent, rgba(255,255,255,0.5) 80%, #ffffff 100%)"
-          boxShadow="0 0 8px 1px rgba(255,255,255,0.3)"
-          animation="flowLightScan 3s linear infinite"
+          background="linear-gradient(90deg, transparent, rgba(229,193,88,0.5) 80%, #e5c158 100%)"
+          boxShadow="0 0 10px 2px rgba(229,193,88,0.4)"
+          animation="flowLightScan 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite"
         />
       </Box>
-      <Box position="absolute" bottom="0" right="0" width="300px" height="1px" bg="rgba(255,255,255,0.1)" zIndex={0} />
+      <Box position="absolute" bottom="0" right="0" width="300px" height="1px" bg="rgba(229,193,88,0.2)" zIndex={0} 
+           boxShadow="0 0 15px rgba(229,193,88,0.1)" />
       <style>{`
         @keyframes flowLightScan {
           0% { transform: translateX(0); opacity: 0; }

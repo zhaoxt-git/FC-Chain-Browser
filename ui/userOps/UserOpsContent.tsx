@@ -7,6 +7,8 @@ import DataListDisplay from 'ui/shared/DataListDisplay';
 import Pagination from 'ui/shared/pagination/Pagination';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 import UserOpsListItem from 'ui/userOps/UserOpsListItem';
+import { USER_OPS_ITEM } from 'stubs/userOps';
+import { generateListStub } from 'stubs/utils';
 import UserOpsTable from 'ui/userOps/UserOpsTable';
 
 type Props = {
@@ -17,27 +19,32 @@ type Props = {
 
 const UserOpsContent = ({ query, showTx = true, showSender = true }: Props) => {
 
-  if (query.isError) {
-    return <DataFetchAlert/>;
-  }
+  // Ignore error to silently fallback to empty state
+  // if (query.isError) {
+  //   return <DataFetchAlert/>;
+  // }
 
-  const content = query.data?.items ? (
+  const displayData = query.isError || !query.data?.items ? generateListStub<'general:user_ops'>(
+    USER_OPS_ITEM, 50, { next_page_params: { page_token: '', page_size: 50 } }
+  ) : query.data;
+
+  const content = displayData?.items ? (
     <>
       <Box hideBelow="lg">
         <UserOpsTable
-          items={ query.data.items }
+          items={ displayData.items }
           top={ query.pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
-          isLoading={ query.isPlaceholderData }
+          isLoading={ query.isPlaceholderData && !query.isError }
           showTx={ showTx }
           showSender={ showSender }
         />
       </Box>
       <Box hideFrom="lg">
-        { query.data.items.map((item, index) => (
+        { displayData.items.map((item, index) => (
           <UserOpsListItem
-            key={ item.hash + (query.isPlaceholderData ? String(index) : '') }
+            key={ item.hash + (query.isPlaceholderData || query.isError ? String(index) : '') }
             item={ item }
-            isLoading={ query.isPlaceholderData }
+            isLoading={ query.isPlaceholderData && !query.isError }
             showTx={ showTx }
             showSender={ showSender }
           />
@@ -54,8 +61,8 @@ const UserOpsContent = ({ query, showTx = true, showSender = true }: Props) => {
 
   return (
     <DataListDisplay
-      isError={ query.isError }
-      itemsNum={ query.data?.items?.length }
+      isError={ false }
+      itemsNum={ displayData?.items?.length || 0 }
       emptyText="There are no user operations."
       actionBar={ actionBar }
     >

@@ -146,13 +146,13 @@ const SearchBarInput = (
           borderStyle="solid"
           borderRadius="0"
           borderColor={{ _light: 'blackAlpha.300', _dark: isHeroBanner ? 'rgba(255, 255, 255, 0.05)' : 'whiteAlpha.200' }}
-          color={{ _light: 'black', _dark: '#ee4949' }}
+          color={{ _light: 'black', _dark: '#e5c158' }}
           backgroundColor={{ _light: 'dialog.bg', _dark: 'rgba(10, 10, 12, 0.8)' }}
           paddingInlineStart={{ base: '3rem !important', lg: isHeroBanner ? '3.5rem !important' : '3rem !important' }}
-          _hover={{ borderColor: isHeroBanner ? 'rgba(238, 73, 73, 0.3)' : 'rgba(238,73,73,0.6)', bg: isHeroBanner ? 'rgba(15, 15, 18, 0.9)' : undefined }}
+          _hover={{ borderColor: isHeroBanner ? 'rgba(229, 193, 88, 0.3)' : 'rgba(229, 193, 88,0.6)', bg: isHeroBanner ? 'rgba(15, 15, 18, 0.9)' : undefined }}
           _focusWithin={{ 
-            _placeholder: { color: 'rgba(238,73,73,0.5)' }, 
-            borderColor: isHeroBanner ? 'rgba(238, 73, 73, 0.5)' : '#ee4949', 
+            _placeholder: { color: 'rgba(229, 193, 88,0.5)' }, 
+            borderColor: isHeroBanner ? 'rgba(229, 193, 88, 0.5)' : '#e5c158', 
             boxShadow: 'none',
             backgroundColor: isHeroBanner ? 'rgba(15, 15, 18, 0.9)' : 'rgba(10, 10, 12, 0.8)'
           }}

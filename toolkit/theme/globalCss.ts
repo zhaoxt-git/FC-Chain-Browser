@@ -55,7 +55,7 @@ const globalCss: SystemConfig['globalCss'] = {
     background: 'rgba(10, 10, 12, 0.8) !important', // Exact match to cards
     '&:focus': {
       boxShadow: 'none !important',
-      borderColor: 'rgba(238, 73, 73, 0.5) !important',
+      borderColor: 'rgba(229, 193, 88, 0.5) !important',
     },
   },
   textarea: {

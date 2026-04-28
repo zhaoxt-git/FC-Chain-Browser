@@ -76,7 +76,7 @@ const StatsWidget = ({
           overflow="hidden"
           role="group"
           transition="colors 0.2s"
-          _hover={{ borderColor: 'rgba(238, 73, 73, 0.3)', bg: 'rgba(15, 15, 18, 0.9)' }}
+          _hover={{ borderColor: 'rgba(229, 193, 88, 0.3)', bg: 'rgba(15, 15, 18, 0.9)' }}
           w="100%"
           h="100%"
         >
@@ -90,14 +90,12 @@ const StatsWidget = ({
           textTransform="uppercase"
           letterSpacing="0.1em"
           transition="colors 0.2s"
-          _groupHover={{ color: 'rgba(238, 73, 73, 0.7)' }} /* red-500/70 */
+          _groupHover={{ color: 'rgba(229, 193, 88, 0.7)' }} /* red-500/70 */
           display="flex"
           alignItems="center"
           gap={1}
         >
-          <Skeleton loading={ isLoading } color="inherit">
-            { label }
-          </Skeleton>
+          { label }
           { typeof hint === 'string' ? (
             <Hint label={ hint } boxSize={ 4 } color="inherit" _hover={{ color: '#22d3ee' }} />
           ) : hint }
@@ -111,7 +109,15 @@ const StatsWidget = ({
           fontWeight="bold"
           opacity={ isFallback && !isLoading ? 0.3 : 1 }
         >
-          <Skeleton loading={ isLoading } display="flex" alignItems="center" justifyContent="center">
+          <Skeleton 
+            loading={ isLoading } 
+            display="flex" 
+            alignItems="center" 
+            justifyContent="center"
+            minW="60px"
+            minH="24px"
+            borderRadius="md"
+          >
             { valuePrefix && <chakra.span whiteSpace="pre">{ valuePrefix }</chakra.span> }
             { typeof value === 'string' ? (
               <TruncatedText text={ value } loading={ isLoading }/>
@@ -126,7 +132,7 @@ const StatsWidget = ({
         { (diff || period || subtext) && (
           <Box
             fontSize="10px" /* very small subtext */
-            color={ subtext ? (subtextColor || '#64748b') : 'rgba(238, 73, 73, 1)' }
+            color={ subtext ? (subtextColor || '#64748b') : 'rgba(229, 193, 88, 1)' }
             mt={ 2 }
             fontFamily="'Space Mono', monospace"
             letterSpacing="0.05em"

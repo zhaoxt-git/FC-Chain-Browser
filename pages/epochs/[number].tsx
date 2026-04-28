@@ -17,4 +17,4 @@ const Page: NextPage<Props> = (props: Props) => {
 
 export default Page;
 
-export { celo as getServerSideProps } from 'nextjs/getServerSideProps/main';
+export { base as getServerSideProps } from 'nextjs/getServerSideProps/main';

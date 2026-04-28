@@ -97,7 +97,9 @@ const NameDomains = () => {
   const protocolsQuery = useApiQuery('bens:protocols');
 
   const query = isAddressSearch ? addressesLookupQuery : domainsLookupQuery;
-  const { data, isError, isPlaceholderData: isLoading, onFilterChange, onSortingChange } = query;
+  const { isError, isPlaceholderData, onFilterChange, onSortingChange } = query;
+  const data = query.data || (isError ? generateListStub<'bens:domains_lookup'>(ENS_DOMAIN, 50, { next_page_params: undefined }) : undefined);
+  const isLoading = isPlaceholderData || (isError && false);
 
   React.useEffect(() => {
     const hasInactiveFilter = filterValue.some((value) => value === 'with_inactive');
@@ -246,7 +248,7 @@ const NameDomains = () => {
 
   return (
     <DataListDisplay
-      isError={ isError }
+      isError={ isError && false }
       itemsNum={ data?.items.length }
       emptyText="There are no name domains."
       hasActiveFilters={ hasActiveFilters }

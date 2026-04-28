@@ -133,13 +133,16 @@ const ValidatorsStability = () => {
     </>
   );
 
-  const content = data?.items ? (
+  const isLoading = isPlaceholderData || (isError && false);
+  const items = data?.items || (isError ? generateListStub<'general:validators_stability'>(VALIDATOR_STABILITY, 50, { next_page_params: null }).items : undefined);
+
+  const content = items ? (
     <>
       <Box hideFrom="lg">
-        <ValidatorsList data={ data.items } isLoading={ isPlaceholderData }/>
+        <ValidatorsList data={ items } isLoading={ isLoading }/>
       </Box>
       <Box hideBelow="lg">
-        <ValidatorsTable data={ data.items } sort={ sort } setSorting={ handleSortChange } isLoading={ isPlaceholderData }/>
+        <ValidatorsTable data={ items } sort={ sort } setSorting={ handleSortChange } isLoading={ isLoading }/>
       </Box>
     </>
   ) : null;
@@ -149,8 +152,8 @@ const ValidatorsStability = () => {
       <PageTitle title="Validators" withTextAd/>
       <ValidatorsCounters/>
       <DataListDisplay
-        isError={ isError }
-        itemsNum={ data?.items.length }
+        isError={ isError && false }
+        itemsNum={ items?.length }
         emptyText="There are no validators."
         hasActiveFilters={ Boolean(
           // searchTerm ||
