@@ -3,6 +3,7 @@ import React from 'react';
 
 import type { ColorThemeId } from 'types/settings';
 
+import config from 'configs/app';
 import * as cookies from 'lib/cookies';
 import { COLOR_THEMES, getDefaultColorTheme, getThemeHexWithOverrides } from 'lib/settings/colorTheme';
 import type { ColorMode } from 'toolkit/chakra/color-mode';
@@ -44,14 +45,18 @@ const SettingsColorTheme = ({ onSelect }: Props) => {
     const cookieColorTheme = cookies.get(cookies.NAMES.COLOR_THEME) as ColorThemeId | undefined;
 
     const nextColorMode = (() => {
+      if (config.UI.colorTheme.default?.colorMode) {
+        return config.UI.colorTheme.default.colorMode;
+      }
+
       if (!cookieColorMode) {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        return 'dark';
       }
 
       return cookieColorMode;
     })();
 
-    const nextColorTheme = cookieColorTheme || getDefaultColorTheme(nextColorMode);
+    const nextColorTheme = cookieColorTheme || config.UI.colorTheme.default?.id || getDefaultColorTheme(nextColorMode);
 
     setTheme(nextColorTheme);
     setActiveThemeId(nextColorTheme);
