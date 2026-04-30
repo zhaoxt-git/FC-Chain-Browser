@@ -7,5 +7,6 @@
     "typescript.preferences.autoImportFileExcludePatterns": [
         "./toolkit/package/**",
         "./toolkit/components/**/index.ts",
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }

@@ -5,9 +5,7 @@ import React from 'react';
 import config from 'configs/app';
 import { useIsSticky } from 'toolkit/hooks/useIsSticky';
 import RewardsButton from 'ui/rewards/RewardsButton';
-import NetworkIcon from 'ui/snippets/networkLogo/NetworkIcon';
 import UserProfileAuth0 from 'ui/snippets/user/profile/auth0/UserProfileMobile';
-import UserWalletMobile from 'ui/snippets/user/wallet/UserWalletMobile';
 
 import RollupStageBadge from '../navigation/RollupStageBadge';
 import TestnetBadge from '../navigation/TestnetBadge';
@@ -68,8 +66,7 @@ const HeaderMobile = ({ hideSearchButton, onGoToSearchResults }: Props) => {
       >
         <Burger/>
         <Flex alignItems="center" flexGrow={ 1 } mx={ 2 }>
-          <NetworkIcon/>
-          <TestnetBadge ml={ 2 }/>
+          <TestnetBadge/>
           <RollupStageBadge ml={ 2 }/>
         </Flex>
         <Flex columnGap={ 2 }>

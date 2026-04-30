@@ -7,112 +7,17 @@ import type { CustomLinksGroup } from 'types/footerLinks';
 
 import config from 'configs/app';
 import type { ResourceError } from 'lib/api/resources';
-import useApiQuery from 'lib/api/useApiQuery';
 import useFetch from 'lib/hooks/useFetch';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { copy } from 'toolkit/utils/htmlEntities';
-import IconSvg from 'ui/shared/IconSvg';
 import { CONTENT_MAX_WIDTH } from 'ui/shared/layout/utils';
-import NetworkAddToWallet from 'ui/shared/NetworkAddToWallet';
 
 import FooterLinkItem from './FooterLinkItem';
-import IntTxsIndexingStatus from './IntTxsIndexingStatus';
-import getApiVersionUrl from './utils/getApiVersionUrl';
-
 const MAX_LINKS_COLUMNS = 4;
-
-const FRONT_VERSION_URL = `https://github.com/blockscout/frontend/tree/${ config.UI.footer.frontendVersion }`;
-const FRONT_COMMIT_URL = `https://github.com/blockscout/frontend/commit/${ config.UI.footer.frontendCommit }`;
+// const DECORATIVE_DIVIDER_HEIGHT = '128px';
 
 const Footer = () => {
-
-  const { data: backendVersionData } = useApiQuery('general:config_backend_version', {
-    queryOptions: {
-      staleTime: Infinity,
-      enabled: !config.features.multichain.isEnabled,
-      refetchOnMount: false,
-    },
-  });
-  const apiVersionUrl = getApiVersionUrl(backendVersionData?.backend_version);
-
-  // const BLOCKSCOUT_LINKS = [
-  //   {
-  //     icon: 'social/git' as const,
-  //     iconSize: '20px',
-  //     text: 'Contribute',
-  //     url: 'https://github.com/blockscout/blockscout',
-  //   },
-  //   {
-  //     icon: 'brands/pro_api' as const,
-  //     iconSize: '20px',
-  //     text: 'PRO API',
-  //     url: 'https://dev.blockscout.com',
-  //   },
-  //   {
-  //     icon: 'brands/autoscout' as const,
-  //     iconSize: '20px',
-  //     text: 'Autoscout',
-  //     url: 'https://autoscout.blockscout.com',
-  //   },
-  //   {
-  //     icon: 'docs' as const,
-  //     iconSize: '20px',
-  //     text: 'Docs',
-  //     url: 'https://docs.blockscout.com',
-  //   },
-  //   {
-  //     icon: 'social/twitter' as const,
-  //     iconSize: '24px',
-  //     text: 'X',
-  //     url: 'https://x.com/blockscout',
-  //   },
-  //   {
-  //     icon: 'social/discord' as const,
-  //     iconSize: '24px',
-  //     text: 'Discord',
-  //     url: 'https://discord.gg/blockscout',
-  //   },
-  //   {
-  //     icon: 'brands/blockscout' as const,
-  //     iconSize: '20px',
-  //     text: 'All chains',
-  //     url: 'https://chains.blockscout.com',
-  //   },
-  // ].filter(Boolean);
-  const BLOCKSCOUT_LINKS = [
-    {
-      icon: 'brands/autoscout' as const,
-      iconSize: '20px',
-      text: 'Official Website',
-      url: 'https://www.futurecitizen.io/',
-    },
-    {
-      icon: 'social/twitter' as const,
-      iconSize: '24px',
-      text: 'X',
-      url: 'https://x.com/fc_chain',
-    },
-    {
-      icon: 'docs' as const,
-      iconSize: '20px',
-      text: 'Docs',
-      url: 'https://docs.futurecitizen.io/',
-    },
-  ].filter(Boolean);
-
-  const frontendLink = (() => {
-    if (config.UI.footer.frontendVersion) {
-      return <Link href={ FRONT_VERSION_URL } external noIcon>{ config.UI.footer.frontendVersion }</Link>;
-    }
-
-    if (config.UI.footer.frontendCommit) {
-      return <Link href={ FRONT_COMMIT_URL } external noIcon>{ config.UI.footer.frontendCommit }</Link>;
-    }
-
-    return null;
-  })();
-
   const fetch = useFetch();
 
   const { isPlaceholderData, data: linksData } = useQuery<unknown, ResourceError<unknown>, Array<CustomLinksGroup>>({
@@ -137,17 +42,31 @@ const Footer = () => {
         mb={{ base: 5, lg: 10 }}
         _empty={{ display: 'none' }}
       >
-        <Flex alignItems="center" bg="rgba(255,255,255,0.03)" border="1px solid rgba(255,255,255,0.1)" px={3} py={1.5} borderRadius="0">
-          <Box w="6px" h="6px" bg="green.400" mr={2} boxShadow="0 0 5px rgba(72,187,120,0.8)" animation="pulseStatus 2s infinite" />
+        <Flex
+          alignItems="center"
+          bg="rgba(255,255,255,0.03)"
+          border="1px solid rgba(255,255,255,0.1)"
+          px={ 3 }
+          py={ 1.5 }
+          borderRadius="0"
+        >
+          <Box
+            w="6px"
+            h="6px"
+            bg="green.400"
+            mr={ 2 }
+            boxShadow="0 0 5px rgba(72,187,120,0.8)"
+            animation="pulseStatus 2s infinite"
+          />
           <Text fontSize="xs" color="gray.400" fontFamily="'Space Mono', monospace" letterSpacing="0.1em">SYS_ONLINE</Text>
         </Flex>
-        <style>{`
+        <style>{ `
           @keyframes pulseStatus {
             0% { opacity: 1; }
             50% { opacity: 0.4; }
             100% { opacity: 1; }
           }
-        `}</style>
+        ` }</style>
         { /* !config.features.multichain.isEnabled && <NetworkAddToWallet source="Footer"/> */ }
       </Flex>
     );
@@ -167,44 +86,55 @@ const Footer = () => {
               borderRadius="full"
               objectFit="cover"
             />
-            <Text 
-              fontSize="2xl" 
-              fontWeight="900" 
-              letterSpacing="0.2em" 
-              color="white" 
+            <Text
+              fontSize="2xl"
+              fontWeight="900"
+              letterSpacing="0.2em"
+              color="white"
               fontFamily="'Orbitron', 'Space Mono', 'Montserrat', monospace"
             >
               FC CHAIN
             </Text>
           </Link>
         </Flex>
-        
-        <Text mt={ 5 } fontSize="xs" color="gray.400" maxW="400px" lineHeight="1.8" letterSpacing="0.05em" fontFamily="'Space Mono', monospace">
-          <Text as="span" color="gray.500">{'>'}</Text> SYS.INIT: CORE NODE ONLINE...<br/>
-          <Text as="span" color="gray.500">{'>'}</Text> The Next Generation Explorer for FC Chain. Empowering future citizens with transparent, high-performance tracking infrastructure.
+
+        <Text
+          mt={ 5 }
+          fontSize="xs"
+          color="gray.400"
+          maxW="400px"
+          lineHeight="1.8"
+          letterSpacing="0.05em"
+          fontFamily="'Space Mono', monospace"
+        >
+          <Text as="span" color="gray.500">{ '>' }</Text> SYS.INIT: CORE NODE ONLINE...<br/>
+          <Text as="span" color="gray.500">{ '>' }</Text> The Next Generation Explorer for FC Chain.
+          Empowering future citizens with transparent, high-performance tracking infrastructure.
         </Text>
-        <Box mt={ 6 } textStyle="xs" color="gray.500" borderTop="1px dashed rgba(255,255,255,0.1)" pt={4} fontFamily="'Space Mono', monospace">
+        <Box mt={ 6 } textStyle="xs" color="gray.500" borderTop="1px dashed rgba(255,255,255,0.1)" pt={ 4 } fontFamily="'Space Mono', monospace">
           <Text>
             [LOG] Copyright { copy } FC Ecosystem 2023-{ (new Date()).getFullYear() }. All rights reserved.
           </Text>
         </Box>
       </Box>
     );
-  }, [ apiVersionUrl, backendVersionData?.backend_version, frontendLink ]);
+  }, []);
 
   const containerProps: HTMLChakraProps<'div'> = {
     as: 'footer',
     borderTop: '1px solid rgba(255,255,255,0.05)',
     position: 'relative',
-    bg: { base: 'white', _dark: 'black' },
+    backgroundColor: 'black',
     overflow: 'hidden',
+    isolation: 'isolate',
   };
 
   const contentProps: GridProps = {
     position: 'relative',
-    zIndex: 1,
+    zIndex: 2,
     px: { base: 4, lg: config.UI.navigation.layout === 'horizontal' ? 6 : 12, '2xl': 6 },
-    py: { base: 4, lg: 10 },
+    pt: { base: 20, lg: 28 },
+    pb: { base: 4, lg: 10 },
     gridTemplateColumns: { base: '1fr', lg: 'minmax(auto, 470px) 1fr' },
     columnGap: { lg: '32px', xl: '100px' },
     maxW: `${ CONTENT_MAX_WIDTH }px`,
@@ -227,30 +157,57 @@ const Footer = () => {
     );
   };
 
+  const linkHoverProps = {
+    color: 'white',
+    background: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.2)',
+  };
+
+  const linkBaseProps = {
+    external: true,
+    noIcon: true,
+    px: 2,
+    py: 2,
+    w: '100%',
+    transition: 'all 0.2s',
+    display: 'flex',
+    alignItems: 'center',
+    color: 'gray.400',
+    border: '1px solid transparent',
+    _hover: linkHoverProps,
+  };
+
   const LinksBlock = () => (
     <Box>
       <Flex alignItems="center" mb={ 6 }>
-        <Box w="6px" h="6px" bg="gray.400" mr={3} />
+        <Box w="6px" h="6px" bg="gray.400" mr={ 3 }/>
         <Text fontWeight="700" color="gray.400" fontSize="sm" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" textTransform="uppercase">
           UPLINK CONNECTIONS
         </Text>
       </Flex>
       <VStack gap={ 3 } alignItems="start">
-        <Link href="https://www.futurecitizen.io/" external noIcon _hover={{ color: 'white', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)' }} px={2} py={2} w="100%" transition="all 0.2s" display="flex" alignItems="center" color="gray.400" border="1px solid transparent">
-          <Flex w="6" h="6" mr={3} alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter"><circle cx="12" cy="12" r="10"/><path d="M12 2v20 M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <Link href="https://www.futurecitizen.io/" { ...linkBaseProps }>
+          <Flex w="6" h="6" mr={ 3 } alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2v20 M2 12h20"/>
+              <path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>
+            </svg>
           </Flex>
           <Text fontWeight="400" fontSize="xs" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" transition="all 0.2s">NODE_HOME</Text>
         </Link>
-        <Link href="https://x.com/fc_chain" external noIcon _hover={{ color: 'white', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)' }} px={2} py={2} w="100%" transition="all 0.2s" display="flex" alignItems="center" color="gray.400" border="1px solid transparent">
-          <Flex w="6" h="6" mr={3} alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <Link href="https://x.com/fc_chain" { ...linkBaseProps }>
+          <Flex w="6" h="6" mr={ 3 } alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
+            <Text fontSize="12px" lineHeight="1" fontWeight="700">X</Text>
           </Flex>
           <Text fontWeight="400" fontSize="xs" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" transition="all 0.2s">X_NETWORK</Text>
         </Link>
-        <Link href="https://docs.futurecitizen.io/" external noIcon _hover={{ color: 'white', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)' }} px={2} py={2} w="100%" transition="all 0.2s" display="flex" alignItems="center" color="gray.400" border="1px solid transparent">
-          <Flex w="6" h="6" mr={3} alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M10 6h6 M10 10h6 M10 14h2" /></svg>
+        <Link href="https://docs.futurecitizen.io/" { ...linkBaseProps }>
+          <Flex w="6" h="6" mr={ 3 } alignItems="center" justifyContent="center" bg="rgba(255,255,255,0.05)" color="gray.400">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 3h12v18H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
+              <path d="M9 7h6 M9 11h6 M9 15h3"/>
+            </svg>
           </Flex>
           <Text fontWeight="400" fontSize="xs" letterSpacing="0.1em" fontFamily="'Space Mono', monospace" transition="all 0.2s">ARCHIVES_DOCS</Text>
         </Link>
@@ -258,37 +215,56 @@ const Footer = () => {
     </Box>
   );
 
+  /*
   const DecorativeLines = () => (
-    <>
-      <Box position="absolute" top="0" left="0" width="100%" height="1px" bg="rgba(255,255,255,0.05)" zIndex={0}>
-        <Box
-          position="absolute"
-          top="0"
-          left="-20vw"
-          width="20vw"
-          height="1px"
-          background="linear-gradient(90deg, transparent, rgba(229,193,88,0.5) 80%, #e5c158 100%)"
-          boxShadow="0 0 10px 2px rgba(229,193,88,0.4)"
-          animation="flowLightScan 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite"
-        />
-      </Box>
-      <Box position="absolute" bottom="0" right="0" width="300px" height="1px" bg="rgba(229,193,88,0.2)" zIndex={0} 
-           boxShadow="0 0 15px rgba(229,193,88,0.1)" />
-      <style>{`
-        @keyframes flowLightScan {
-          0% { transform: translateX(0); opacity: 0; }
-          10% { opacity: 1; }
-          90% { transform: translateX(120vw); opacity: 1; }
-          100% { transform: translateX(120vw); opacity: 0; }
-        }
-      `}</style>
-    </>
+    <Box
+      position="absolute"
+      top="0"
+      left="0"
+      width="100%"
+      height={ DECORATIVE_DIVIDER_HEIGHT }
+      backgroundColor="black"
+      zIndex={ 1 }
+      pointerEvents="none"
+    >
+      <Box
+        position="absolute"
+        top="50%"
+        left="0"
+        width="100%"
+        height="1px"
+        backgroundColor="rgba(255,255,255,0.08)"
+      />
+      <Box
+        position="absolute"
+        top="50%"
+        left={{ base: '21%', lg: '28%' }}
+        width={{ base: '58%', md: '50%', lg: '44%' }}
+        height="1px"
+        background={ [
+          'linear-gradient(90deg, transparent 0%, rgba(31,107,151,0.1) 18%,',
+          'rgba(23,117,194,0.38) 64%, rgba(40,82,255,0.66) 100%)',
+        ].join(' ') }
+        boxShadow="0 0 14px 1px rgba(36,118,255,0.24)"
+      />
+      <Box
+        position="absolute"
+        top="calc(50% - 18px)"
+        left={{ base: '21%', lg: '28%' }}
+        width={{ base: '58%', md: '50%', lg: '44%' }}
+        height="36px"
+        background="linear-gradient(180deg, transparent 0%, rgba(36,118,255,0.1) 50%, transparent 100%)"
+        filter="blur(14px)"
+        opacity={ 0.7 }
+      />
+    </Box>
   );
+  */
 
   if (config.UI.footer.links) {
     return (
       <Box { ...containerProps }>
-        <DecorativeLines />
+        { /* <DecorativeLines/> */ }
         <Grid { ...contentProps }>
           <div>
             { renderNetworkInfo() }
@@ -306,12 +282,24 @@ const Footer = () => {
             justifyContent={{ lg: 'flex-end' }}
             mt={{ base: 8, lg: 0 }}
           >
-            <LinksBlock />
+            <LinksBlock/>
 
             {
               (linksData || []).slice(0, colNum - 1).map(linkGroup => (
                 <Box key={ linkGroup.title }>
-                  <Skeleton fontWeight={ 700 } fontSize="sm" color="gray.400" mb={ 4 } display="inline-block" fontFamily="'Space Mono', monospace" textTransform="uppercase" letterSpacing="0.1em" loading={ isPlaceholderData }>{ linkGroup.title }</Skeleton>
+                  <Skeleton
+                    fontWeight={ 700 }
+                    fontSize="sm"
+                    color="gray.400"
+                    mb={ 4 }
+                    display="inline-block"
+                    fontFamily="'Space Mono', monospace"
+                    textTransform="uppercase"
+                    letterSpacing="0.1em"
+                    loading={ isPlaceholderData }
+                  >
+                    { linkGroup.title }
+                  </Skeleton>
                   <VStack gap={ 1 } alignItems="start">
                     { linkGroup.links.map(link => <FooterLinkItem { ...link } key={ link.text } isLoading={ isPlaceholderData }/>) }
                   </VStack>
@@ -326,7 +314,7 @@ const Footer = () => {
 
   return (
     <Box { ...containerProps }>
-      <DecorativeLines />
+      { /* <DecorativeLines/> */ }
       <Grid
         { ...contentProps }
         gridTemplateAreas={{
@@ -349,7 +337,7 @@ const Footer = () => {
           justifySelf={{ lg: 'flex-end' }}
           mt={{ base: 8, lg: 0 }}
         >
-          <LinksBlock />
+          <LinksBlock/>
         </Flex>
       </Grid>
     </Box>
