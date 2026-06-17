@@ -26,7 +26,7 @@ const RewardsButton = ({ variant = 'header', size }: Props) => {
 
   return (
     <Tooltip
-      content="Earn Merits for using FC Chain"
+      content="Earn Merits for using Meridian"
       openDelay={ 500 }
       disabled={ isMobile || isLoading || isAuth }
     >

@@ -7,6 +7,7 @@ import type { TokenInfo } from 'types/api/token';
 import { route } from 'nextjs/routes';
 
 import config from 'configs/app';
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { useMultichainContext } from 'lib/contexts/multichain';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
@@ -63,7 +64,7 @@ const Icon = (props: IconProps) => {
       { ...styles }
       className={ props.className }
       src={ props.token.icon_url ?? undefined }
-      alt={ `${ props.token.name || 'token' } logo` }
+      alt={ `${ props.token.name ? formatMeridianBrandText(props.token.name) : 'token' } logo` }
       fallback={ <TokenLogoPlaceholder/> }
       shield={ shield }
       hint={ props.chain && props.shield !== false ? getChainTooltipText(props.chain, 'Token on ') : undefined }
@@ -75,10 +76,12 @@ const Icon = (props: IconProps) => {
 type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'token' | 'jointSymbol' | 'onlySymbol'>;
 
 const Content = chakra((props: ContentProps) => {
+  const tokenName = props.token.name ? formatMeridianBrandText(props.token.name) : undefined;
+  const tokenSymbol = props.token.symbol ? formatMeridianBrandText(props.token.symbol) : undefined;
   const nameString = [
-    !props.onlySymbol && (props.token.name ?? 'Unnamed token'),
-    props.onlySymbol && (props.token.symbol ?? props.token.name ?? 'Unnamed token'),
-    props.token.symbol && props.jointSymbol && !props.onlySymbol && `(${ props.token.symbol })`,
+    !props.onlySymbol && (tokenName ?? 'Unnamed token'),
+    props.onlySymbol && (tokenSymbol ?? tokenName ?? 'Unnamed token'),
+    tokenSymbol && props.jointSymbol && !props.onlySymbol && `(${ tokenSymbol })`,
   ].filter(Boolean).join(' ');
 
   return (
@@ -93,7 +96,7 @@ const Content = chakra((props: ContentProps) => {
 type SymbolProps = Pick<EntityProps, 'token' | 'isLoading' | 'noSymbol' | 'jointSymbol' | 'onlySymbol'>;
 
 const Symbol = (props: SymbolProps) => {
-  const symbol = props.token.symbol;
+  const symbol = props.token.symbol ? formatMeridianBrandText(props.token.symbol) : undefined;
 
   if (!symbol || props.noSymbol || props.jointSymbol || props.onlySymbol) {
     return null;

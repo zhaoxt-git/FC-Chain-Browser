@@ -68,3 +68,17 @@ yarn-error.log*
 /toolkit/package/dist
 license.json
 release-prs-data.json
+
+# local scratch files
+/tmp_fix*.js
+/tmp_*.js
+/scratch/
+/release/
+/test*.js
+/*_output.txt
+/build_output.txt
+/eslint_output.txt
+/tsc_output*.txt
+/index_html_temp.txt
+/fix.js
+/findClasses.mjs

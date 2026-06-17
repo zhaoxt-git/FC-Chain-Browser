@@ -7,7 +7,7 @@ import { layerLabels } from 'lib/rollups/utils';
 
 const dappEntityName = (getFeaturePayload(config.features.marketplace)?.titles.entity_name ?? '').toLowerCase();
 
-const TEMPLATE_MAP: Record<Route['pathname'], string> = {
+const TEMPLATE_MAP: Record<Route['pathname'] | '/assets', string> = {
   '/': '%network_name% blockchain explorer - View %network_name% stats',
   '/txs': '%network_name% transactions - %network_name% explorer',
   '/internal-txs': '%network_name% internal transactions - %network_name% explorer',
@@ -102,9 +102,8 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/api/csrf': '%network_name% node API CSRF token',
   '/api/healthz': '%network_name% node API health check',
   '/api/config': '%network_name% node API app config',
-  // @ts-ignore
-  '/assets': '%network_name% On-Chain Assets - FC Chain',
-} as any;
+  '/assets': '%network_name% On-Chain Assets - Meridian',
+};
 
 const TEMPLATE_MAP_ENHANCED: Partial<Record<Route['pathname'], string>> = {
   '/token/[hash]': '%network_name% %symbol_or_name% token details',

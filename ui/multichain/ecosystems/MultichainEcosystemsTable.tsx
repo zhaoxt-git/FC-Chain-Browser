@@ -3,8 +3,8 @@ import React from 'react';
 
 import type * as multichain from '@blockscout/multichain-aggregator-types';
 import type { ChainMetricsSortingField, ChainMetricsSortingValue } from 'types/client/multichainAggregator';
+import type { ClusterChainConfig } from 'types/multichain';
 
-import multichainConfig from 'configs/multichain';
 import { MultichainProvider } from 'lib/contexts/multichain';
 import { TableBody, TableColumnHeader, TableColumnHeaderSortable, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
 import getNextSortValue from 'ui/shared/sort/getNextSortValue';
@@ -16,13 +16,11 @@ interface Props {
   data: Array<multichain.ChainMetrics>;
   sort: ChainMetricsSortingValue;
   setSorting: ({ value }: { value: Array<string> }) => void;
+  chains: Array<ClusterChainConfig>;
   isLoading?: boolean;
 }
 
-const MultichainEcosystemsTable = ({ data, isLoading, sort, setSorting }: Props) => {
-
-  const chains = multichainConfig()?.chains;
-
+const MultichainEcosystemsTable = ({ data, isLoading, sort, setSorting, chains }: Props) => {
   const onSortToggle = React.useCallback((field: ChainMetricsSortingField) => {
     const value = getNextSortValue<ChainMetricsSortingField, ChainMetricsSortingValue>(SORT_SEQUENCE, field)(sort);
     setSorting({ value: [ value ] });

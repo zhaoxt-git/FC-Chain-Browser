@@ -34,7 +34,7 @@ const RewardsInstancesModal = ({ isOpen, onClose, items }: Props) => {
         <DialogBody>
           <Flex flexDir="column" gap={ 6 }>
             <Text>
-              Choose FC Chain explorer that you want to interact with and earn
+              Choose Meridian explorer that you want to interact with and earn
               Merits
             </Text>
             <Flex flexWrap="wrap" gap={ 2 }>

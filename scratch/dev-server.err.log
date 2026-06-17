@@ -1,6 +1,0 @@
-⚠ `eslint` configuration in next.config.js is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
-⚠ Invalid next.config.js options detected: 
-⚠     Unrecognized key(s) in object: 'eslint'
-⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
-⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
-Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins

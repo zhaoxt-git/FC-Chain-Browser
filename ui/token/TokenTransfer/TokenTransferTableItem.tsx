@@ -5,6 +5,7 @@ import type { TokenInstance } from 'types/api/token';
 import type { TokenTransfer } from 'types/api/tokenTransfer';
 import type { ClusterChainConfig } from 'types/multichain';
 
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { hasTokenTransferValue, isConfidentialTokenType, NFT_TOKEN_TYPE_IDS } from 'lib/token/tokenTypes';
 import { Badge } from 'toolkit/chakra/badge';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -76,7 +77,7 @@ const TokenTransferTableItem = ({
           mt="5px"
           mode={{ lg: 'compact', xl: 'long' }}
           tokenHash={ token?.address_hash }
-          tokenSymbol={ token?.symbol ?? undefined }
+          tokenSymbol={ token?.symbol ? formatMeridianBrandText(token.symbol) : undefined }
         />
       </TableCell>
       { (token && NFT_TOKEN_TYPE_IDS.includes(token.type)) && (

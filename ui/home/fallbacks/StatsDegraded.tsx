@@ -76,7 +76,7 @@ const StatsDegraded = () => {
     return [
       {
         id: 'fc_price' as const,
-        label: 'FC Price',
+        label: 'MRD Price',
         value: '$2060.07',
         subtext: '+12.4% (24h)',
         subtextColor: 'rgba(34, 197, 94, 1)',
@@ -157,17 +157,16 @@ const StatsDegraded = () => {
         isFallback: true,
       },
     ]
-      .filter(Boolean)
-      .filter((item: any) => item.id === 'fc_price' || isHomeStatsItemEnabled(item))
-      .sort((a: any, b: any) => {
-        const priorityOrder = ['fc_price', 'total_blocks', 'total_txs', 'average_block_time'];
+      .filter((item) => item.id === 'fc_price' || isHomeStatsItemEnabled(item))
+      .sort((a, b) => {
+        const priorityOrder = [ 'fc_price', 'total_blocks', 'total_txs', 'average_block_time' ];
         const aIndex = priorityOrder.indexOf(a.id);
         const bIndex = priorityOrder.indexOf(b.id);
-        
+
         if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
         if (aIndex !== -1) return -1;
         if (bIndex !== -1) return 1;
-        
+
         return sortHomeStatsItems(a, b);
       });
   })();

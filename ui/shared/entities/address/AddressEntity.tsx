@@ -6,6 +6,7 @@ import type { AddressParam } from 'types/api/addressParams';
 import { route } from 'nextjs/routes';
 
 import { toBech32Address } from 'lib/address/bech32';
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { useAddressHighlightContext } from 'lib/contexts/addressHighlight';
 import { useSettingsContext } from 'lib/contexts/settings';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -143,7 +144,8 @@ const Content = chakra((props: ContentProps) => {
 
     return getTagName(tagData, props.address.hash);
   })();
-  const nameText = nameTag || props.address.ens_domain_name || props.address.name;
+  const rawNameText = nameTag || props.address.ens_domain_name || props.address.name;
+  const nameText = rawNameText ? formatMeridianBrandText(rawNameText) : undefined;
 
   const isProxy = props.address.implementations && props.address.implementations.length > 0 && props.address.proxy_type !== 'eip7702';
 

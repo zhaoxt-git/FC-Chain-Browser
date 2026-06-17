@@ -9,6 +9,7 @@ import type { EntityTag } from 'ui/shared/EntityTags/types';
 import config from 'configs/app';
 import useAddressMetadataInfoQuery from 'lib/address/useAddressMetadataInfoQuery';
 import type { ResourceError } from 'lib/api/resources';
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { useMultichainContext } from 'lib/contexts/multichain';
 import { getTokenTypeName } from 'lib/token/tokenTypes';
 import { Tooltip } from 'toolkit/chakra/tooltip';
@@ -47,7 +48,8 @@ const TokenPageTitle = ({ tokenQuery, addressQuery, verifiedInfoQuery, hash }: P
     addressQuery.isPlaceholderData ||
     (config.features.verifiedTokens.isEnabled && verifiedInfoQuery.isPending);
 
-  const tokenSymbolText = tokenQuery.data?.symbol ? ` (${ tokenQuery.data.symbol })` : '';
+  const tokenName = tokenQuery.data?.name ? formatMeridianBrandText(tokenQuery.data.name) : 'Unnamed token';
+  const tokenSymbolText = tokenQuery.data?.symbol ? ` (${ formatMeridianBrandText(tokenQuery.data.symbol) })` : '';
 
   const [ bridgedTokenTagBgColor ] = useToken('colors', 'blue.500');
   const [ bridgedTokenTagTextColor ] = useToken('colors', 'white');
@@ -128,7 +130,7 @@ const TokenPageTitle = ({ tokenQuery, addressQuery, verifiedInfoQuery, hash }: P
   return (
     <>
       <PageTitle
-        title={ `${ tokenQuery.data?.name || 'Unnamed token' }${ tokenSymbolText }` }
+        title={ `${ tokenName }${ tokenSymbolText }` }
         isLoading={ tokenQuery.isPlaceholderData }
         beforeTitle={ tokenQuery.data ? (
           <TokenEntity.Icon

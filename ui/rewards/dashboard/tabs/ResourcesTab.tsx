@@ -14,7 +14,7 @@ export default function ResourcesTab() {
     >
       <RewardsDashboardInfoCard
         title="Badges"
-        description={ `Collect limited and legendary badges by completing different FC Chain related tasks.
+        description={ `Collect limited and legendary badges by completing different Meridian related tasks.
           Go to the badges website to see what${ apos }s available and start your collection today.` }
         imageSrc="/static/merits/badges.svg"
         imageWidth="180px"
@@ -23,8 +23,8 @@ export default function ResourcesTab() {
         linkHref={ `https://merits.blockscout.com/?tab=badges&utm_source=${ config.chain.id }&utm_medium=badges` }
       />
       <RewardsDashboardInfoCard
-        title="FC Chain campaigns"
-        description="Join FC Chain activities to earn bonus Merits and exclusive rewards from our partners!"
+        title="Meridian campaigns"
+        description="Join Meridian activities to earn bonus Merits and exclusive rewards from our partners!"
         imageSrc="/static/merits/campaigns.svg"
         imageWidth="180px"
         imageHeight="76px"

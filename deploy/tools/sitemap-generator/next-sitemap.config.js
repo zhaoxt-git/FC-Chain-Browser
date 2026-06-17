@@ -51,7 +51,8 @@ const apiUrl = (() => {
 
   // return `${ baseUrl }${ basePath }/api/v2`;
   const protocol = process.env.NEXT_PUBLIC_API_PROTOCOL || "https";
-  const host = process.env.NEXT_PUBLIC_API_HOST || "35.94.100.45";
+  // const host = process.env.NEXT_PUBLIC_API_HOST || "35.94.100.45";
+  const host = process.env.NEXT_PUBLIC_API_HOST || "3.237.0.84";
   const port = process.env.NEXT_PUBLIC_API_PORT
     ? `:${process.env.NEXT_PUBLIC_API_PORT}`
     : "";

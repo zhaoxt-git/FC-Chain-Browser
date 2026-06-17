@@ -4,6 +4,7 @@ import React from 'react';
 
 import type { NovesNft, NovesToken } from 'types/api/noves';
 
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { HEX_REGEXP } from 'toolkit/utils/regexp';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 
@@ -17,7 +18,9 @@ const NovesTokenTooltipContent: FC<Props> = ({ token, amount }) => {
     return null;
   }
 
-  const showTokenName = token.symbol !== token.name;
+  const tokenSymbol = formatMeridianBrandText(token.symbol);
+  const tokenName = formatMeridianBrandText(token.name);
+  const showTokenName = tokenSymbol !== tokenName;
   const showTokenAddress = HEX_REGEXP.test(token.address);
 
   return (
@@ -27,13 +30,13 @@ const NovesTokenTooltipContent: FC<Props> = ({ token, amount }) => {
           { amount }
         </Text>
         <Text color="inherit" as="span" ml={ 1 }>
-          { token.symbol }
+          { tokenSymbol }
         </Text>
       </Text>
 
       { showTokenName && (
         <Text as="p" color="inherit" fontWeight="semibold" mt="6px">
-          { token.name }
+          { tokenName }
         </Text>
       ) }
 

@@ -79,7 +79,7 @@ const Footer = () => {
           <Link href="https://www.futurecitizen.io/" external noIcon display="inline-flex" alignItems="center" _hover={{ textDecoration: 'none' }}>
             <chakra.img
               src="/logo.jpg"
-              alt="FC CHAIN Logo"
+              alt="Meridian Logo"
               w="12"
               h="12"
               mr="3"
@@ -93,7 +93,7 @@ const Footer = () => {
               color="white"
               fontFamily="'Orbitron', 'Space Mono', 'Montserrat', monospace"
             >
-              FC CHAIN
+              Meridian
             </Text>
           </Link>
         </Flex>
@@ -108,12 +108,12 @@ const Footer = () => {
           fontFamily="'Space Mono', monospace"
         >
           <Text as="span" color="gray.500">{ '>' }</Text> SYS.INIT: CORE NODE ONLINE...<br/>
-          <Text as="span" color="gray.500">{ '>' }</Text> The Next Generation Explorer for FC Chain.
+          <Text as="span" color="gray.500">{ '>' }</Text> The Next Generation Explorer for Meridian.
           Empowering future citizens with transparent, high-performance tracking infrastructure.
         </Text>
         <Box mt={ 6 } textStyle="xs" color="gray.500" borderTop="1px dashed rgba(255,255,255,0.1)" pt={ 4 } fontFamily="'Space Mono', monospace">
           <Text>
-            [LOG] Copyright { copy } FC Ecosystem 2023-{ (new Date()).getFullYear() }. All rights reserved.
+            [LOG] Copyright { copy } Meridian Ecosystem 2023-{ (new Date()).getFullYear() }. All rights reserved.
           </Text>
         </Box>
       </Box>

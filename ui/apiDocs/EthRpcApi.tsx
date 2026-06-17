@@ -8,10 +8,10 @@ const EthRpcApi = () => {
     <Box>
       <Text>
         In addition to the custom RPC endpoints documented here,
-        the FC Chain ETH RPC API supports 3 methods in the exact format specified for Ethereum nodes,
-        ee the Ethereum JSON-RPC Specification for more details.
+        the Meridian ETH RPC API supports 3 methods in the exact format specified for Ethereum nodes,
+        see the Ethereum JSON-RPC Specification for more details.
       </Text>
-      <Link href="https://docs.blockscout.com/devs/apis/rpc/eth-rpc" external mt={ 6 }>View examples</Link>
+      <Link href="https://www.msd.ms/en/" external mt={ 6 }>View examples</Link>
     </Box>
   );
 };

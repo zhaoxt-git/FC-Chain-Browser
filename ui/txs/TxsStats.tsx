@@ -4,6 +4,7 @@ import React from 'react';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { useMultichainContext } from 'lib/contexts/multichain';
 import getStatsLabelFromTitle from 'lib/stats/getStatsLabelFromTitle';
 import { HOMEPAGE_STATS } from 'stubs/stats';
@@ -22,6 +23,7 @@ const TxsStats = (props: Props) => {
   const rollupFeature = chainConfig.features.rollup;
   const isOptimisticRollup = rollupFeature.isEnabled && rollupFeature.type === 'optimistic';
   const isArbitrumRollup = rollupFeature.isEnabled && rollupFeature.type === 'arbitrum';
+  const currencySymbol = chainConfig.chain.currency.symbol ? formatMeridianBrandText(chainConfig.chain.currency.symbol) : '';
 
   const txsStatsQuery = useApiQuery('stats:pages_transactions', {
     queryOptions: {
@@ -138,7 +140,7 @@ const TxsStats = (props: Props) => {
             getStatsLabelFromTitle(txsStatsQuery.data?.transactions_fee_24h?.title) :
             'Transactions fees' }
           value={ txFeeSum24h.toLocaleString(undefined, { maximumFractionDigits: 2 }) }
-          valuePostfix={ thinsp + chainConfig.chain.currency.symbol }
+          valuePostfix={ thinsp + currencySymbol }
           period="24h"
           isLoading={ isLoading }
           href={
@@ -155,7 +157,7 @@ const TxsStats = (props: Props) => {
             'Avg. transaction fee' }
           value={ txFeeAvg.usdStr ? txFeeAvg.usdStr : txFeeAvg.valueStr }
           valuePrefix={ txFeeAvg.usdStr ? '$' : undefined }
-          valuePostfix={ txFeeAvg.usdStr ? undefined : thinsp + chainConfig.chain.currency.symbol }
+          valuePostfix={ txFeeAvg.usdStr ? undefined : thinsp + currencySymbol }
           period="24h"
           isLoading={ isLoading }
           href={

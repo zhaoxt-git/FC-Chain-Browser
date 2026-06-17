@@ -57,68 +57,6 @@ export default function useApiFetch() {
       ...fetchParams?.headers,
     }, Boolean) as HeadersInit;
 
-    if (apiName === 'stats') {
-      if (resourceName === 'stats:counters') {
-        const mockCounters = { 
-          counters: [
-            { id: 'avg_block_time', title: 'Avg Block Time', value: '2.14', units: 's', description: 'Average time between blocks' },
-            { id: 'total_blocks', title: 'Total Blocks', value: '4520102', description: 'Total blocks on chain' },
-            { id: 'total_txs', title: 'Total Trxs', value: '34510123', description: 'Total transactions' },
-            { id: 'wallet_addresses', title: 'Wallet Accounts', value: '1452001', description: 'Total wallet addresses' },
-            { id: 'daily_txs', title: 'Daily Trxs', value: '142510', description: 'Transactions today' },
-            { id: 'gas_avg', title: 'Avg Gas Price', value: '0.01', units: 'Gwei', description: 'Average gas price' },
-            { id: 'active_nodes', title: 'Active Validators', value: '24', description: 'Online validators' },
-            { id: 'smart_contracts', title: 'Smart Contracts', value: '15400', description: 'Deployed contracts' }
-          ]
-        };
-        return Promise.resolve(mockCounters) as unknown as Promise<SuccessType>;
-      }
-      if (resourceName === 'stats:line') {
-        const mockChartData = Array.from({ length: 30 }).map((_, i) => ({ 
-          date: new Date(Date.now() - i * 86400000).toISOString(), 
-          date_to: new Date(Date.now() - (i-1) * 86400000).toISOString(), 
-          value: String(Math.floor(Math.random() * 100000 + 50000)),
-          is_approximate: false
-        })).reverse();
-        
-        const mockLine = {
-          chart: mockChartData,
-          info: { 
-            id: pathParams && 'id' in pathParams ? pathParams.id as string : 'telemetry', 
-            title: 'DATA FEED', 
-            description: 'Encrypted telemetry datastream', 
-            units: 'count', 
-            resolutions: ['DAY', 'WEEK'] 
-          }
-        };
-        return Promise.resolve(mockLine) as unknown as Promise<SuccessType>;
-      }
-      if (resourceName === 'stats:lines') {
-        const mockLines = {
-          sections: [
-            {
-              id: "core", title: "Core Telemetry", charts: [
-                { id: "txnsFee", title: "Transaction Fees", description: "Daily fee usage" },
-                { id: "activeAccounts", title: "Active Accounts", description: "Active users dynamically" },
-                { id: "newBlocks", title: "Block Creation", description: "New blocks mined" }
-              ]
-            },
-            {
-              id: "network", title: "Network Datastream", charts: [
-                { id: "gasUsed", title: "Gas Utilization", description: "Gas utilized over time" },
-                { id: "contractCalls", title: "Smart Contract Activity", description: "Contract calls dynamically" }
-              ]
-            }
-          ]
-        };
-        return Promise.resolve(mockLines) as unknown as Promise<SuccessType>;
-      }
-      if (resourceName === 'stats:pages_main') {
-        // Return undefined to force fallback to the true general data API for FC Chain
-        return Promise.resolve({}) as unknown as Promise<SuccessType>;
-      }
-    }
-
     return fetch<SuccessType, ErrorType>(
       url,
       {

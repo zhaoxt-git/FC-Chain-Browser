@@ -81,7 +81,7 @@ const NavigationDesktop = () => {
         <chakra.a href="/" display="flex" alignItems="center" _hover={{ textDecoration: 'none' }} mr={ 10 }>
           <img
             src="/logo.jpg"
-            alt="FC Chain Logo"
+            alt="Meridian Logo"
             style={{
               height: '40px',
               objectFit: 'contain',
@@ -99,7 +99,7 @@ const NavigationDesktop = () => {
             color="#e5c158"
             textShadow="0 0 10px rgba(229,193,88,0.4)"
           >
-            FC Chain
+            Meridian
           </chakra.span>
         </chakra.a>
         <TestnetBadge ml={ 3 }/>

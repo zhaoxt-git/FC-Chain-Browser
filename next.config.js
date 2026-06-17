@@ -1,81 +1,83 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.BUNDLE_ANALYZER === 'true',
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.BUNDLE_ANALYZER === "true",
 });
 
-const withRoutes = require('nextjs-routes/config')({
-  outDir: 'nextjs',
+const withRoutes = require("nextjs-routes/config")({
+  outDir: "nextjs",
 });
 
-const headers = require('./nextjs/headers');
-const redirects = require('./nextjs/redirects');
-const rewrites = require('./nextjs/rewrites');
+const headers = require("./nextjs/headers");
+const redirects = require("./nextjs/redirects");
+const rewrites = require("./nextjs/rewrites");
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
-  transpilePackages: [
-    'react-syntax-highlighter',
-  ],
+  transpilePackages: ["react-syntax-highlighter"],
   reactStrictMode: true,
+
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  // Turbopack config (Next.js 16 default bundler) – mirrors webpack customizations below
+
+  // ==================== 内存优化重点 ====================
+  experimental: {
+    staleTimes: {
+      dynamic: 30,
+      static: 180,
+    },
+    cpus: 1, // 关键：限制并行数，大幅降低内存峰值
+    webpackBuildWorker: true, // 强制开启独立 Worker 构建（节省内存）
+    webpackMemoryOptimizations: true, // Next.js 15+ 可用，进一步省内存
+  },
+
+  // Turbopack 配置
   turbopack: {
     rules: {
-      '*.svg': {
-        loaders: [ '@svgr/webpack' ],
-        as: '*.js',
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
       },
     },
-    // Stub Node built-ins only in browser bundles; Node (SSR, instrumentation) keeps real modules
     resolveAlias: {
-      fs: { browser: './nextjs/empty-module.js' },
-      net: { browser: './nextjs/empty-module.js' },
-      tls: { browser: './nextjs/empty-module.js' },
+      fs: { browser: "./nextjs/empty-module.js" },
+      net: { browser: "./nextjs/empty-module.js" },
+      tls: { browser: "./nextjs/empty-module.js" },
     },
   },
-  // Used when BUNDLE_ANALYZER=true (run: next build --webpack) or for custom webpack tooling
+
   webpack(config) {
-    config.module.rules.push(
-      {
-        test: /\.svg$/,
-        use: [ '@svgr/webpack' ],
-      },
-    );
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+
     config.resolve.fallback = { fs: false, net: false, tls: false };
-    config.externals.push('pino-pretty', 'lokijs', 'encoding');
-    
+    config.externals.push("pino-pretty", "lokijs", "encoding");
+
     config.experiments = { ...config.experiments, topLevelAwait: true };
-    // Tell webpack the target supports async/await so it stops warning about top-level await
-    // Top-level await is belong to ES2017 specification that is adopted by all major browsers and Node.js.
     config.output.environment = {
       ...config.output.environment,
       asyncFunction: true,
     };
 
+    // 额外内存优化
+    config.cache = false; // 构建时禁用缓存（可大幅降低内存）
+
     return config;
   },
-  // NOTE: all config functions should be static and not depend on any environment variables
-  // since all variables will be passed to the app only at runtime and there is now way to change Next.js config at this time
-  // if you are stuck and strongly believe what you need some sort of flexibility here please fill free to join the discussion
-  // https://github.com/blockscout/frontend/discussions/167
+
   rewrites,
   redirects,
   headers,
-  output: 'standalone',
+  output: "standalone",
   productionBrowserSourceMaps: false,
+
   serverExternalPackages: [
-    '@opentelemetry/sdk-node',
-    '@opentelemetry/auto-instrumentations-node',
-    'pino-pretty',
-    'lokijs',
-    'encoding',
+    "@opentelemetry/sdk-node",
+    "@opentelemetry/auto-instrumentations-node",
+    "pino-pretty",
+    "lokijs",
+    "encoding",
   ],
-  experimental: {
-    staleTimes: {
-      dynamic: 30,
-      'static': 180,
-    },
-  },
 };
 
 module.exports = withBundleAnalyzer(withRoutes(moduleExports));

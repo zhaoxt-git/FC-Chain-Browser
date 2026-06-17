@@ -1,7 +1,11 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import type { NavItemInternal, NavItem, NavGroupItem } from 'types/client/navigation';
+import type {
+  NavItemInternal,
+  NavItem,
+  NavGroupItem,
+} from 'types/client/navigation';
 
 import config from 'configs/app';
 
@@ -12,7 +16,9 @@ interface ReturnType {
   accountNavItems: Array<NavItem>;
 }
 
-export function isGroupItem(item: NavItem | NavGroupItem): item is NavGroupItem {
+export function isGroupItem(
+  item: NavItem | NavGroupItem,
+): item is NavGroupItem {
   return 'subItems' in item;
 }
 
@@ -32,6 +38,7 @@ export default function useNavItems(): ReturnType {
     const topAccounts: NavItem | null = {
       text: 'Top accounts',
       nextRoute: { pathname: '/accounts' as const },
+      // icon: 'navigation\\top_accounts',
       icon: 'navigation/top_accounts',
       isActive: pathname === '/accounts',
     };
@@ -39,7 +46,10 @@ export default function useNavItems(): ReturnType {
       text: 'Blocks',
       nextRoute: { pathname: '/blocks' as const },
       icon: 'navigation/block',
-      isActive: pathname === '/blocks' || pathname === '/block/[height_or_hash]' || pathname === '/chain/[chain_slug]/block/[height_or_hash]',
+      isActive:
+        pathname === '/blocks' ||
+        pathname === '/block/[height_or_hash]' ||
+        pathname === '/chain/[chain_slug]/block/[height_or_hash]',
     };
     const txs: NavItem | null = {
       text: 'Transactions',
@@ -47,7 +57,9 @@ export default function useNavItems(): ReturnType {
       icon: 'navigation/transactions',
       isActive:
         // sorry, but this is how it was designed
-        (pathname === '/txs' && (!tab || (!tab.includes('cctx') && !tab.includes('txs_cross_chain')))) ||
+        (pathname === '/txs' &&
+          (!tab ||
+            (!tab.includes('cctx') && !tab.includes('txs_cross_chain')))) ||
         pathname === '/tx/[hash]' ||
         pathname === '/chain/[chain_slug]/tx/[hash]',
     };
@@ -131,7 +143,7 @@ export default function useNavItems(): ReturnType {
         text: 'Charts & stats',
         nextRoute: { pathname: '/stats' as const },
         icon: 'navigation/stats',
-        isActive: items.some(item => isInternalItem(item) && item.isActive),
+        isActive: items.some((item) => isInternalItem(item) && item.isActive),
         subItems: items,
       };
     })();
@@ -156,12 +168,15 @@ export default function useNavItems(): ReturnType {
         icon: 'navigation/private_tags',
         isActive: pathname.startsWith('/public-tags/submit'),
       },
-      config.features.rollup.isEnabled && config.features.rollup.type === 'arbitrum' ? {
-        text: 'Txn withdrawals',
-        nextRoute: { pathname: '/txn-withdrawals' as const },
-        icon: 'navigation/cross_chain_txs',
-        isActive: pathname.startsWith('/txn-withdrawals'),
-      } : null,
+      config.features.rollup.isEnabled &&
+      config.features.rollup.type === 'arbitrum' ?
+        {
+          text: 'Txn withdrawals',
+          nextRoute: { pathname: '/txn-withdrawals' as const },
+          icon: 'navigation/cross_chain_txs',
+          isActive: pathname.startsWith('/txn-withdrawals'),
+        } :
+        null,
       gasTrackerNavItem,
       ...config.UI.navigation.otherLinks,
     ].filter(Boolean);
@@ -170,27 +185,37 @@ export default function useNavItems(): ReturnType {
       {
         text: 'Blockchain',
         icon: 'navigation/blockchain' as const,
-        isActive: blockchainNavItems.flat().some(item => item && isInternalItem(item) && item.isActive),
+        isActive: blockchainNavItems
+          .flat()
+          .some((item) => item && isInternalItem(item) && item.isActive),
         subItems: blockchainNavItems,
       },
       {
         text: 'Tokens',
         icon: 'navigation/tokens' as const,
-        isActive: tokensNavItems.flat().some(item => item && isInternalItem(item) && item.isActive),
+        isActive: tokensNavItems
+          .flat()
+          .some((item) => item && isInternalItem(item) && item.isActive),
         subItems: tokensNavItems,
       },
-      marketplaceFeature.isEnabled ? {
-        text: marketplaceFeature.titles.menu_item,
-        nextRoute: { pathname: '/apps' as const },
-        icon: 'navigation/apps' as const,
-        isActive: pathname.startsWith('/app') || pathname.startsWith('/essential-dapps'),
-      } : null,
+      marketplaceFeature.isEnabled ?
+        {
+          text: marketplaceFeature.titles.menu_item,
+          nextRoute: { pathname: '/apps' as const },
+          icon: 'navigation/apps' as const,
+          isActive:
+              pathname.startsWith('/app') ||
+              pathname.startsWith('/essential-dapps'),
+        } :
+        null,
       statsNavItem,
       apiNavItem,
       {
         text: 'Other',
         icon: 'navigation/other' as const,
-        isActive: otherNavItems.flat().some(item => item && isInternalItem(item) && item.isActive),
+        isActive: otherNavItems
+          .flat()
+          .some((item) => item && isInternalItem(item) && item.isActive),
         subItems: otherNavItems,
       },
     ].filter(Boolean) as ReturnType['mainNavItems'];

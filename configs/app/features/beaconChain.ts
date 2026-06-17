@@ -4,6 +4,13 @@ import { getEnvValue } from '../utils';
 
 const title = 'Beacon chain';
 
+function formatNetworkCurrencySymbol(value: string): string {
+  return value
+    .replace(/\bMER\b/g, 'MRD')
+    .replace(/\bFCC\b/g, 'MRD')
+    .replace(/\bFC\b/g, 'MRD');
+}
+
 const config: Feature<{ currency: { symbol: string }; validatorUrlTemplate: string | undefined; withdrawalsOnly: boolean }> = (() => {
   if (getEnvValue('NEXT_PUBLIC_HAS_BEACON_CHAIN') === 'true') {
     const validatorUrlTemplate = getEnvValue('NEXT_PUBLIC_BEACON_CHAIN_VALIDATOR_URL_TEMPLATE');
@@ -12,10 +19,11 @@ const config: Feature<{ currency: { symbol: string }; validatorUrlTemplate: stri
       title,
       isEnabled: true,
       currency: {
-        symbol:
+        symbol: formatNetworkCurrencySymbol(
           getEnvValue('NEXT_PUBLIC_BEACON_CHAIN_CURRENCY_SYMBOL') ||
           getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL') ||
           '', // maybe we need some other default value here
+        ),
       },
       validatorUrlTemplate,
       withdrawalsOnly,

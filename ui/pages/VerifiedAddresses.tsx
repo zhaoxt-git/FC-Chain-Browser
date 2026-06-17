@@ -190,10 +190,10 @@ const VerifiedAddresses = () => {
       { userWithoutEmail && <VerifiedAddressesEmailAlert/> }
       <AccountPageDescription allowCut={ false }>
         <span>
-          Verify ownership of a smart contract address to easily update information in FC Chain.
+          Verify ownership of a smart contract address to easily update information in Meridian.
           You will sign a single message to verify contract ownership.
           Once verified, you can update token information, address name tags, and address labels from the
-          FC Chain console without needing to sign additional messages.
+          Meridian console without needing to sign additional messages.
         </span>
         <chakra.p fontWeight={ 600 } mt={ 5 }>
           Before starting, make sure that:

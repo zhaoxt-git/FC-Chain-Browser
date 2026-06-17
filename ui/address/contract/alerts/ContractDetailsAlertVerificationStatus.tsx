@@ -29,7 +29,7 @@ const ContractDetailsAlertVerificationStatus = ({ data, isLoading, addressData }
             href="https://docs.blockscout.com/devs/verification/ethereum-bytecode-database-microservice"
             external
           >
-            FC Chain Bytecode Database
+            Meridian Bytecode Database
           </Link>
         </>
       );

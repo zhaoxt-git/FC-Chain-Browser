@@ -1,29 +1,43 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { Tooltip } from 'toolkit/chakra/tooltip';
 import * as EntityBase from 'ui/shared/entities/base/components';
 
 import type { ContentProps } from './AddressEntity';
 import AddressEntity from './AddressEntity';
 
+interface AddressImplementationCompatible {
+  readonly address?: string | null;
+  readonly address_hash?: string | null;
+  readonly filecoin_robust_address?: string | null;
+  readonly name?: string | null;
+}
+
+function getImplementationHash(implementation: AddressImplementationCompatible): string {
+  return implementation.address_hash || implementation.address || '';
+}
+
 const AddressEntityContentProxy = (props: ContentProps) => {
-  const implementations = props.address.implementations;
+  const implementations = props.address.implementations as Array<AddressImplementationCompatible> | null | undefined;
 
   if (!implementations || implementations.length === 0) {
     return null;
   }
 
   const colNum = Math.min(implementations.length, 3);
-  const nameTag = props.address.metadata?.tags.find(tag => tag.tagType === 'name')?.name;
+  const rawNameTag = props.address.metadata?.tags.find(tag => tag.tagType === 'name')?.name;
+  const nameTag = rawNameTag ? formatMeridianBrandText(rawNameTag) : undefined;
 
-  const implementationName = implementations.length === 1 && implementations[0].name ? implementations[0].name : undefined;
+  const implementationName = implementations.length === 1 && implementations[0].name ? formatMeridianBrandText(implementations[0].name) : undefined;
+  const addressName = props.address.name ? formatMeridianBrandText(props.address.name) : undefined;
 
   const content = (
     <>
       <Box fontWeight={ 600 }>
         Proxy contract
-        { props.address.name ? ` (${ props.address.name })` : '' }
+        { addressName ? ` (${ addressName })` : '' }
       </Box>
       <AddressEntity
         address={{ hash: props.address.hash, filecoin: props.address.filecoin }}
@@ -39,19 +53,27 @@ const AddressEntityContentProxy = (props: ContentProps) => {
         { implementationName ? ` (${ implementationName })` : '' }
       </Box>
       <Flex flexWrap="wrap" columnGap={ 3 }>
-        { implementations.map((item) => (
-          <AddressEntity
-            key={ item.address_hash }
-            address={{ hash: item.address_hash, filecoin: { robust: item.filecoin_robust_address } }}
-            noLink
-            noIcon
-            noHighlight
-            noTooltip
-            minW={ `calc((100% - ${ colNum - 1 } * 12px) / ${ colNum })` }
-            flex={ 1 }
-            justifyContent={ colNum === 1 ? 'center' : undefined }
-          />
-        )) }
+        { implementations.map((item) => {
+          const implementationHash = getImplementationHash(item);
+
+          if (!implementationHash) {
+            return null;
+          }
+
+          return (
+            <AddressEntity
+              key={ implementationHash }
+              address={{ hash: implementationHash, filecoin: { robust: item.filecoin_robust_address } }}
+              noLink
+              noIcon
+              noHighlight
+              noTooltip
+              minW={ `calc((100% - ${ colNum - 1 } * 12px) / ${ colNum })` }
+              flex={ 1 }
+              justifyContent={ colNum === 1 ? 'center' : undefined }
+            />
+          );
+        }) }
       </Flex>
     </>
   );
@@ -61,8 +83,8 @@ const AddressEntityContentProxy = (props: ContentProps) => {
       <Box display="inline-flex" w="100%">
         <EntityBase.Content
           { ...props }
-          truncation={ nameTag || implementationName || props.address.name ? 'tail' : props.truncation }
-          text={ nameTag || implementationName || props.address.name || props.altHash || props.address.hash }
+          truncation={ nameTag || implementationName || addressName ? 'tail' : props.truncation }
+          text={ nameTag || implementationName || addressName || props.altHash || props.address.hash }
           noTooltip
         />
       </Box>

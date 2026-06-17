@@ -10,6 +10,13 @@ const DEFAULT_CURRENCY_DECIMALS = 18;
 
 const rollupType = getEnvValue('NEXT_PUBLIC_ROLLUP_TYPE') as RollupType;
 
+function formatNetworkCurrencySymbol(value: string | undefined): string {
+  return (value || '')
+    .replace(/\bMER\b/g, 'MRD')
+    .replace(/\bFCC\b/g, 'MRD')
+    .replace(/\bFC\b/g, 'MRD');
+}
+
 const verificationType: NetworkVerificationType = (() => {
   if (rollupType === 'arbitrum') {
     return 'posting';
@@ -41,7 +48,7 @@ const chain = Object.freeze({
     name: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_NAME'),
     weiName: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_WEI_NAME'),
     gweiName: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_GWEI_NAME'),
-    symbol: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL'),
+    symbol: formatNetworkCurrencySymbol(getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL')),
     decimals: Number(getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_DECIMALS')) || DEFAULT_CURRENCY_DECIMALS,
   },
   secondaryCoin: {

@@ -15,7 +15,7 @@ import useWalletReown from 'lib/web3/wallet/useWalletReown';
 import { toaster } from 'toolkit/chakra/toaster';
 import { YEAR } from 'toolkit/utils/consts';
 
-function composeMessage(address: string, nonceFcChain: string, nonceRewards: string) {
+function composeMessage(address: string, nonceMeridian: string, nonceRewards: string) {
   const urlObj = window.location.hostname === 'localhost' && config.apis.rewards ?
     new URL(config.apis.rewards.endpoint) :
     window.location;
@@ -24,12 +24,12 @@ function composeMessage(address: string, nonceFcChain: string, nonceRewards: str
     `${ urlObj.hostname } wants you to sign in with your Ethereum account:`,
     address,
     '',
-    `Sign in/up to FC Chain Account V2 & FC Chain Merits program. Merits nonce: ${ nonceRewards }.`,
+    `Sign in/up to Meridian Account V2 & Meridian Merits program. Merits nonce: ${ nonceRewards }.`,
     '',
     `URI: ${ urlObj.origin }`,
     'Version: 1',
     `Chain ID: ${ config.chain.id }`,
-    `Nonce: ${ nonceFcChain }`,
+    `Nonce: ${ nonceMeridian }`,
     `Issued At: ${ new Date().toISOString() }`,
     `Expiration Time: ${ new Date(Date.now() + YEAR).toISOString() }`,
   ].join('\n');

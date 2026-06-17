@@ -5,6 +5,7 @@ import type { TokenInstance } from 'types/api/token';
 import type { TokenTransfer } from 'types/api/tokenTransfer';
 import type { ClusterChainConfig } from 'types/multichain';
 
+import { formatMeridianBrandText } from 'lib/brand/formatMeridianBrandText';
 import { hasTokenTransferValue, isConfidentialTokenType, NFT_TOKEN_TYPE_IDS } from 'lib/token/tokenTypes';
 import { Badge } from 'toolkit/chakra/badge';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -60,7 +61,7 @@ const TokenTransferListItem = ({
         to={ to }
         isLoading={ isLoading }
         tokenHash={ token?.address_hash }
-        tokenSymbol={ token?.symbol ?? undefined }
+        tokenSymbol={ token?.symbol ? formatMeridianBrandText(token.symbol) : undefined }
         w="100%"
         fontWeight="500"
       />
@@ -77,7 +78,7 @@ const TokenTransferListItem = ({
             overflow="hidden"
           >
             <span>Value </span>
-            { token.symbol && <TruncatedText text={ token.symbol } loading={ isLoading }/> }
+            { token.symbol && <TruncatedText text={ formatMeridianBrandText(token.symbol) } loading={ isLoading }/> }
           </Skeleton>
           <AssetValue
             amount={ total.value }
@@ -101,7 +102,7 @@ const TokenTransferListItem = ({
             overflow="hidden"
           >
             <span>Value </span>
-            { token.symbol && <TruncatedText text={ token.symbol } loading={ isLoading }/> }
+            { token.symbol && <TruncatedText text={ formatMeridianBrandText(token.symbol) } loading={ isLoading }/> }
           </Skeleton>
           <ConfidentialValue
             loading={ isLoading }

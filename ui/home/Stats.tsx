@@ -100,6 +100,17 @@ const Stats = () => {
       return [];
     }
 
+    const hasAverageBlockTime = (
+      statsData?.average_block_time?.value !== undefined && statsData.average_block_time.value !== null
+    ) || (
+      apiData?.average_block_time !== undefined && apiData.average_block_time !== null
+    );
+    const averageBlockTime = (
+      statsData?.average_block_time?.value !== undefined && statsData.average_block_time.value !== null
+    ) ?
+      Number(statsData.average_block_time.value).toFixed(2) :
+      `${ ((apiData?.average_block_time || 0) / 1000).toFixed(2) }s`;
+
     const gasInfoTooltip = hasGasTracker && apiData?.gas_prices && apiData.gas_prices.average ? (
       <GasInfoTooltip data={ apiData } dataUpdatedAt={ apiQuery.dataUpdatedAt }>
         <IconSvg
@@ -114,11 +125,11 @@ const Stats = () => {
       </GasInfoTooltip>
     ) : null;
 
-    const baseItems = [
+    const baseItems: Array<HomeStatsItem | false | undefined | null | ''> = [
       {
         id: 'fc_price' as const,
-        label: 'FC Price',
-        value: apiData?.coin_price ? `$${apiData.coin_price}` : '$2060.07',
+        label: 'MRD Price',
+        value: apiData?.coin_price ? `$${ apiData.coin_price }` : '$2060.07',
         subtext: '+12.4% (24h)',
         subtextColor: 'rgba(34, 197, 94, 1)',
         isLoading,
@@ -140,16 +151,12 @@ const Stats = () => {
         href: { pathname: '/blocks' as const },
         isLoading,
       },
-      (statsData?.average_block_time?.value || apiData?.average_block_time) && {
+      hasAverageBlockTime && {
         id: 'average_block_time' as const,
         icon: 'clock-light' as const,
         label: 'Avg block time',
         subtext: 'REAL-TIME FINALITY',
-        value: `${
-          statsData?.average_block_time?.value ?
-            Number(statsData.average_block_time.value).toFixed(2) :
-            (apiData!.average_block_time / 1000).toFixed(2)
-        }s`,
+        value: averageBlockTime,
         isLoading,
       },
       (statsData?.total_transactions?.value || apiData?.total_transactions) && {
@@ -216,18 +223,18 @@ const Stats = () => {
         isLoading,
       },
     ]
-      .filter(Boolean)
-      .filter((item: any) => item.id === 'fc_price' || isHomeStatsItemEnabled(item))
-      .sort((a: any, b: any) => {
-        // Force FC Price, Latest Block, Network TPS, Avg block time to the top in specific order
-        const priorityOrder = ['fc_price', 'total_blocks', 'total_txs', 'average_block_time'];
+      .filter((item): item is HomeStatsItem => Boolean(item))
+      .filter((item) => item.id === 'fc_price' || isHomeStatsItemEnabled(item))
+      .sort((a, b) => {
+        // Force MRD Price, Latest Block, Network TPS, Avg block time to the top in specific order
+        const priorityOrder = [ 'fc_price', 'total_blocks', 'total_txs', 'average_block_time' ];
         const aIndex = priorityOrder.indexOf(a.id);
         const bIndex = priorityOrder.indexOf(b.id);
-        
+
         if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
         if (aIndex !== -1) return -1;
         if (bIndex !== -1) return 1;
-        
+
         return sortHomeStatsItems(a, b);
       });
 
@@ -249,11 +256,11 @@ const Stats = () => {
       { items.map((item, index) => (
         <GridItem key={ item.id } colSpan={{ base: 1, lg: index >= 4 ? 2 : 1 }}>
           <StatsWidget
-            { ...(item as any) }
+            { ...item }
             isLoading={ isLoading }
           />
         </GridItem>
-      ))}
+      )) }
     </Grid>
 
   );

@@ -2,6 +2,7 @@
 # *** STAGE 1: Dependencies ***
 # *****************************
 FROM node:22.14.0-alpine AS deps
+# FROM node:22-bookworm AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat python3 make g++
 RUN ln -sf /usr/bin/python3 /usr/bin/python
@@ -68,6 +69,7 @@ RUN yarn --frozen-lockfile --network-timeout 100000
 # ****** STAGE 2: Build *******
 # *****************************
 FROM node:22.14.0-alpine AS builder
+# FROM node:22-bookworm AS builder
 RUN apk add --no-cache --upgrade libc6-compat bash jq
 
 # pass build args to env variables
@@ -145,6 +147,7 @@ RUN cd ./deploy/tools/llms-txt-generator && yarn build
 # *****************************
 # Production image, copy all the files and run next
 FROM node:22.14.0-alpine AS runner
+# FROM node:20-bookworm AS runner
 RUN apk add --no-cache --upgrade bash curl jq unzip
 
 ### APP

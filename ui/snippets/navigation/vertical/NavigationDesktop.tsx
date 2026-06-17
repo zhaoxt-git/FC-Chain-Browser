@@ -78,7 +78,7 @@ const NavigationDesktop = () => {
               <Box
                 as="img"
                 src="/logo.jpg"
-                alt="FC Chain Logo"
+                alt="Meridian Logo"
                 h="36px"
                 w="36px"
                 objectFit="contain"
@@ -95,7 +95,7 @@ const NavigationDesktop = () => {
                   lineHeight="1"
                   fontFamily="'Inter', sans-serif"
                 >
-                  FC CHAIN
+                  Meridian
                 </Box>
               </Box>
             </Flex>
@@ -106,7 +106,7 @@ const NavigationDesktop = () => {
             <Box
               as="img"
               src="/logo.jpg"
-              alt="FC Chain Icon"
+              alt="Meridian Icon"
               h="32px"
               w="32px"
               objectFit="contain"

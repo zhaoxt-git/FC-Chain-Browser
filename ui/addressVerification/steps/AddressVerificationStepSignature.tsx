@@ -198,7 +198,7 @@ const AddressVerificationStepSignature = ({ address, signingMessage, contractCre
       <form noValidate onSubmit={ onSubmit }>
         { rootError && <Alert status="warning" mb={ 6 }>{ rootError }</Alert> }
         <Box mb={ 8 }>
-          <span>Please select the address to sign and copy the message and sign it using the FC Chain message provider of your choice. </span>
+          <span>Please select the address to sign and copy the message and sign it using the Meridian message provider of your choice. </span>
           <Link href="https://docs.blockscout.com/using-blockscout/my-account/verified-addresses/copy-and-sign-message" external noIcon>
             Additional instructions
           </Link>

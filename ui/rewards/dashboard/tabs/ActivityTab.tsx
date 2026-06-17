@@ -111,10 +111,10 @@ export default function ActivityTab() {
   const tasks = useMemo(() => (
     [
       {
-        title: 'FC Chain activity',
+        title: 'Meridian activity',
         description: (
           <>
-            Use FC Chain tools like{ ' ' }
+            Use Meridian tools like{ ' ' }
             <Link
               external={ !marketplaceFeature?.essentialDapps }
               href={ marketplaceFeature?.essentialDapps ?
@@ -144,7 +144,7 @@ export default function ActivityTab() {
             <Link href={ route({ pathname: '/contract-verification' }) }>
               verify a smart contract
             </Link>{ ' ' }
-            on the FC Chain explorer to earn Merits.
+            on the Meridian explorer to earn Merits.
           </>
         ),
         percentile: activities.contracts?.percentile,
@@ -154,11 +154,11 @@ export default function ActivityTab() {
         maxAmount: getMaxAmount(rewardsConfigQuery.data?.rewards?.verified_contracts_activity_rewards),
       },
       {
-        title: 'FC Chain usage',
+        title: 'Meridian usage',
         description: (
           <>
-            Use FC Chain explorers in your daily routine { mdash } check transactions, explore addresses,
-            or add tokens/networks to MetaMask via FC Chain.
+            Use Meridian explorers in your daily routine { mdash } check transactions, explore addresses,
+            or add tokens/networks to your wallet via Meridian.
           </>
         ),
         percentile: activities.usage?.percentile,
@@ -220,7 +220,7 @@ export default function ActivityTab() {
           <Flex flexDirection="column" p={{ base: 1.5, md: 0 }} pb={ 0 }>
             <Heading level="3" mb={ 2 }>Your activity</Heading>
             <Text textStyle="sm" mb={{ base: 2, md: 4 }}>
-              Use FC Chain and related products daily to earn Merits. Check each task for details and how to get started.
+              Use Meridian and related products daily to earn Merits. Check each task for details and how to get started.
             </Text>
             <Flex alignItems="center" gap={ 3 } mb={{ base: 0, md: 4 }}>
               <Button

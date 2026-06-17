@@ -25,10 +25,10 @@ const UserWalletButton = ({ size, variant, isPending, isAutoConnectDisabled, add
   const content = (() => {
     // 状态指示灯: 青色为已连接，暗青色微光为未连接
     const statusDot = (
-      <Box 
-        w="8px" h="8px" 
-        borderRadius="0px" 
-        bg={ address ? '#38bdf8' : 'rgba(56, 189, 248, 0.3)' } 
+      <Box
+        w="8px" h="8px"
+        borderRadius="0px"
+        bg={ address ? '#38bdf8' : 'rgba(56, 189, 248, 0.3)' }
         boxShadow={ address ? '0 0 10px #38bdf8' : '0 0 5px rgba(56, 189, 248, 0.2)' }
         mr={ 1 }
       />
@@ -56,7 +56,7 @@ const UserWalletButton = ({ size, variant, isPending, isAutoConnectDisabled, add
 
   return (
     <Tooltip
-      content="Connect your wallet to FC Chain for full-featured access"
+      content="Connect your wallet to Meridian for full-featured access"
       disabled={ isMobile || Boolean(address) }
       openDelay={ 500 }
       disableOnMobile
@@ -70,18 +70,18 @@ const UserWalletButton = ({ size, variant, isPending, isAutoConnectDisabled, add
           backdropFilter="blur(24px)"
           border="1px solid rgba(56, 189, 248, 0.2)"
           borderTop="1px solid rgba(56, 189, 248, 0.4)"
-          color={ address ? "#38bdf8" : "whiteAlpha.900" }
+          color={ address ? '#38bdf8' : 'whiteAlpha.900' }
           boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(56, 189, 248, 0.1)"
           _hover={{
-            border: "1px solid rgba(56, 189, 248, 0.8)",
-            boxShadow: "0 15px 40px -10px rgba(0,0,0,0.8), inset 0 1px 1px rgba(56, 189, 248, 0.3)",
-            color: "#38bdf8",
-            background: "linear-gradient(180deg, rgba(35, 48, 68, 0.75) 0%, rgba(18, 28, 50, 0.8) 100%)",
-            transform: "translateY(-2px)",
+            border: '1px solid rgba(56, 189, 248, 0.8)',
+            boxShadow: '0 15px 40px -10px rgba(0,0,0,0.8), inset 0 1px 1px rgba(56, 189, 248, 0.3)',
+            color: '#38bdf8',
+            background: 'linear-gradient(180deg, rgba(35, 48, 68, 0.75) 0%, rgba(18, 28, 50, 0.8) 100%)',
+            transform: 'translateY(-2px)',
           }}
           _active={{
-            transform: "translateY(1px)",
-            boxShadow: "inset 0 0 20px rgba(56, 189, 248, 0.15)",
+            transform: 'translateY(1px)',
+            boxShadow: 'inset 0 0 20px rgba(56, 189, 248, 0.15)',
           }}
           transition="all 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
           px={{ base: 3, lg: 5 }}

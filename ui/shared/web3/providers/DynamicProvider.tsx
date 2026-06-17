@@ -26,6 +26,17 @@ const walletConnectors = [
   EthereumWalletConnectors,
 ];
 
+const walletsFilter: NonNullable<DynamicContextProps['settings']['walletsFilter']> = (options) => {
+  return options.filter((option) => {
+    const walletKey = option.key.toLowerCase();
+    const walletName = option.name.toLowerCase();
+    const connectorKey = option.walletConnector.key.toLowerCase();
+    const connectorName = option.walletConnector.name.toLowerCase();
+
+    return ![ walletKey, walletName, connectorKey, connectorName ].some((value) => value.includes('metamask'));
+  });
+};
+
 const overrides: DynamicContextProps['settings']['overrides'] = {
   evmNetworks: chains.map((chain) => {
     const logoUrl = castToString(chain.custom?.logoUrl);
@@ -91,6 +102,7 @@ const DynamicProvider = ({ children }: Props) => {
       walletConnectors,
       environmentId,
       useMetamaskSdk: false,
+      walletsFilter,
       overrides,
       events: {
         onAuthSuccess,

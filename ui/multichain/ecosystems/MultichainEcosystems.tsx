@@ -3,10 +3,12 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { ChainMetricsSorting, ChainMetricsSortingField, ChainMetricsSortingValue } from 'types/client/multichainAggregator';
+import type { ClusterChainConfig } from 'types/multichain';
 
+import appConfig from 'configs/app';
 import multichainConfig from 'configs/multichain';
 import useApiQuery from 'lib/api/useApiQuery';
-import { CHAIN_METRICS } from 'stubs/multichain';
+import type { CHAIN_METRICS } from 'stubs/multichain';
 import ActionBar from 'ui/shared/ActionBar';
 import DataListDisplay from 'ui/shared/DataListDisplay';
 import PageTitle from 'ui/shared/Page/PageTitle';
@@ -34,38 +36,52 @@ const MultichainEcosystems = () => {
 
   const isError = query.isError;
   const isPlaceholderData = query.isPlaceholderData || (isError && false);
-  
+
   const mockMetrics = [
     {
-      chain_id: 'fc',
+      chain_id: 'MRD',
       tps: '215.40',
       new_addresses: { current_full_week: '6450', previous_full_week: '3100', wow_diff_percent: '108.06' },
       daily_transactions: { current_full_week: '135200', previous_full_week: '105000', wow_diff_percent: '28.76' },
-      active_accounts: { current_full_week: '32000', previous_full_week: '15000', wow_diff_percent: '113.33' }
+      active_accounts: { current_full_week: '32000', previous_full_week: '15000', wow_diff_percent: '113.33' },
     },
     {
       chain_id: 'eth',
       tps: '12.80',
       new_addresses: { current_full_week: '154200', previous_full_week: '154000', wow_diff_percent: '0.12' },
       daily_transactions: { current_full_week: '1150000', previous_full_week: '1100000', wow_diff_percent: '4.54' },
-      active_accounts: { current_full_week: '430000', previous_full_week: '420000', wow_diff_percent: '2.38' }
+      active_accounts: { current_full_week: '430000', previous_full_week: '420000', wow_diff_percent: '2.38' },
     },
     {
       chain_id: 'bsc',
       tps: '55.10',
       new_addresses: { current_full_week: '300000', previous_full_week: '310000', wow_diff_percent: '-3.22' },
       daily_transactions: { current_full_week: '3500000', previous_full_week: '3600000', wow_diff_percent: '-2.77' },
-      active_accounts: { current_full_week: '1200000', previous_full_week: '1250000', wow_diff_percent: '-4.00' }
-    }
-  ] as typeof CHAIN_METRICS[];
+      active_accounts: { current_full_week: '1200000', previous_full_week: '1250000', wow_diff_percent: '-4.00' },
+    },
+  ] as Array<typeof CHAIN_METRICS>;
 
   const mockChains = [
-    { id: 'fc', title: 'FC Decentralized Network', icon_url: '/assets/images/logo-icon-dark.svg', url: '/' },
-    { id: 'eth', title: 'Ethereum Mainnet', icon_url: 'https://cdn.iconscout.com/icon/free/png-256/ethereum-2752194-2284971.png', url: 'https://etherscan.io' },
-    { id: 'bsc', title: 'BNB Smart Chain', icon_url: 'https://cryptologos.cc/logos/bnb-bnb-logo.png', url: 'https://bscscan.com' }
-  ];
+    { id: 'MRD', slug: 'meridian', name: 'Meridian', logo: '/logo.jpg', explorer_url: '/', app_config: appConfig },
+    {
+      id: 'eth',
+      slug: 'ethereum',
+      name: 'Ethereum Mainnet',
+      logo: 'https://cdn.iconscout.com/icon/free/png-256/ethereum-2752194-2284971.png',
+      explorer_url: 'https://etherscan.io',
+      app_config: appConfig,
+    },
+    {
+      id: 'bsc',
+      slug: 'bsc',
+      name: 'BNB Smart Chain',
+      logo: 'https://cryptologos.cc/logos/bnb-bnb-logo.png',
+      explorer_url: 'https://bscscan.com',
+      app_config: appConfig,
+    },
+  ] satisfies Array<ClusterChainConfig>;
 
-  const data = query.data || (isError ? { items: mockMetrics } : undefined);
+  const data = query.data?.items.length ? query.data : { items: mockMetrics };
 
   const configChains = multichainConfig()?.chains || [];
   const chains = configChains.length > 0 ? configChains : mockChains;
@@ -82,6 +98,7 @@ const MultichainEcosystems = () => {
           sort={ sort }
           setSorting={ handleSortChange }
           isLoading={ isPlaceholderData }
+          chains={ chains }
         />
       </Box>
       <Box hideFrom="lg">

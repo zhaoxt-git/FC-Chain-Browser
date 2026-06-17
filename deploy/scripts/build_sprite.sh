@@ -3,7 +3,8 @@
 icons_dir="./icons"
 target_dir="./public/icons"
 
-yarn icons build -i $icons_dir -o $target_dir --optimize
+# 强制非交互模式运行
+echo "y" | CI=true yarn icons build -i $icons_dir -o $target_dir --optimize
 
 # Windows path fix: Replace backslashes and escaped chars in IDs, creating completely flat alphanumeric strings (e.g. "navigationtransactions")
 cat << 'EOF' > "$target_dir/fix_sprite_ids.js"
