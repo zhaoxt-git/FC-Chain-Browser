@@ -18,6 +18,7 @@ COPY toolkit/theme ./toolkit/theme
 COPY toolkit/utils ./toolkit/utils
 COPY toolkit/components/forms/validators/url.ts ./toolkit/components/forms/validators/url.ts
 RUN apk add git
+RUN yarn config set registry https://registry.npmmirror.com
 RUN yarn --frozen-lockfile --network-timeout 100000
 
 
