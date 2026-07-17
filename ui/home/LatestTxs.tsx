@@ -9,6 +9,7 @@ import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import { TX } from 'stubs/tx';
 import { Link } from 'toolkit/chakra/link';
+import { SECOND } from 'toolkit/utils/consts';
 import SocketNewItemsNotice from 'ui/shared/SocketNewItemsNotice';
 import useNewTxsSocket from 'ui/txs/socket/useTxsSocketTypeAll';
 
@@ -18,12 +19,15 @@ import LatestTxsItemMobile from './LatestTxsItemMobile';
 
 const zetachainFeature = config.features.zetachain;
 
+const LATEST_TXS_REFETCH_INTERVAL = 15 * SECOND;
+
 const LatestTxs = () => {
   const isMobile = useIsMobile();
   const txsCount = isMobile ? 2 : 5;
   const { data, isPlaceholderData, isError } = useApiQuery('general:homepage_txs', {
     queryOptions: {
       placeholderData: Array(txsCount).fill(TX),
+      refetchInterval: LATEST_TXS_REFETCH_INTERVAL,
     },
   });
 

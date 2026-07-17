@@ -142,19 +142,20 @@ const Footer = () => {
   };
 
   const renderRecaptcha = (gridArea?: GridProps['gridArea']) => {
-    if (!config.services.reCaptchaV2.siteKey) {
-      return <Box gridArea={ gridArea }/>;
-    }
-
-    return (
-      <Box gridArea={ gridArea } textStyle="xs" mt={ 6 } fontFamily="'Space Mono', monospace" color="gray.600">
-        <span>Protected by reCAPTCHA & Google </span>
-        <Link href="https://policies.google.com/privacy" external noIcon color="gray.500" _hover={{ color: 'white' }}>Privacy Policy</Link>
-        <span> & </span>
-        <Link href="https://policies.google.com/terms" external noIcon color="gray.500" _hover={{ color: 'white' }}>Terms</Link>
-        <span>.</span>
-      </Box>
-    );
+    return <Box gridArea={ gridArea }/>;
+    // if (!config.services.reCaptchaV2.siteKey) {
+    //   return <Box gridArea={ gridArea }/>;
+    // }
+    //
+    // return (
+    //   <Box gridArea={ gridArea } textStyle="xs" mt={ 6 } fontFamily="'Space Mono', monospace" color="gray.600">
+    //     <span>Protected by reCAPTCHA & Google </span>
+    //     <Link href="https://policies.google.com/privacy" external noIcon color="gray.500" _hover={{ color: 'white' }}>Privacy Policy</Link>
+    //     <span> & </span>
+    //     <Link href="https://policies.google.com/terms" external noIcon color="gray.500" _hover={{ color: 'white' }}>Terms</Link>
+    //     <span>.</span>
+    //   </Box>
+    // );
   };
 
   const linkHoverProps = {

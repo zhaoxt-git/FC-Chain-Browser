@@ -7,10 +7,17 @@ interface Props {
   content: React.ReactNode;
 }
 
+let hasMountedOnce = false;
+
 const Root = ({ children, content }: Props) => {
+  const [ wasMountedBefore ] = React.useState(hasMountedOnce);
   const isMounted = useIsMounted();
 
-  if (!isMounted) {
+  React.useEffect(() => {
+    hasMountedOnce = true;
+  }, []);
+
+  if (!isMounted && !wasMountedBefore) {
     return content;
   }
 

@@ -6,20 +6,29 @@ target_dir="./public/icons"
 # 强制非交互模式运行
 echo "y" | CI=true yarn icons build -i $icons_dir -o $target_dir --optimize
 
-# Windows path fix: Replace backslashes and escaped chars in IDs, creating completely flat alphanumeric strings (e.g. "navigationtransactions")
+# Windows path fix: normalize path separators/control chars in IDs to flat strings
+# that match IconSvg's runtime lookup, e.g. "navigation/transactions" -> "navigationtransactions".
 cat << 'EOF' > "$target_dir/fix_sprite_ids.js"
 const fs = require('fs');
-let s = fs.readFileSync(process.argv[2], 'utf8');
-s = s.replace(/id="([^"]+)"/g, (match, id) => {
-    // 1. Remove literal slashes and backslashes
-    // 2. Replace escaped TAB (\t) with "t"
-    // 3. Replace escaped NEWLINE (\n) with "n"
-    const cleaned = id.replace(/[/\\]/g, '').replace(/\t/g, 't').replace(/\n/g, 'n');
+const spritePath = process.argv[2];
+const iconNamesPath = process.argv[3];
+let s = fs.readFileSync(spritePath, 'utf8');
+s = s.replace(/id="([\s\S]*?)"/g, (match, id) => {
+    const cleaned = id
+        .replace(/\r/g, 'r')
+        .replace(/\n/g, 'n')
+        .replace(/\t/g, 't')
+        .replace(/[/\\\s]/g, '');
     return `id="${cleaned}"`;
 });
-fs.writeFileSync(process.argv[2], s);
+fs.writeFileSync(spritePath, s);
+
+if (fs.existsSync(iconNamesPath)) {
+    const names = fs.readFileSync(iconNamesPath, 'utf8').replace(/\\\\/g, '/');
+    fs.writeFileSync(iconNamesPath, names);
+}
 EOF
-node "$target_dir/fix_sprite_ids.js" "$target_dir/sprite.svg"
+node "$target_dir/fix_sprite_ids.js" "$target_dir/sprite.svg" "$target_dir/name.d.ts"
 rm -f "$target_dir/fix_sprite_ids.js"
 
 

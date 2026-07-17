@@ -1,7 +1,6 @@
 import type { HTMLChakraProps } from '@chakra-ui/react';
 import { GrowthBookProvider } from '@growthbook/growthbook-react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -28,6 +27,7 @@ import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import AppErrorGlobalContainer from 'ui/shared/AppError/AppErrorGlobalContainer';
 import GoogleAnalytics from 'ui/shared/GoogleAnalytics';
 import Layout from 'ui/shared/layout/Layout';
+import RouteTransitionProgress from 'ui/shared/RouteTransitionProgress';
 import Web3Provider from 'ui/shared/web3/Web3Provider';
 
 const RewardsContextProvider = dynamic(() => import('lib/contexts/rewards').then(module => module.RewardsContextProvider), { ssr: false });
@@ -102,6 +102,7 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
     <>
       <PageMetadata pathname={ router.pathname as Route['pathname'] } query={ pageProps.query } apiData={ pageProps.apiData }/>
       <ChakraProvider>
+        <RouteTransitionProgress/>
         <RollbarProvider config={ rollbarConfig }>
           <AppErrorBoundary
             { ...ERROR_SCREEN_STYLES }
@@ -121,7 +122,7 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
                       </RewardsProvider>
                     </SocketProvider>
                   </GrowthBookProvider>
-                  {/* <ReactQueryDevtools buttonPosition="bottom-left" position="left"/> */}
+                  { /* <ReactQueryDevtools buttonPosition="bottom-left" position="left"/> */ }
                   <GoogleAnalytics/>
                 </AppContextProvider>
               </Web3Provider>

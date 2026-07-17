@@ -25,7 +25,8 @@ interface Props {
 
 const MultichainEcosystemsTableItem = ({ data, isLoading, chainInfo }: Props) => {
 
-  const { data: { wallet } = {} } = useProvider();
+  const { data: providerData } = useProvider();
+  const wallet = providerData?.wallet;
   const walletIcon = wallet ? WALLETS_INFO[wallet].icon : undefined;
 
   const handleAddToWalletClick = useAddChainClick({ source: 'Chain widget' });

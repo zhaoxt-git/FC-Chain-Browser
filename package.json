@@ -8,6 +8,9 @@
     "npm": ">=10.9.0"
   },
   "scripts": {
+    "dev:vite": "vite",
+    "build:vite": "./deploy/scripts/make_envs_script.sh && node --max-old-space-size=4096 ./node_modules/@playwright/experimental-ct-core/node_modules/vite/bin/vite.js build",
+    "preview:vite": "vite preview",
     "dev": "./tools/scripts/dev.sh",
     "dev:preset": "./tools/scripts/dev.preset.sh",
     "dev:preset:sync": "tsc -p ./tools/preset-sync/tsconfig.json && node ./tools/preset-sync/index.js",

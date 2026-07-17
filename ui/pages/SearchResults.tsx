@@ -279,7 +279,7 @@ const SearchResultsPageContent = () => {
     );
   }, [ handleSearchTermChange, handleSubmit, searchTerm ]);
 
-  const pageContent = !showContent ? <ContentLoader/> : (
+  const pageContent = !showContent ? <ContentLoader w="320px" maxW="100%"/> : (
     <>
       <PageTitle title="Search results"/>
       { bar }

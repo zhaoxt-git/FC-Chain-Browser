@@ -3,7 +3,7 @@
 
 # lint js/ts files
 echo 🧿 Running file linter...
-npx lint-staged
+npx lint-staged --concurrent false
 
 echo 🧿 Running spelling checker...
 git diff --diff-filter=ACMRT --cached --name-only | npx cspell --config cspell.jsonc --file-list stdin --no-must-find-files

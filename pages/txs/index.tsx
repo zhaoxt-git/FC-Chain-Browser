@@ -5,6 +5,7 @@ import React from 'react';
 import PageNextJs from 'nextjs/PageNextJs';
 
 import config from 'configs/app';
+import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
 
 const Transactions = dynamic(() => {
   if (config.features.multichain.isEnabled) {
@@ -20,7 +21,10 @@ const Transactions = dynamic(() => {
   }
 
   return import('ui/pages/Transactions');
-}, { ssr: false });
+}, {
+  loading: () => <ContentLoader maxW="240px"/>,
+  ssr: false,
+});
 
 const Page: NextPage = () => {
 

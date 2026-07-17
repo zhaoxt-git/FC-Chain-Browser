@@ -5,6 +5,7 @@ import type * as stats from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 import type { ExternalChainExtended } from 'types/externalChains';
 
+import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { STATS_CHARTS } from 'stubs/stats';
@@ -23,9 +24,11 @@ interface Props {
 
 export default function useStats({ chain }: Props = {}) {
   const router = useRouter();
+  const isStatsFeatureEnabled = config.features.stats.isEnabled;
 
   const { data, isPlaceholderData, isError } = useApiQuery('stats:lines', {
     queryOptions: {
+      enabled: isStatsFeatureEnabled,
       placeholderData: STATS_CHARTS,
     },
     chain,

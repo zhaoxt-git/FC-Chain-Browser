@@ -7,16 +7,14 @@ import * as cookies from 'lib/cookies';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import useProvider from 'lib/web3/useProvider';
 import { CONTENT_MAX_WIDTH } from 'ui/shared/layout/utils';
-import NetworkAddToWallet from 'ui/shared/NetworkAddToWallet';
 
 import DeFiDropdown from './DeFiDropdown';
 import NetworkMenu from './NetworkMenu';
-import Settings from './settings/Settings';
 import TopBarStats from './TopBarStats';
 
 const TopBar = () => {
   const hideAddToWalletButtonCookie = cookies.get(cookies.NAMES.HIDE_ADD_TO_WALLET_BUTTON, useAppContext().cookies);
-  const [ isAddChainButtonVisible, setIsAddChainButtonVisible ] = React.useState(hideAddToWalletButtonCookie !== 'topbar');
+  const [ isAddChainButtonVisible ] = React.useState(hideAddToWalletButtonCookie !== 'topbar');
 
   const web3 = useProvider();
   const isMobile = useIsMobile();
@@ -31,11 +29,6 @@ const TopBar = () => {
     !isMobile,
   );
   const hasDeFiDropdown = Boolean(config.features.deFiDropdown.isEnabled);
-
-  const handleAddSuccess = React.useCallback(() => {
-    cookies.set(cookies.NAMES.HIDE_ADD_TO_WALLET_BUTTON, 'topbar', { expires: 3 * 365 });
-    setIsAddChainButtonVisible(false);
-  }, [ ]);
 
   return (
     // not ideal if scrollbar is visible, but better than having a horizontal scroll
@@ -58,11 +51,10 @@ const TopBar = () => {
         >
           { (hasAddChainButton || hasDeFiDropdown) && (
             <HStack>
-              { /* hasAddChainButton && <NetworkAddToWallet source="Top bar" onAddSuccess={ handleAddSuccess }/> */ }
               { hasDeFiDropdown && <DeFiDropdown/> }
             </HStack>
           ) }
-          <Settings/>
+          { /* Settings entry is temporarily hidden. */ }
         </HStack>
       </Flex>
     </Box>

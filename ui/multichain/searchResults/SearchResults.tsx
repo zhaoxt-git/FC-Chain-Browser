@@ -121,7 +121,7 @@ const SearchResults = () => {
   ];
 
   const pageContent = !showContent ?
-    <ContentLoader/> :
+    <ContentLoader maxW="240px"/> :
     (
       <>
         <PageTitle title="Search results"/>
@@ -149,7 +149,7 @@ const SearchResults = () => {
           <HeaderAlert/>
           <HeaderDesktop renderSearchBar={ renderSearchBar }/>
           <AppErrorBoundary>
-            <Layout.Content>
+            <Layout.Content flexGrow={ 0 }>
               { pageContent }
             </Layout.Content>
           </AppErrorBoundary>

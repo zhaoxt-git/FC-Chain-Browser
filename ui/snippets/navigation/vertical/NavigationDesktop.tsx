@@ -1,4 +1,4 @@
-import { Flex, Box, VStack } from '@chakra-ui/react';
+import { Flex, Box, VStack, chakra } from '@chakra-ui/react';
 import React from 'react';
 
 import useNavItems, { isGroupItem } from 'lib/hooks/useNavItems';
@@ -19,7 +19,9 @@ const NavigationDesktop = () => {
   const isAuth = useIsAuth();
 
   const [ isCollapsedState, setCollapsedState ] = React.useState(false);
+  const [ openGroupsCount, setOpenGroupsCount ] = React.useState(0);
   const isCollapsed = isCollapsedState === true;
+  const hasOpenGroup = openGroupsCount > 0;
 
   const handleTogglerClick = React.useCallback(() => {
     setCollapsedState((val) => {
@@ -33,12 +35,17 @@ const NavigationDesktop = () => {
     }
   }, [ handleTogglerClick ]);
 
+  const handleGroupOpenChange = React.useCallback((isOpen: boolean) => {
+    setOpenGroupsCount((value) => Math.max(0, value + (isOpen ? 1 : -1)));
+  }, []);
+
   return (
     <Flex
       display={{ base: 'none', lg: 'flex' }}
       className="group"
       position="sticky"
       top={ 0 }
+      zIndex="popover"
       height="100vh"
       overflowY="visible"
       overflowX="visible"
@@ -75,8 +82,7 @@ const NavigationDesktop = () => {
         <Box display={{ base: 'none', lg: isCollapsed ? 'none' : 'block' }}>
           <Link href="/" textDecoration="none" cursor="pointer" display="block">
             <Flex alignItems="center">
-              <Box
-                as="img"
+              <chakra.img
                 src="/logo.jpg"
                 alt="Meridian Logo"
                 h="36px"
@@ -103,8 +109,7 @@ const NavigationDesktop = () => {
         </Box>
         <Box display={{ base: 'none', lg: isCollapsed ? 'block' : 'none' }}>
           <Link href="/" textDecoration="none" cursor="pointer" display="block">
-            <Box
-              as="img"
+            <chakra.img
               src="/logo.jpg"
               alt="Meridian Icon"
               h="32px"
@@ -116,14 +121,21 @@ const NavigationDesktop = () => {
         </Box>
       </Box>
       <Box mt={ 6 } borderBottom="1px solid rgba(255,255,255,0.05)"/>
-      <Box flex="1" overflowY="auto" overflowX="hidden" w="100%" css={{ '&::-webkit-scrollbar': { display: 'none' } }}>
+      <Box flex="1" overflow="visible" w="100%" css={{ '&::-webkit-scrollbar': { display: 'none' } }}>
         <Box as="nav" mt={ 4 } w="100%">
           <VStack as="ul" gap="1" alignItems="flex-start">
-            { mainNavItems.map((item, index) => {
+            { mainNavItems.map((item) => {
               if (isGroupItem(item)) {
-                return <NavLinkGroup key={ item.text } item={ item } isCollapsed={ isCollapsed } index={ index }/>;
+                return (
+                  <NavLinkGroup
+                    key={ item.text }
+                    item={ item }
+                    isCollapsed={ isCollapsed }
+                    onOpenChange={ handleGroupOpenChange }
+                  />
+                );
               } else {
-                return <NavLink key={ item.text } item={ item } isCollapsed={ isCollapsed } index={ index }/>;
+                return <NavLink key={ item.text } item={ item } isCollapsed={ isCollapsed }/>;
               }
             }) }
           </VStack>
@@ -147,29 +159,42 @@ const NavigationDesktop = () => {
         <NavigationPromoBanner isCollapsed={ isCollapsed }/>
       </Box>
       <IconSvg
+        className="sidebar-collapse-toggle"
         name="arrows/east-mini"
-        width={ 6 }
-        height={ 6 }
-        _hover={{ color: 'hover' }}
-        borderRadius="base"
-        bgColor="bg.primary"
-        color={{ base: 'blackAlpha.400', _dark: 'whiteAlpha.400' }}
-        borderWidth="1px"
-        borderColor="border.divider"
-        transform={ isCollapsed ? 'rotate(180deg)' : 'rotate(0)' }
+        boxSize={ 7 }
+        p="5px"
+        _hover={{
+          color: '#ffffff',
+          bg: 'rgba(30, 41, 59, 0.95)',
+          borderColor: 'rgba(229, 193, 88, 0.75)',
+          scale: '1.08',
+          boxShadow: '0 0 0 1px rgba(229, 193, 88, 0.25), 0 10px 22px rgba(0,0,0,0.45)',
+        }}
+        borderRadius="sm"
+        bg="rgba(16, 17, 18, 0.95)"
+        color="#e5c158"
+        border="1px solid rgba(229, 193, 88, 0.35)"
+        boxShadow="0 0 0 1px rgba(0,0,0,0.35), 0 8px 18px rgba(0,0,0,0.35)"
+        rotate={ isCollapsed ? '180deg' : '0deg' }
+        scale="0.94"
         transformOrigin="center"
         position="absolute"
         top="104px"
-        left={ isCollapsed ? '80px' : '248px' }
+        left={ isCollapsed ? '78px' : '246px' }
         zIndex={ 20 }
         cursor="pointer"
         onClick={ handleTogglerClick }
         aria-label="Expand/Collapse menu"
-        display="none"
-        _groupHover={{ display: 'block' }}
-        transitionProperty="transform, left"
-        transitionDuration="normal"
-        transitionTimingFunction="ease"
+        opacity={ 0 }
+        pointerEvents="none"
+        _groupHover={{
+          opacity: hasOpenGroup ? 0 : 1,
+          pointerEvents: hasOpenGroup ? 'none' : 'auto',
+          scale: '1',
+        }}
+        transitionProperty="opacity, scale, rotate, left, background-color, border-color, color, box-shadow"
+        transitionDuration="fast"
+        transitionTimingFunction="ease-out"
       />
     </Flex>
   );

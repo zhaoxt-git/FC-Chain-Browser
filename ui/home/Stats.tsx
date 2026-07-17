@@ -6,6 +6,7 @@ import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import { layerLabels } from 'lib/rollups/utils';
 import { HOMEPAGE_STATS, HOMEPAGE_STATS_MICROSERVICE } from 'stubs/stats';
+import { mdash } from 'toolkit/utils/htmlEntities';
 import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
 import GasPrice from 'ui/shared/gas/GasPrice';
 import IconSvg from 'ui/shared/IconSvg';
@@ -13,6 +14,8 @@ import StatsWidget from 'ui/shared/stats/StatsWidget';
 import { WEI } from 'ui/shared/value/utils';
 
 import StatsDegraded from './fallbacks/StatsDegraded';
+import { formatMrdPriceChange } from './formatMrdPrice';
+import { useMrdPriceQuery } from './useMrdPriceQuery';
 import type { HomeStatsItem } from './utils';
 import { isHomeStatsItemEnabled, sortHomeStatsItems } from './utils';
 
@@ -23,6 +26,7 @@ const isStatsFeatureEnabled = config.features.stats.isEnabled;
 
 const Stats = () => {
   const [ hasGasTracker, setHasGasTracker ] = React.useState(config.features.gasTracker.isEnabled);
+  const mrdPriceQuery = useMrdPriceQuery();
 
   // data from stats microservice is prioritized over data from stats api
   const statsQuery = useApiQuery('stats:pages_main', {
@@ -125,14 +129,14 @@ const Stats = () => {
       </GasInfoTooltip>
     ) : null;
 
-    const baseItems: Array<HomeStatsItem | false | undefined | null | ''> = [
+    const rawItems: Array<HomeStatsItem | false | undefined | null | ''> = [
       {
         id: 'fc_price' as const,
         label: 'MRD Price',
-        value: apiData?.coin_price ? `$${ apiData.coin_price }` : '$2060.07',
-        subtext: '+12.4% (24h)',
+        value: mrdPriceQuery.data?.value ?? mdash,
+        subtext: mrdPriceQuery.data?.subtext ?? formatMrdPriceChange(apiData?.coin_price_change_percentage),
         subtextColor: 'rgba(34, 197, 94, 1)',
-        isLoading,
+        isLoading: isLoading || mrdPriceQuery.isLoading,
       },
       latestBatchQuery?.data !== undefined && {
         id: 'latest_batch' as const,
@@ -222,7 +226,9 @@ const Stats = () => {
         href: { pathname: '/epochs/[number]' as const, query: { number: String(apiData.celo.epoch_number) } },
         isLoading,
       },
-    ]
+    ];
+
+    const baseItems = rawItems
       .filter((item): item is HomeStatsItem => Boolean(item))
       .filter((item) => item.id === 'fc_price' || isHomeStatsItemEnabled(item))
       .sort((a, b) => {

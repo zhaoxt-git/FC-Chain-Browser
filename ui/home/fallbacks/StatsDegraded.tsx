@@ -11,6 +11,7 @@ import GasPrice from 'ui/shared/gas/GasPrice';
 import StatsWidget from 'ui/shared/stats/StatsWidget';
 import { GWEI } from 'ui/shared/value/utils';
 
+import { useMrdPriceQuery } from '../useMrdPriceQuery';
 import type { HomeStatsItem } from '../utils';
 import { isHomeStatsItemEnabled, sortHomeStatsItems } from '../utils';
 import { useHomeRpcDataContext } from './rpcDataContext';
@@ -20,6 +21,7 @@ const StatsDegraded = () => {
   const [ averageBlockTime, setAverageBlockTime ] = React.useState<number | undefined>(undefined);
 
   const { blocks, isLoading, enable } = useHomeRpcDataContext();
+  const mrdPriceQuery = useMrdPriceQuery();
 
   const gasPriceQuery = useQuery({
     queryKey: [ 'RPC', 'gas-price' ],
@@ -77,10 +79,11 @@ const StatsDegraded = () => {
       {
         id: 'fc_price' as const,
         label: 'MRD Price',
-        value: '$2060.07',
-        subtext: '+12.4% (24h)',
+        value: mrdPriceQuery.data?.value ?? mdash,
+        subtext: mrdPriceQuery.data?.subtext,
         subtextColor: 'rgba(34, 197, 94, 1)',
         isFallback: true,
+        isLoading: mrdPriceQuery.isLoading,
       },
       {
         id: 'latest_batch' as const,

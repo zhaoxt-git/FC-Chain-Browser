@@ -13,7 +13,8 @@ interface Props {
 }
 
 const NetworkAddToWallet = ({ source, onAddSuccess }: Props) => {
-  const { data: { wallet } = {} } = useProvider();
+  const { data: providerData } = useProvider();
+  const wallet = providerData?.wallet;
 
   const handleClick = useAddChainClick({ source, onSuccess: onAddSuccess });
 

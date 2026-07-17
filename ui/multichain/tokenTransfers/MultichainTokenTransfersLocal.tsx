@@ -13,6 +13,7 @@ import Pagination from 'ui/shared/pagination/Pagination';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 import TokenTransfersListItem from 'ui/tokenTransfers/TokenTransfersListItem';
 import TokenTransfersTable from 'ui/tokenTransfers/TokenTransfersTable';
+import { TOKEN_TRANSFERS_TYPE_FILTER_IDS } from 'ui/tokenTransfers/useTokenTransfersQuery';
 
 const ACTION_BAR_HEIGHT = 24 * 2 + 40;
 
@@ -36,6 +37,7 @@ const MultichainTokenTransfersLocal = ({ query, typeFilter, onTokenTypesChange }
           defaultValue={ typeFilter }
           nftOnly={ false }
           chainConfig={ chainData?.app_config }
+          allowedTypes={ TOKEN_TRANSFERS_TYPE_FILTER_IDS }
         />
       </PopoverFilter>
       <Pagination { ...query.pagination }/>

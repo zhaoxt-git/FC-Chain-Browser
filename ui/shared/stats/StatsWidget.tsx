@@ -1,4 +1,5 @@
 import { Box, Flex, Text, chakra } from '@chakra-ui/react';
+import type { BoxProps } from '@chakra-ui/react';
 import React from 'react';
 
 import type { Route } from 'nextjs-routes';
@@ -58,7 +59,7 @@ const StatsWidget = ({
   subtext,
   subtextColor = '#64748b',
   ...rest
-}: Props & { [key: string]: any }) => {
+}: Props & Omit<BoxProps, keyof Props>) => {
   return (
     <Box { ...rest } w="100%" h="100%">
       <Container href={ !isLoading ? href : undefined } className={ href ? className : undefined }>
@@ -80,82 +81,82 @@ const StatsWidget = ({
           w="100%"
           h="100%"
         >
-        {/* Label */}
-        <Box
-          className="text-telemetry"
-          fontSize="10px"
-          color="#64748b" /* slate-500 */
-          mb={ 2 }
-          fontWeight="bold"
-          textTransform="uppercase"
-          letterSpacing="0.1em"
-          transition="colors 0.2s"
-          _groupHover={{ color: 'rgba(229, 193, 88, 0.7)' }} /* red-500/70 */
-          display="flex"
-          alignItems="center"
-          gap={1}
-        >
-          { label }
-          { typeof hint === 'string' ? (
-            <Hint label={ hint } boxSize={ 4 } color="inherit" _hover={{ color: '#22d3ee' }} />
-          ) : hint }
-        </Box>
-
-        {/* Value */}
-        <Box
-          className="text-vanguard"
-          fontSize="24px" /* text-2xl */
-          color="white"
-          fontWeight="bold"
-          opacity={ isFallback && !isLoading ? 0.3 : 1 }
-        >
-          <Skeleton 
-            loading={ isLoading } 
-            display="flex" 
-            alignItems="center" 
-            justifyContent="center"
-            minW="60px"
-            minH="24px"
-            borderRadius="md"
-          >
-            { valuePrefix && <chakra.span whiteSpace="pre">{ valuePrefix }</chakra.span> }
-            { typeof value === 'string' ? (
-              <TruncatedText text={ value } loading={ isLoading }/>
-            ) : (
-              value
-            ) }
-            { valuePostfix && <chakra.span whiteSpace="pre">{ valuePostfix }</chakra.span> }
-          </Skeleton>
-        </Box>
-
-        {/* Diff / Period / Subtext */}
-        { (diff || period || subtext) && (
+          { /* Label */ }
           <Box
-            fontSize="10px" /* very small subtext */
-            color={ subtext ? (subtextColor || '#64748b') : 'rgba(229, 193, 88, 1)' }
-            mt={ 2 }
-            fontFamily="'Space Mono', monospace"
-            letterSpacing="0.05em"
+            className="text-telemetry"
+            fontSize="10px"
+            color="#64748b" /* slate-500 */
+            mb={ 2 }
+            fontWeight="bold"
             textTransform="uppercase"
+            letterSpacing="0.1em"
+            transition="colors 0.2s"
+            _groupHover={{ color: 'rgba(229, 193, 88, 0.7)' }} /* red-500/70 */
+            display="flex"
+            alignItems="center"
+            gap={ 1 }
           >
-            <Skeleton loading={ isLoading } display="flex" alignItems="center" justifyContent="center" gap={1}>
-              { subtext && (
-                <Text as="span">{ subtext }</Text>
+            { label }
+            { typeof hint === 'string' ? (
+              <Hint label={ hint } boxSize={ 4 } color="inherit" _hover={{ color: '#22d3ee' }}/>
+            ) : hint }
+          </Box>
+
+          { /* Value */ }
+          <Box
+            className="text-vanguard"
+            fontSize="24px" /* text-2xl */
+            color="white"
+            fontWeight="bold"
+            opacity={ isFallback && !isLoading ? 0.3 : 1 }
+          >
+            <Skeleton
+              loading={ isLoading }
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              minW="60px"
+              minH="24px"
+              borderRadius="md"
+            >
+              { valuePrefix && <chakra.span whiteSpace="pre">{ valuePrefix }</chakra.span> }
+              { typeof value === 'string' ? (
+                <TruncatedText text={ value } loading={ isLoading }/>
+              ) : (
+                value
               ) }
-              { !subtext && diff && Number(diff) > 0 && (
-                <>
-                  <Text as="span">
-                    +{ diffFormatted || Number(diff).toLocaleString() }
-                  </Text>
-                  <Text as="span" color="#64748b">({ diffPeriod })</Text>
-                </>
-              ) }
-              { !subtext && period && <Text as="span" color="#64748b">({ period })</Text> }
+              { valuePostfix && <chakra.span whiteSpace="pre">{ valuePostfix }</chakra.span> }
             </Skeleton>
           </Box>
-        ) }
-      </Flex>
-    </Container>
+
+          { /* Diff / Period / Subtext */ }
+          { (diff || period || subtext) && (
+            <Box
+              fontSize="10px" /* very small subtext */
+              color={ subtext ? (subtextColor || '#64748b') : 'rgba(229, 193, 88, 1)' }
+              mt={ 2 }
+              fontFamily="'Space Mono', monospace"
+              letterSpacing="0.05em"
+              textTransform="uppercase"
+            >
+              <Skeleton loading={ isLoading } display="flex" alignItems="center" justifyContent="center" gap={ 1 }>
+                { subtext && (
+                  <Text as="span">{ subtext }</Text>
+                ) }
+                { !subtext && diff && Number(diff) > 0 && (
+                  <>
+                    <Text as="span">
+                      +{ diffFormatted || Number(diff).toLocaleString() }
+                    </Text>
+                    <Text as="span" color="#64748b">({ diffPeriod })</Text>
+                  </>
+                ) }
+                { !subtext && period && <Text as="span" color="#64748b">({ period })</Text> }
+              </Skeleton>
+            </Box>
+          ) }
+        </Flex>
+      </Container>
     </Box>
   );
 };

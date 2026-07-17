@@ -147,17 +147,10 @@ const multichainStatsApi = (() => {
   });
 })();
 
-const statsApi = (() => {
-  const apiHost = getEnvValue('NEXT_PUBLIC_STATS_API_HOST');
-  if (!apiHost) {
-    return;
-  }
-
-  return Object.freeze({
-    endpoint: apiHost,
-    basePath: stripTrailingSlash(getEnvValue('NEXT_PUBLIC_STATS_API_BASE_PATH') || ''),
-  });
-})();
+// Stats microservice is disabled for this deployment. The current API host exposes
+// Etherscan-compatible /api/v1 routes that require module/action params, so stats
+// microservice routes such as /api/v1/lines and /api/v1/pages/transactions return 400.
+const statsApi = undefined;
 
 const tacApi = (() => {
   const apiHost = getEnvValue('NEXT_PUBLIC_TAC_OPERATION_LIFECYCLE_API_HOST');

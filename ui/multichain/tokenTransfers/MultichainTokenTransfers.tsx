@@ -16,7 +16,7 @@ import TokenTypeFilter from 'ui/shared/filters/TokenTypeFilter';
 import PageTitle from 'ui/shared/Page/PageTitle';
 import Pagination from 'ui/shared/pagination/Pagination';
 import { getTokenFilterValue } from 'ui/tokens/utils';
-import useTokenTransfersQuery from 'ui/tokenTransfers/useTokenTransfersQuery';
+import useTokenTransfersQuery, { TOKEN_TRANSFERS_TYPE_FILTER_IDS } from 'ui/tokenTransfers/useTokenTransfersQuery';
 
 import MultichainTokenTransfersLocal from './MultichainTokenTransfersLocal';
 
@@ -49,7 +49,7 @@ const MultichainTokenTransfers = () => {
     const chainConfig = multichainConfig()?.chains.find(chain => chain.id === value[0]);
     const tokenTypes = getTokenFilterValue(router.query.type, chainConfig?.app_config);
     if (tokenTypes) {
-      const chainTokenTypes = queryLocal.typeFilter.filter(type => tokenTypes.includes(type));
+      const chainTokenTypes = queryLocal.typeFilter.filter(type => tokenTypes.includes(type) && TOKEN_TRANSFERS_TYPE_FILTER_IDS.includes(type));
       if (chainTokenTypes.length < queryLocal.typeFilter.length) {
         queryLocal.onTokenTypesChange(chainTokenTypes);
       }
@@ -86,6 +86,7 @@ const MultichainTokenTransfers = () => {
         defaultValue={ queryLocal.typeFilter }
         nftOnly={ false }
         chainConfig={ chainData?.app_config }
+        allowedTypes={ TOKEN_TRANSFERS_TYPE_FILTER_IDS }
       />
     </PopoverFilter>
   );

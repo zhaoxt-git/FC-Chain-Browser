@@ -38,10 +38,12 @@ export const getServerSideProps: GetServerSideProps<Props<typeof pathname>> = as
   const baseResponse = await gSSP.base<typeof pathname>(ctx);
 
   if ('props' in baseResponse) {
-    if (
+    const shouldFetchStatsChartData = config.features.stats.isEnabled && (
       config.meta.seo.enhancedDataEnabled ||
       (config.meta.og.enhancedDataEnabled && detectBotRequest(ctx.req)?.type === 'social_preview')
-    ) {
+    );
+
+    if (shouldFetchStatsChartData) {
       const chartData = await fetchApi({
         resource: 'stats:line',
         pathParams: { id: getQueryParamString(ctx.query.id) },

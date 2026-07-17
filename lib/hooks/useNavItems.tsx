@@ -109,18 +109,18 @@ export default function useNavItems(): ReturnType {
 
     const statsNavItem: NavGroupItem | null = (() => {
       const items = [
-        {
-          text: 'Chain stats',
-          nextRoute: { pathname: '/stats' as const },
-          icon: 'navigation/chain_stats',
-          isActive: pathname.startsWith('/stats'),
-        },
-        {
-          text: 'Ecosystems',
-          nextRoute: { pathname: '/ecosystems' as const },
-          icon: 'navigation/ecosystems',
-          isActive: pathname.startsWith('/ecosystems'),
-        },
+        // {
+        //   text: 'Chain stats',
+        //   nextRoute: { pathname: '/stats' as const },
+        //   icon: 'navigation/chain_stats',
+        //   isActive: pathname.startsWith('/stats'),
+        // },
+        // {
+        //   text: 'Ecosystems',
+        //   nextRoute: { pathname: '/ecosystems' as const },
+        //   icon: 'navigation/ecosystems',
+        //   isActive: pathname.startsWith('/ecosystems'),
+        // },
         {
           text: 'Uptime',
           nextRoute: { pathname: '/uptime' as const },
@@ -141,7 +141,6 @@ export default function useNavItems(): ReturnType {
 
       return {
         text: 'Charts & stats',
-        nextRoute: { pathname: '/stats' as const },
         icon: 'navigation/stats',
         isActive: items.some((item) => isInternalItem(item) && item.isActive),
         subItems: items,

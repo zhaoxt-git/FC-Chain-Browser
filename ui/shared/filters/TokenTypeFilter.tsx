@@ -13,8 +13,9 @@ type Props<T extends TokenType | NFTTokenType> = {
   defaultValue?: Array<T>;
   nftOnly: T extends NFTTokenType ? true : false;
   chainConfig?: Array<ClusterChainConfig['app_config']> | ClusterChainConfig['app_config'];
+  allowedTypes?: ReadonlyArray<T>;
 };
-const TokenTypeFilter = <T extends TokenType | NFTTokenType>({ nftOnly, onChange, defaultValue, chainConfig }: Props<T>) => {
+const TokenTypeFilter = <T extends TokenType | NFTTokenType>({ nftOnly, onChange, defaultValue, chainConfig, allowedTypes }: Props<T>) => {
   const { value, setValue } = useCheckboxGroup({ defaultValue });
 
   const handleReset = React.useCallback(() => {
@@ -31,8 +32,16 @@ const TokenTypeFilter = <T extends TokenType | NFTTokenType>({ nftOnly, onChange
   }, [ onChange, setValue ]);
 
   const tokenTypes = React.useMemo(() => {
-    return getTokenTypes(nftOnly, chainConfig);
-  }, [ chainConfig, nftOnly ]);
+    const allTokenTypes = getTokenTypes(nftOnly, chainConfig);
+
+    if (!allowedTypes) {
+      return allTokenTypes;
+    }
+
+    return Object.fromEntries(
+      Object.entries(allTokenTypes).filter(([ id ]) => allowedTypes.includes(id as T)),
+    ) as typeof allTokenTypes;
+  }, [ allowedTypes, chainConfig, nftOnly ]);
 
   return (
     <>

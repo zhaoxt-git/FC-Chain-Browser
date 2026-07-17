@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-const SwaggerUIReact = dynamic(() => import('swagger-ui-react'), {
-  loading: () => <ContentLoader/>,
-  ssr: false,
-});
-
 import type { SystemStyleObject } from '@chakra-ui/react';
 import { Box, useToken } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
@@ -11,9 +5,43 @@ import React from 'react';
 
 import type { SwaggerRequest } from './types';
 
-import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
-
 import 'swagger-ui-react/swagger-ui.css';
+
+/* eslint-disable @typescript-eslint/naming-convention */
+const swaggerLoadingStyle: SystemStyleObject = {
+  '& .loading-container, & .swagger-ui .loading-container': {
+    color: { _light: 'blue.700', _dark: 'cyan.200' },
+  },
+  '& .loading-container .loading, & .swagger-ui .loading-container .loading': {
+    color: { _light: 'blue.700', _dark: 'cyan.100' },
+    bgColor: { _light: 'blue.50', _dark: 'whiteAlpha.100' },
+    borderRadius: 'full',
+  },
+  '& .loading-container .loading:before, & .swagger-ui .loading-container .loading:before': {
+    borderColor: { _light: 'blue.200', _dark: 'whiteAlpha.300' },
+    borderTopColor: { _light: 'blue.600', _dark: 'cyan.200' },
+  },
+  '& .loading-container .loading:after, & .swagger-ui .loading-container .loading:after': {
+    color: { _light: 'blue.700', _dark: 'cyan.100' },
+  },
+};
+
+export const SwaggerUILoading = React.memo(() => {
+  return (
+    <Box css={ swaggerLoadingStyle }>
+      <div className="swagger-ui">
+        <div className="loading-container">
+          <div className="loading"/>
+        </div>
+      </div>
+    </Box>
+  );
+});
+
+const SwaggerUIReact = dynamic(() => import('swagger-ui-react'), {
+  loading: () => <SwaggerUILoading/>,
+  ssr: false,
+});
 
 const NeverShowInfoPlugin = () => {
   return {
@@ -61,6 +89,7 @@ const SwaggerUI = ({ url, requestInterceptor }: Props) => {
     '& .swagger-ui .wrapper': {
       padding: 0,
     },
+    ...swaggerLoadingStyle,
     '& .swagger-ui .prop-type': {
       color: { _light: 'blue.600', _dark: 'blue.400' },
     },
@@ -90,6 +119,14 @@ const SwaggerUI = ({ url, requestInterceptor }: Props) => {
     '& .swagger-ui section.models h4': {
       color: mainColor,
     },
+    '& .swagger-ui section.models h4:focus, & .swagger-ui section.models h4:focus-visible': {
+      outline: 'none',
+      borderColor: 'transparent',
+    },
+    '& .swagger-ui section.models h4 button:focus, & .swagger-ui section.models h4 button:focus-visible': {
+      outline: 'none',
+      boxShadow: 'none',
+    },
     '& .swagger-ui section.models .model-container': {
       bgColor: mainBgColor,
     },
@@ -116,6 +153,7 @@ const SwaggerUI = ({ url, requestInterceptor }: Props) => {
   return (
     <Box css={ swaggerStyle }>
       <SwaggerUIReact
+        key={ url }
         url={ url }
         plugins={ [ NeverShowInfoPlugin ] }
         requestInterceptor={ requestInterceptor }

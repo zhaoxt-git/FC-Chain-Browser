@@ -3,6 +3,7 @@ import React from 'react';
 import type { LineChart, Resolution } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
+import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import { useAppContext } from 'lib/contexts/app';
 import { STATS_INTERVALS } from 'ui/stats/constants';
@@ -11,6 +12,7 @@ import { formatDate } from './utils';
 
 export default function useChartQuery(id: string, resolution: Resolution, interval: StatsIntervalIds, enabled = true) {
   const { apiData } = useAppContext<'/stats/[id]'>();
+  const isStatsFeatureEnabled = config.features.stats.isEnabled;
 
   const selectedInterval = STATS_INTERVALS[interval];
 
@@ -27,7 +29,7 @@ export default function useChartQuery(id: string, resolution: Resolution, interv
       resolution,
     },
     queryOptions: {
-      enabled: enabled,
+      enabled: enabled && isStatsFeatureEnabled,
       refetchOnMount: false,
       placeholderData: {
         info: {

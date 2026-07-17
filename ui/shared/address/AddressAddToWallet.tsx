@@ -59,7 +59,9 @@ interface Props {
 }
 
 const AddressAddToWallet = ({ className, token, tokenId, isLoading, variant = 'icon', iconSize = 6, chainConfig }: Props) => {
-  const { data: { wallet, provider } = {} } = useProvider();
+  const { data: providerData } = useProvider();
+  const wallet = providerData?.wallet;
+  const provider = providerData?.provider;
   const switchOrAddChain = useSwitchOrAddChain({ chainConfig });
   const isMobile = useIsMobile();
   const { trackUsage } = useRewardsActivity();

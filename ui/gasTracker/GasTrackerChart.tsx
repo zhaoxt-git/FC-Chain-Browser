@@ -3,34 +3,31 @@ import React from 'react';
 
 import { route } from 'nextjs-routes';
 
+import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import { STATS_CHARTS_SECTION_GAS } from 'stubs/stats';
 import { Link } from 'toolkit/chakra/link';
-import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
-import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import { ChartWidget } from 'toolkit/components/charts/ChartWidget';
+import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
 import { useChartsConfig } from 'ui/shared/chart/config';
 
 const GAS_PRICE_CHART_ID = 'averageGasPrice';
+const isStatsFeatureEnabled = config.features.stats.isEnabled;
 
 const GasTrackerChart = () => {
-  const [ isChartLoadingError, setChartLoadingError ] = React.useState(false);
-  const { data, isPlaceholderData, isError } = useApiQuery('stats:lines', {
+  const { data, isPlaceholderData } = useApiQuery('stats:lines', {
     queryOptions: {
+      enabled: isStatsFeatureEnabled,
       placeholderData: {
         sections: [ STATS_CHARTS_SECTION_GAS ],
       },
     },
   });
 
-  const handleLoadingError = React.useCallback(() => {
-    setChartLoadingError(true);
-  }, []);
-
   const chartsConfig = useChartsConfig();
 
-  const chart = data?.sections.map((section) => section.charts.find((c) => c.id === GAS_PRICE_CHART_ID)).filter(Boolean)?.[0] 
-    || { id: GAS_PRICE_CHART_ID, title: 'Average gas price', description: 'Average gas price historical data', units: 'Gwei' };
+  const chart = data?.sections.map((section) => section.charts.find((c) => c.id === GAS_PRICE_CHART_ID)).filter(Boolean)?.[0] ||
+    { id: GAS_PRICE_CHART_ID, title: 'Average gas price', description: 'Average gas price historical data', units: 'Gwei' };
 
   const mockItems = React.useMemo(() => {
     const items = [];
@@ -40,9 +37,9 @@ const GasTrackerChart = () => {
       d.setDate(d.getDate() - i);
       const d2 = new Date();
       d2.setDate(d2.getDate() - i + 1);
-      
+
       curBase = Math.abs(curBase + (Math.random() * 0.4 - 0.2));
-      
+
       items.push({
         date: d,
         date_to: d2,

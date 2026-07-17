@@ -6,3 +6,9 @@ export const API_DOCS_TABS = [
 ] as const;
 
 export type ApiDocsTabId = typeof API_DOCS_TABS[ number ];
+
+export const DEFAULT_API_DOCS_TABS = [
+  'rest_api',
+  'rpc_api',
+  'graphql_api',
+] as const satisfies ReadonlyArray<ApiDocsTabId>;

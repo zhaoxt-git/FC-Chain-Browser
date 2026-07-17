@@ -9,13 +9,19 @@ import { getTokenTransfersStub } from 'stubs/token';
 import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
 import { getTokenFilterValue } from 'ui/tokens/utils';
 
+export const TOKEN_TRANSFERS_TYPE_FILTER_IDS = [ 'ERC-20' ] as const satisfies ReadonlyArray<TokenType>;
+
+function getAllowedTokenTypes(value: Array<TokenType> | undefined): Array<TokenType> {
+  return value?.filter((type) => TOKEN_TRANSFERS_TYPE_FILTER_IDS.includes(type)) ?? [];
+}
+
 const getFilters = (query: Record<string, string | Array<string> | undefined>) => {
   const chainIdParam = getQueryParamString(query.chain_id);
   const typeParam = getQueryParamString(query.type);
   const config = multichainConfig();
 
   const chainConfig = chainIdParam ? config?.chains.find(chain => chain.id === chainIdParam) : config?.chains[0];
-  return getTokenFilterValue(typeParam, chainConfig?.app_config) || [];
+  return getAllowedTokenTypes(getTokenFilterValue(typeParam, chainConfig?.app_config));
 };
 
 interface Props {
@@ -45,8 +51,9 @@ export default function useTokenTransfersQuery({ isMultichain, enabled }: Props)
   });
 
   const onTokenTypesChange = React.useCallback((value: Array<TokenType>) => {
-    query.onFilterChange({ type: value });
-    setTypeFilter(value);
+    const allowedValue = getAllowedTokenTypes(value);
+    query.onFilterChange({ type: allowedValue });
+    setTypeFilter(allowedValue);
   }, [ query ]);
 
   return React.useMemo(() => ({

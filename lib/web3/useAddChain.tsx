@@ -32,7 +32,9 @@ interface Params {
 }
 
 export default function useAddChain(params?: Params) {
-  const { data: { wallet, provider } = {} } = useProvider();
+  const { data: providerData } = useProvider();
+  const wallet = providerData?.wallet;
+  const provider = providerData?.provider;
   const { trackUsage } = useRewardsActivity();
   const multichainContext = useMultichainContext();
 

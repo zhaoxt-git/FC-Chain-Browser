@@ -5,10 +5,9 @@ import { route } from 'nextjs-routes';
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import { AccordionItem, AccordionItemContent, AccordionItemTrigger, AccordionRoot, useAccordion } from 'toolkit/chakra/accordion';
-import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 
-import SwaggerUI from './SwaggerUI';
+import SwaggerUI, { SwaggerUILoading } from './SwaggerUI';
 import { REST_API_SECTIONS } from './utils';
 
 const RestApi = () => {
@@ -74,7 +73,7 @@ const RestApi = () => {
   }, [ coreApiSwaggerUrl ]);
 
   if (isLoading) {
-    return <ContentLoader/>;
+    return <SwaggerUILoading/>;
   }
 
   if (sections.length === 0) {

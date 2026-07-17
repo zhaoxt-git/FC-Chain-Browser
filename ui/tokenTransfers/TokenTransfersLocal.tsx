@@ -11,7 +11,7 @@ import Pagination from 'ui/shared/pagination/Pagination';
 
 import TokenTransfersListItem from './TokenTransfersListItem';
 import TokenTransfersTable from './TokenTransfersTable';
-import useTokenTransfersQuery from './useTokenTransfersQuery';
+import useTokenTransfersQuery, { TOKEN_TRANSFERS_TYPE_FILTER_IDS } from './useTokenTransfersQuery';
 
 const TokenTransfersLocal = () => {
   const { query, typeFilter, onTokenTypesChange } = useTokenTransfersQuery({ enabled: true });
@@ -39,7 +39,12 @@ const TokenTransfersLocal = () => {
 
   const filter = (
     <PopoverFilter contentProps={{ w: '200px' }} appliedFiltersNum={ typeFilter.length }>
-      <TokenTypeFilter<TokenType> onChange={ onTokenTypesChange } defaultValue={ typeFilter } nftOnly={ false }/>
+      <TokenTypeFilter<TokenType>
+        onChange={ onTokenTypesChange }
+        defaultValue={ typeFilter }
+        nftOnly={ false }
+        allowedTypes={ TOKEN_TRANSFERS_TYPE_FILTER_IDS }
+      />
     </PopoverFilter>
   );
 

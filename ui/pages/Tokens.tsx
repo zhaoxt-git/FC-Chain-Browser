@@ -40,6 +40,11 @@ const TABS_RIGHT_SLOT_PROPS: SlotProps = {
 };
 
 const bridgedTokensFeature = config.features.bridgedTokens;
+const TOKEN_TYPE_FILTER_IDS = [ 'ERC-20' ] as const satisfies ReadonlyArray<TokenType>;
+
+function getAllowedTokenTypes(value: Array<TokenType> | undefined): Array<TokenType> | undefined {
+  return value?.filter((type) => TOKEN_TYPE_FILTER_IDS.includes(type));
+}
 
 const Tokens = () => {
   const router = useRouter();
@@ -50,7 +55,7 @@ const Tokens = () => {
 
   const [ searchTerm, setSearchTerm ] = React.useState<string>(q ?? '');
   const [ sort, setSort ] = React.useState<TokensSortingValue>(getSortValueFromQuery<TokensSortingValue>(router.query, SORT_OPTIONS) ?? 'default');
-  const [ tokenTypes, setTokenTypes ] = React.useState<Array<TokenType> | undefined>(getTokenFilterValue(router.query.type));
+  const [ tokenTypes, setTokenTypes ] = React.useState<Array<TokenType> | undefined>(getAllowedTokenTypes(getTokenFilterValue(router.query.type)));
   const [ bridgeChains, setBridgeChains ] = React.useState<Array<string> | undefined>(getBridgedChainsFilterValue(router.query.chain_ids));
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -83,8 +88,9 @@ const Tokens = () => {
   }, [ bridgeChains, tab, tokenTypes, tokensQuery ]);
 
   const handleTokenTypesChange = React.useCallback((value: Array<TokenType>) => {
-    tokensQuery.onFilterChange({ q: debouncedSearchTerm, type: value });
-    setTokenTypes(value);
+    const allowedValue = getAllowedTokenTypes(value);
+    tokensQuery.onFilterChange({ q: debouncedSearchTerm, type: allowedValue });
+    setTokenTypes(allowedValue);
   }, [ debouncedSearchTerm, tokensQuery ]);
 
   const handleBridgeChainsChange = React.useCallback((value: Array<string>) => {
@@ -112,7 +118,12 @@ const Tokens = () => {
     </PopoverFilter>
   ) : (
     <PopoverFilter contentProps={{ w: '200px' }} appliedFiltersNum={ tokenTypes?.length }>
-      <TokenTypeFilter<TokenType> onChange={ handleTokenTypesChange } defaultValue={ tokenTypes } nftOnly={ false }/>
+      <TokenTypeFilter<TokenType>
+        onChange={ handleTokenTypesChange }
+        defaultValue={ tokenTypes }
+        nftOnly={ false }
+        allowedTypes={ TOKEN_TYPE_FILTER_IDS }
+      />
     </PopoverFilter>
   );
 

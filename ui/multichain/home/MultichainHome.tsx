@@ -1,12 +1,9 @@
 import { Box, HStack, VStack } from '@chakra-ui/react';
 import React from 'react';
 
-import { route } from 'nextjs-routes';
-
 import multichainConfig from 'configs/multichain';
 import useApiQuery from 'lib/api/useApiQuery';
 import { MultichainProvider } from 'lib/contexts/multichain';
-import { Link } from 'toolkit/chakra/link';
 import HeroBanner from 'ui/home/HeroBanner';
 
 import ChainWidget from './ChainWidget';
@@ -36,7 +33,7 @@ const MultichainHome = () => {
               </MultichainProvider>
             )) }
           </HStack>
-          <Link textStyle="sm" justifyContent="center" href={ route({ pathname: '/ecosystems' }) }>View all chains</Link>
+          { /* Ecosystems route is temporarily hidden. */ }
         </VStack>
       ) }
     </Box>

@@ -19,7 +19,7 @@ export default function useProvider() {
     queryKey: [ 'web3-wallet' ],
     queryFn: async() => {
       if (!feature.isEnabled || !wallets) {
-        return;
+        return null;
       }
 
       if (!('ethereum' in window && window.ethereum)) {
@@ -42,14 +42,14 @@ export default function useProvider() {
             shouldShimWeb3: true,
           });
         } else {
-          return;
+          return null;
         }
       }
 
       // have to check again in case provider was not set as window.ethereum in the previous step for MM in FF
       // and also it makes typescript happy
       if (!('ethereum' in window && window.ethereum)) {
-        return;
+        return null;
       }
 
       for (const wallet of wallets) {
@@ -65,6 +65,8 @@ export default function useProvider() {
           return detectedWallet;
         }
       }
+
+      return null;
     },
     enabled: Boolean(feature.isEnabled || !wallets),
     refetchOnMount: false,

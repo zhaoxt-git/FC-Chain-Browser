@@ -25,6 +25,11 @@ const sortCollection = createListCollection({
   items: SORT_OPTIONS,
 });
 
+const HOT_CONTRACTS_PLACEHOLDER = {
+  items: Array(50).fill(HOT_CONTRACTS),
+  next_page_params: { items_count: '50', transactions_count: '50', total_gas_used: '50', contract_address_hash: '50' },
+};
+
 const HotContracts = () => {
   const router = useRouter();
   const [ interval, setInterval ] = React.useState<HotContractsInterval>(getIntervalValueFromQuery(router.query.scale));
@@ -36,17 +41,14 @@ const HotContracts = () => {
     filters: { scale: interval },
     sorting: getSortParamsFromValue<HotContractsSortingValue, HotContractsSortingField, HotContractsSorting['order']>(sort),
     options: {
-      placeholderData: {
-        items: Array(50).fill(HOT_CONTRACTS),
-        next_page_params: { items_count: '50', transactions_count: '50', total_gas_used: '50', contract_address_hash: '50' },
-      },
+      placeholderData: HOT_CONTRACTS_PLACEHOLDER,
     },
   });
 
   const { pagination, onSortingChange, onFilterChange } = query;
   const isError = query.isError;
   const isPlaceholderData = query.isPlaceholderData || (isError && false);
-  const data = query.data || (isError ? query.options?.placeholderData as typeof query.data : undefined);
+  const data = query.data || (isError ? HOT_CONTRACTS_PLACEHOLDER : undefined);
 
   const statsQuery = useApiQuery('general:stats', {
     queryOptions: {

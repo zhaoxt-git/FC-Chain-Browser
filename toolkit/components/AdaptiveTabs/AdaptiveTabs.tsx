@@ -31,7 +31,8 @@ const AdaptiveTabs = (props: Props) => {
     if (isLoading) {
       return;
     }
-    onValueChange ? onValueChange({ value }) : setActiveTab(value);
+    setActiveTab(value);
+    onValueChange?.({ value });
   }, [ isLoading, onValueChange ]);
 
   const viewportSize = useViewportSize();

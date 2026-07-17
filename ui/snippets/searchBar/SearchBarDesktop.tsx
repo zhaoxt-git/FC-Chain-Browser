@@ -3,6 +3,7 @@ import { debounce } from 'es-toolkit';
 import { useRouter } from 'next/router';
 import type { FormEvent } from 'react';
 import React from 'react';
+import { preloadRoute } from 'src/compat/route-preload';
 
 import type { Route } from 'nextjs-routes';
 import { route } from 'nextjs-routes';
@@ -38,6 +39,7 @@ const SearchBarDesktop = ({ isHeroBanner }: Props) => {
 
   const navigateToResults = React.useCallback((redirect: boolean) => {
     if (searchTerm) {
+      preloadRoute('/search-results');
       const resultRoute: Route = { pathname: '/search-results', query: { q: searchTerm, redirect: redirect ? 'true' : 'false' } };
       const url = route(resultRoute);
       mixpanel.logEvent(mixpanel.EventTypes.SEARCH_QUERY, {
@@ -60,6 +62,7 @@ const SearchBarDesktop = ({ isHeroBanner }: Props) => {
   }, [ navigateToResults ]);
 
   const handleFocus = React.useCallback(() => {
+    preloadRoute('/search-results');
     onOpen();
   }, [ onOpen ]);
 

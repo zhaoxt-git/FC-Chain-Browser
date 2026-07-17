@@ -1,12 +1,15 @@
 import config from 'configs/app';
+import useWalletDynamic from 'lib/web3/wallet/useWalletDynamic';
+import useWalletFallback from 'lib/web3/wallet/useWalletFallback';
+import useWalletReown from 'lib/web3/wallet/useWalletReown';
 
 const feature = config.features.blockchainInteraction;
 
 // eslint-disable-next-line no-nested-ternary
 const useWallet = (feature.isEnabled && feature.connectorType === 'dynamic') ?
-  (await import('./wallet/useWalletDynamic')).default :
+  useWalletDynamic :
   (feature.isEnabled && feature.connectorType === 'reown') ?
-    (await import('./wallet/useWalletReown')).default :
-    (await import('./wallet/useWalletFallback')).default;
+    useWalletReown :
+    useWalletFallback;
 
 export default useWallet;

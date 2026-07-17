@@ -50,6 +50,9 @@ export function app(isPrivateMode = false): CspDev.DirectiveDescriptor {
 
       // github api (used for Stylus contract verification)
       'api.github.com',
+
+      // ETH price for MRD homepage price
+      'https://eth.blockscout.com',
     ].filter(Boolean),
 
     'script-src': [

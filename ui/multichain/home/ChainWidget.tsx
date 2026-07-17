@@ -26,7 +26,8 @@ interface Props {
 
 const ChainWidget = ({ data, isLoading, metrics }: Props) => {
   const isMobile = useIsMobile();
-  const { data: { wallet } = {} } = useProvider();
+  const { data: providerData } = useProvider();
+  const wallet = providerData?.wallet;
   const walletIcon = wallet ? WALLETS_INFO[wallet].icon : undefined;
   const handleAddToWalletClick = useAddChainClick({ source: 'Chain widget' });
 

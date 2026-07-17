@@ -13,7 +13,9 @@ interface Params {
 }
 
 export default function useSwitchOrAddChain(params?: Params) {
-  const { data: { wallet, provider } = {} } = useProvider();
+  const { data: providerData } = useProvider();
+  const wallet = providerData?.wallet;
+  const provider = providerData?.provider;
   const addChain = useAddChain(params);
   const switchChain = useSwitchChain(params);
 

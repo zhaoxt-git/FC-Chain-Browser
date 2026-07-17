@@ -5,6 +5,10 @@ export default function isNeedProxy() {
     return true;
   }
 
+  if (config.app.disableProxy) {
+    return false;
+  }
+
   // ONLY FOR DEV OR REVIEW ENVIRONMENTS (NOT PRODUCTION)
   // because we have some resources that require credentials, we need to use the proxy
   // otherwise the cross-origin requests with "credentials: include" will be blocked

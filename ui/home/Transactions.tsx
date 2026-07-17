@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import { route } from 'nextjs-routes';
@@ -23,12 +23,16 @@ import LatestArbitrumDeposits from './latestDeposits/LatestArbitrumDeposits';
 const rollupFeature = config.features.rollup;
 const zetachainFeature = config.features.zetachain;
 const crossChainTxsFeature = config.features.crossChainTxs;
+const rollupDepositTitle = `Deposits (${ layerLabels.parent }→${ layerLabels.current } txn)`;
 
 const Transactions = () => {
 
   const isAuth = useAuth();
   const rpcDataContext = useHomeRpcDataContext();
-  const isRpcData = rpcDataContext.isEnabled && !rpcDataContext.isLoading && !rpcDataContext.isError && rpcDataContext.subscriptions.includes('latest-txs');
+  const isRpcData = rpcDataContext.isEnabled &&
+    !rpcDataContext.isLoading &&
+    !rpcDataContext.isError &&
+    rpcDataContext.subscriptions.includes('latest-txs');
 
   let innerContent = null;
 
@@ -45,9 +49,9 @@ const Transactions = () => {
       },
       { id: 'txn', title: zetachainFeature.isEnabled ? 'ZetaChain EVM' : 'Latest txn', component: <LatestTxs/> },
       rollupFeature.isEnabled && rollupFeature.type === 'optimistic' &&
-        { id: 'deposits', title: `Deposits (${ layerLabels.parent }→${ layerLabels.current } txn)`, component: <LatestOptimisticDeposits/> },
+        { id: 'deposits', title: rollupDepositTitle, component: <LatestOptimisticDeposits/> },
       rollupFeature.isEnabled && rollupFeature.type === 'arbitrum' &&
-        { id: 'deposits', title: `Deposits (${ layerLabels.parent }→${ layerLabels.current } txn)`, component: <LatestArbitrumDeposits/> },
+        { id: 'deposits', title: rollupDepositTitle, component: <LatestArbitrumDeposits/> },
       isAuth && { id: 'watchlist', title: 'Watch list', component: <LatestWatchlistTxs/> },
     ].filter(Boolean);
     innerContent = <AdaptiveTabs tabs={ tabs } unmountOnExit={ false } listProps={{ mb: 3 }}/>;
@@ -62,7 +66,7 @@ const Transactions = () => {
   }
 
   return (
-    <Box 
+    <Box
       w="100%"
       flexShrink={ 0 }
       bg="rgba(10, 10, 12, 0.8)" /* bg-black/80 */
@@ -71,42 +75,42 @@ const Transactions = () => {
       display="flex"
       flexDir="column"
     >
-      <Box 
-        px={5} 
-        py={4}
+      <Box
+        px={ 5 }
+        py={ 4 }
         borderBottom="1px solid rgba(255, 255, 255, 0.05)" /* matching layout */
-        display="flex" 
-        justifyContent="space-between" 
-        alignItems="center" 
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
         bg="transparent"
       >
-        <Heading 
-          as="h2" 
-          fontSize="15px" 
-          m={0}
+        <Heading
+          as="h2"
+          fontSize="15px"
+          m={ 0 }
           fontFamily="'Inter', ui-sans-serif, system-ui, sans-serif"
-          className="text-telemetry" 
-          color="white" 
-          display="flex" 
-          alignItems="center" 
-          textTransform="uppercase" 
-          letterSpacing="0.02em" 
+          className="text-telemetry"
+          color="white"
+          display="flex"
+          alignItems="center"
+          textTransform="uppercase"
+          letterSpacing="0.02em"
           fontWeight="900"
         >
-          <Box w="5px" h="5px" bg="rgba(229, 193, 88, 1)" mr={3} shadow="none" />
+          <Box w="5px" h="5px" bg="rgba(229, 193, 88, 1)" mr={ 3 } shadow="none"/>
           TRANSACTIONS
-          { isRpcData && <Box ml={2}><FallbackRpcIcon/></Box> }
+          { isRpcData && <Box ml={ 2 }><FallbackRpcIcon/></Box> }
         </Heading>
-        
-        <Link 
-          href={ route({ pathname: '/txs' }) } 
-          fontSize="9px" 
-          className="text-telemetry" 
-          fontWeight={700}
-          color="#e5c158" 
+
+        <Link
+          href={ route({ pathname: '/txs' }) }
+          fontSize="9px"
+          className="text-telemetry"
+          fontWeight={ 700 }
+          color="#e5c158"
           _hover={{ color: 'white', borderColor: 'rgba(229, 193, 88, 0.3)' }}
           transition="colors 0.2s"
-          px={3} py={1.5}
+          px={ 3 } py={ 1.5 }
           bg="transparent"
           border="1px solid rgba(255, 255, 255, 0.1)"
           textTransform="uppercase"
@@ -117,10 +121,19 @@ const Transactions = () => {
         </Link>
       </Box>
 
-      <Box position="relative" flex={1} overflow="hidden">
-        {/* Shadow overlay matching Explorer.tsx bottom gradient */}
-        <Box position="absolute" bottom={0} left={0} right={0} h={16} bg="linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.8), transparent)" zIndex={10} pointerEvents="none" />
-        <Box maxH="600px" overflowY="auto" className="scrollbar-hide" py={2} px={2} display="flex" flexDir="column" gap={2} position="relative">
+      <Box position="relative" flex={ 1 } overflow="hidden">
+        { /* Shadow overlay matching Explorer.tsx bottom gradient */ }
+        <Box
+          position="absolute"
+          bottom={ 0 }
+          left={ 0 }
+          right={ 0 }
+          h={ 16 }
+          bg="linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.8), transparent)"
+          zIndex={ 10 }
+          pointerEvents="none"
+        />
+        <Box maxH="600px" overflowY="auto" className="scrollbar-hide" py={ 2 } px={ 2 } display="flex" flexDir="column" gap={ 2 } position="relative">
           { innerContent }
         </Box>
       </Box>

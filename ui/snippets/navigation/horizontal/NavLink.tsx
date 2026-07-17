@@ -1,5 +1,6 @@
 import { chakra } from '@chakra-ui/react';
 import React from 'react';
+import { preloadRoute } from 'src/compat/route-preload';
 
 import type { NavItem } from 'types/client/navigation';
 
@@ -24,6 +25,13 @@ const NavLink = ({ className, item, noIcon }: Props) => {
   const isActive = 'isActive' in item && item.isActive;
 
   const isHighlighted = checkRouteHighlight(item);
+  const href = isInternalLink ? route(item.nextRoute) : item.url;
+
+  const handlePreload = React.useCallback(() => {
+    if (isInternalLink) {
+      preloadRoute(href);
+    }
+  }, [ href, isInternalLink ]);
 
   return (
     <chakra.li
@@ -31,8 +39,10 @@ const NavLink = ({ className, item, noIcon }: Props) => {
     >
       <Link
         className={ className }
-        href={ isInternalLink ? route(item.nextRoute) : item.url }
+        href={ href }
         external={ !isInternalLink }
+        onFocus={ handlePreload }
+        onPointerEnter={ handlePreload }
         display="flex"
         alignItems="center"
         variant="navigation"
